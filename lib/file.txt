@@ -1,0 +1,60 @@
+lib/
+│
+├── main.dart
+│
+├── core/
+│   ├── constants/
+│   │   ├── colors.dart
+│   │   ├── strings.dart
+│   │   └── styles.dart
+│   │
+│   ├── utils/
+│   │   └── helpers.dart
+│   │
+│   └── widgets/
+│       ├── custom_button.dart
+│       ├── custom_card.dart
+│       ├── mood_chip.dart
+│       └── quick_action_tile.dart
+│
+├── auth/
+│   ├── login_screen.dart
+│   ├── signup_screen.dart
+│   └── role_selection_screen.dart
+│
+├── patient/
+│   ├── screens/
+│   │   ├── patient_home_screen.dart
+│   │   ├── therapist_list_screen.dart
+│   │   ├── book_session_screen.dart
+│   │   ├── chat_screen.dart
+│   │   └── patient_profile_screen.dart
+│   │
+│   └── widgets/
+│       └── upcoming_session_card.dart
+│
+├── therapist/
+│   ├── screens/
+│   │   ├── therapist_home_screen.dart
+│   │   ├── appointment_requests_screen.dart
+│   │   ├── therapist_chat_screen.dart
+│   │   └── therapist_profile_screen.dart
+│
+├── models/
+│   ├── user_model.dart
+│   ├── appointment_model.dart
+│   └── message_model.dart
+│
+├── services/
+│   ├── auth_service.dart
+│   ├── firestore_service.dart
+│   └── notification_service.dart
+│
+├── navigation/
+│   ├── app_routes.dart
+│   └── bottom_nav_bar.dart
+│
+└── shared/
+    ├── splash_screen.dart
+    ├── loading_widget.dart
+    └── error_widget.dart
