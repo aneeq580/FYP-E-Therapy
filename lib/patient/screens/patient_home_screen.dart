@@ -3,44 +3,48 @@ import '../../core/constants/colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/quick_action_tile.dart';
-import '../../core/widgets/app_header.dart';
-import '../../core/widgets/check_in_card.dart';
+import '../../core/widgets/patient_header.dart';
 import 'book_session_screen.dart';
 import 'chat_screen.dart';
 import 'therapist_list_screen.dart';
 import 'my_sessions_screen.dart';
+import 'patient_profile_screen.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const String username = 'Aneeq';
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            // Simple App Header
-            const AppHeader(appTitle: 'MindCare'),
-
-            // Vertical spacing
-            const SizedBox(height: 5),
-
-            // Today's Check-in Card
-            const CheckInCard(
-              title: "Today's Check-in",
-              subtitle: "How are you feeling today?",
-              moodEmojis: ['🙂', '😐', '😔', '😄', '😌'],
-              reminderText: "Your next session is tomorrow",
+            // Header Section
+            PatientHeader(
+              username: username,
+              subtitle: 'Ready for your wellness journey?',
+              profileImageUrl:
+                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
+              onProfileTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PatientProfileScreen(),
+                  ),
+                );
+              },
             ),
 
             // Heading Section
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSizes.spacingMedium,
+                AppSizes.spacingLarge,
                 AppSizes.spacingMedium,
                 AppSizes.spacingMedium,
-                AppSizes.spacingSmall,
               ),
               child: Row(
                 children: [
