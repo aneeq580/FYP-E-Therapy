@@ -5,7 +5,6 @@ import '../../core/constants/styles.dart';
 
 class PatientProfileScreen extends StatelessWidget {
   const PatientProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +12,7 @@ class PatientProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
         backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColors.textOnPrimary,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -51,60 +50,119 @@ class PatientProfileScreen extends StatelessWidget {
 
   // Profile Header Widget
   Widget _buildProfileHeader() {
+    const displayName = 'Aneeq Ahmed';
+    const imageUrl =
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face';
+
+    String _initials(String name) {
+      final parts = name
+          .trim()
+          .split(RegExp('\\s+'))
+          .where((s) => s.isNotEmpty)
+          .toList();
+      if (parts.isEmpty) return '';
+      if (parts.length == 1) return parts.first[0].toUpperCase();
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+
+    Widget _initialsAvatar(String name, double size) {
+      return Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.primary, AppColors.primaryLight],
+          ),
+        ),
+        child: Center(
+          child: Text(
+            _initials(name),
+            style: TextStyle(
+              color: AppColors.textOnPrimary,
+              fontSize: size * 0.36,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      );
+    }
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSizes.spacingLarge),
       color: AppColors.backgroundLight,
       child: Column(
         children: [
-          // Circular Profile Avatar (Tappable)
+          // Circular Profile Avatar with edit overlay
           GestureDetector(
             onTap: () {
-              // Navigate to Edit Profile Screen
-              // TODO: Create EditProfileScreen and navigate to it
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const EditProfileScreen(),
-              //   ),
-              // );
+              // TODO: Open image picker / edit profile
             },
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.primaryLight,
-                border: Border.all(color: AppColors.primary, width: 3),
-              ),
-              child: ClipOval(
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryLight,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        AppIcons.profile,
-                        size: 50,
-                        color: AppColors.primary,
-                      ),
-                    );
-                  },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.primary, width: 3),
+                  ),
+                  child: ClipOval(
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return _initialsAvatar(displayName, 100);
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return _initialsAvatar(displayName, 100);
+                      },
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppColors.backgroundLight,
+                        width: 2,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.textPrimary.withOpacity(0.12),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.edit_outlined,
+                      size: 18,
+                      color: AppColors.textOnPrimary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
           const SizedBox(height: AppSizes.spacingMedium),
 
           // User Name
-          const Text(
-            'Aneeq Ahmed',
-            style: TextStyle(
+          Text(
+            displayName,
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,

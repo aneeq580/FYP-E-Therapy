@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import '../constants/styles.dart';
 
@@ -70,7 +71,7 @@ class PatientHeader extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.1),
+                color: AppColors.textOnPrimary.withOpacity(0.1),
               ),
             ),
           ),
@@ -82,7 +83,7 @@ class PatientHeader extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.15),
+                color: AppColors.textOnPrimary.withOpacity(0.15),
               ),
             ),
           ),
@@ -118,7 +119,7 @@ class PatientHeader extends StatelessWidget {
                         letterSpacing: 0.5,
                         shadows: [
                           Shadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: AppColors.textPrimary.withOpacity(0.08),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -131,7 +132,7 @@ class PatientHeader extends StatelessWidget {
                         subtitle!,
                         style: AppTextStyles.headerSubtitle.copyWith(
                           fontSize: 13,
-                          color: Colors.white.withOpacity(0.9),
+                          color: AppColors.textOnPrimary.withOpacity(0.9),
                         ),
                       ),
                     ],
@@ -150,11 +151,14 @@ class PatientHeader extends StatelessWidget {
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Colors.white, AppColors.secondaryLight],
+                      colors: [
+                        AppColors.textOnPrimary,
+                        AppColors.secondaryLight,
+                      ],
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
+                        color: AppColors.textPrimary.withOpacity(0.18),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -169,7 +173,10 @@ class PatientHeader extends StatelessWidget {
                     margin: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2.5),
+                      border: Border.all(
+                        color: AppColors.textOnPrimary,
+                        width: 2.5,
+                      ),
                     ),
                     child: ClipOval(
                       child: profileImageUrl != null
@@ -208,7 +215,11 @@ class PatientHeader extends StatelessWidget {
           colors: [AppColors.primary, AppColors.primaryLight],
         ),
       ),
-      child: const Icon(AppIcons.profile, color: Colors.white, size: 32),
+      child: const Icon(
+        AppIcons.profile,
+        color: AppColors.textOnPrimary,
+        size: 32,
+      ),
     );
   }
 
@@ -221,10 +232,12 @@ class PatientHeader extends StatelessWidget {
           colors: [AppColors.primary, AppColors.primaryLight],
         ),
       ),
-      child: const Center(
+      child: Center(
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          valueColor: const AlwaysStoppedAnimation<Color>(
+            AppColors.textOnPrimary,
+          ),
         ),
       ),
     );

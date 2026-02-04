@@ -28,8 +28,8 @@ class QuickActionTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 4,
+              color: AppColors.textPrimary.withOpacity(0.05),
+              blurRadius: 10,
               offset: const Offset(0, 2),
             ),
           ],
@@ -46,7 +46,11 @@ class QuickActionTile extends StatelessWidget {
                   color: iconBackgroundColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, size: AppSizes.gridItemIconSize, color: iconColor),
+                child: Icon(
+                  icon,
+                  size: AppSizes.gridItemIconSize,
+                  color: iconColor,
+                ),
               ),
               const SizedBox(height: AppSizes.spacingSmall),
               Flexible(
