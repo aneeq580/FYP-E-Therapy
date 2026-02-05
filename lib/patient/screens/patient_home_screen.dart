@@ -8,6 +8,10 @@ import 'book_session_screen.dart';
 import 'chat_screen.dart';
 import 'therapist_list_screen.dart';
 import 'my_sessions_screen.dart';
+import 'mood_tracker_screen.dart';
+import 'resources_screen.dart';
+import 'emergency_screen.dart';
+import 'settings_screen.dart';
 import '../profile/patient_profile_screen.dart';
 
 class PatientHomeScreen extends StatelessWidget {
@@ -150,29 +154,61 @@ class PatientHomeScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      const QuickActionTile(
+                      QuickActionTile(
                         icon: AppIcons.moodTracker,
                         label: AppStrings.moodTracker,
                         iconColor: AppColors.iconMoodTracker,
                         iconBackgroundColor: AppColors.iconBgMoodTracker,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoodTrackerScreen(),
+                            ),
+                          );
+                        },
                       ),
-                      const QuickActionTile(
+                      QuickActionTile(
                         icon: AppIcons.resources,
                         label: AppStrings.resources,
                         iconColor: AppColors.iconResources,
                         iconBackgroundColor: AppColors.iconBgResources,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ResourcesScreen(),
+                            ),
+                          );
+                        },
                       ),
-                      const QuickActionTile(
+                      QuickActionTile(
                         icon: AppIcons.emergency,
                         label: AppStrings.emergency,
                         iconColor: AppColors.iconEmergency,
                         iconBackgroundColor: AppColors.iconBgEmergency,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EmergencyScreen(),
+                            ),
+                          );
+                        },
                       ),
-                      const QuickActionTile(
+                      QuickActionTile(
                         icon: AppIcons.settings,
                         label: AppStrings.settings,
                         iconColor: AppColors.iconSettings,
                         iconBackgroundColor: AppColors.iconBgSettings,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SettingsScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
