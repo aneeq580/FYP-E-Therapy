@@ -37,9 +37,9 @@ class PatientHomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const PatientProfileScreen(),
-                  ),
-                );
-              },
+                                      ),
+                                    );
+                                  },
             ),
 
             // Heading Section
@@ -85,24 +85,24 @@ class PatientHomeScreen extends StatelessWidget {
                     topRight: Radius.circular(18),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSizes.spacingMedium,
                     AppSizes.spacingMedium,
-                    AppSizes.spacingMedium,
-                    AppSizes.spacingMedium,
-                    AppSizes.spacingMedium,
-                  ),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: AppSizes.spacingMedium,
-                    crossAxisSpacing: AppSizes.spacingMedium,
+                  AppSizes.spacingMedium,
+                  AppSizes.spacingMedium,
+                ),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: AppSizes.spacingMedium,
+                  crossAxisSpacing: AppSizes.spacingMedium,
                     childAspectRatio: 1.05,
                     children: [
-                      QuickActionTile(
-                        icon: AppIcons.bookSession,
-                        label: AppStrings.bookSession,
-                        iconColor: AppColors.iconBookSession,
-                        iconBackgroundColor: AppColors.iconBgBookSession,
+                    QuickActionTile(
+                      icon: AppIcons.bookSession,
+                      label: AppStrings.bookSession,
+                      iconColor: AppColors.iconBookSession,
+                      iconBackgroundColor: AppColors.iconBgBookSession,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -111,12 +111,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.chat,
-                        label: AppStrings.chat,
-                        iconColor: AppColors.iconChat,
-                        iconBackgroundColor: AppColors.iconBgChat,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.chat,
+                      label: AppStrings.chat,
+                      iconColor: AppColors.iconChat,
+                      iconBackgroundColor: AppColors.iconBgChat,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -125,12 +125,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.therapists,
-                        label: AppStrings.therapists,
-                        iconColor: AppColors.iconTherapists,
-                        iconBackgroundColor: AppColors.iconBgTherapists,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.therapists,
+                      label: AppStrings.therapists,
+                      iconColor: AppColors.iconTherapists,
+                      iconBackgroundColor: AppColors.iconBgTherapists,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -139,12 +139,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.mySessions,
-                        label: AppStrings.mySessions,
-                        iconColor: AppColors.iconMySessions,
-                        iconBackgroundColor: AppColors.iconBgMySessions,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.mySessions,
+                      label: AppStrings.mySessions,
+                      iconColor: AppColors.iconMySessions,
+                      iconBackgroundColor: AppColors.iconBgMySessions,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -153,12 +153,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.moodTracker,
-                        label: AppStrings.moodTracker,
-                        iconColor: AppColors.iconMoodTracker,
-                        iconBackgroundColor: AppColors.iconBgMoodTracker,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.moodTracker,
+                      label: AppStrings.moodTracker,
+                      iconColor: AppColors.iconMoodTracker,
+                      iconBackgroundColor: AppColors.iconBgMoodTracker,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -167,12 +167,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.resources,
-                        label: AppStrings.resources,
-                        iconColor: AppColors.iconResources,
-                        iconBackgroundColor: AppColors.iconBgResources,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.resources,
+                      label: AppStrings.resources,
+                      iconColor: AppColors.iconResources,
+                      iconBackgroundColor: AppColors.iconBgResources,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -181,12 +181,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.emergency,
-                        label: AppStrings.emergency,
-                        iconColor: AppColors.iconEmergency,
-                        iconBackgroundColor: AppColors.iconBgEmergency,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.emergency,
+                      label: AppStrings.emergency,
+                      iconColor: AppColors.iconEmergency,
+                      iconBackgroundColor: AppColors.iconBgEmergency,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -195,12 +195,12 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                      QuickActionTile(
-                        icon: AppIcons.settings,
-                        label: AppStrings.settings,
-                        iconColor: AppColors.iconSettings,
-                        iconBackgroundColor: AppColors.iconBgSettings,
+                    ),
+                    QuickActionTile(
+                      icon: AppIcons.settings,
+                      label: AppStrings.settings,
+                      iconColor: AppColors.iconSettings,
+                      iconBackgroundColor: AppColors.iconBgSettings,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -209,8 +209,8 @@ class PatientHomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                    ],
+                    ),
+                  ],
                   ),
                 ),
               ),

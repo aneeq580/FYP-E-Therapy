@@ -38,8 +38,35 @@ class ChatDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            CircleAvatar(
-              child: Text(name.split(' ').map((e) => e[0]).take(2).join()),
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    child: Text(
+                      name.split(' ').map((e) => e[0]).take(2).join(),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(child: Text(name)),
