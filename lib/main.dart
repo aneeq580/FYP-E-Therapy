@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/constants/colors.dart';
-import 'patient/screens/patient_home_screen.dart';
+import 'screens/auth/role_selection_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      home: const PatientHomeScreen(), // 👈 START SCREEN
+      home: const RoleSelectionScreen(), // 👈 START SCREEN
     );
   }
 }
