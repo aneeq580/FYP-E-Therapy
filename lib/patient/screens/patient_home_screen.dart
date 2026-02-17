@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_therapy/navigation/app_routes.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/quick_action_tile.dart';
 import '../../core/widgets/patient_header.dart';
-import 'book_session_screen.dart';
-import 'chat_screen.dart';
-import 'therapist_list_screen.dart';
-import 'my_sessions_screen.dart';
-import 'mood_tracker_screen.dart';
-import 'resources_screen.dart';
-import 'emergency_screen.dart';
-import 'settings_screen.dart';
-import '../profile/patient_profile_screen.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
@@ -33,13 +25,8 @@ class PatientHomeScreen extends StatelessWidget {
               profileImageUrl:
                   'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
               onProfileTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PatientProfileScreen(),
-                                      ),
-                                    );
-                                  },
+                AppRoutes.navigateTo(context, AppRoutes.patientProfile);
+              },
             ),
 
             // Heading Section
@@ -85,132 +72,137 @@ class PatientHomeScreen extends StatelessWidget {
                     topRight: Radius.circular(18),
                   ),
                 ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSizes.spacingMedium,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
                     AppSizes.spacingMedium,
-                  AppSizes.spacingMedium,
-                  AppSizes.spacingMedium,
-                ),
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: AppSizes.spacingMedium,
-                  crossAxisSpacing: AppSizes.spacingMedium,
+                    AppSizes.spacingMedium,
+                    AppSizes.spacingMedium,
+                    AppSizes.spacingMedium,
+                  ),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: AppSizes.spacingMedium,
+                    crossAxisSpacing: AppSizes.spacingMedium,
                     childAspectRatio: 1.05,
                     children: [
-                    QuickActionTile(
-                      icon: AppIcons.bookSession,
-                      label: AppStrings.bookSession,
-                      iconColor: AppColors.iconBookSession,
-                      iconBackgroundColor: AppColors.iconBgBookSession,
+                      QuickActionTile(
+                        icon: AppIcons.bookSession,
+                        label: AppStrings.bookSession,
+                        iconColor: AppColors.iconBookSession,
+                        iconBackgroundColor: AppColors.iconBgBookSession,
                         onTap: () {
-                          Navigator.push(
+                          AppRoutes.navigateTo(context, AppRoutes.bookSession);
+                        },
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.chat,
+                        label: AppStrings.chat,
+                        iconColor: AppColors.iconChat,
+                        iconBackgroundColor: AppColors.iconBgChat,
+                        onTap: () {
+                          AppRoutes.navigateTo(context, AppRoutes.patientChat);
+                        },
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.therapists,
+                        label: AppStrings.therapists,
+                        iconColor: AppColors.iconTherapists,
+                        iconBackgroundColor: AppColors.iconBgTherapists,
+                        onTap: () {
+                          AppRoutes.navigateTo(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const BookSessionScreen(),
-                            ),
+                            AppRoutes.therapistList,
                           );
                         },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.chat,
-                      label: AppStrings.chat,
-                      iconColor: AppColors.iconChat,
-                      iconBackgroundColor: AppColors.iconBgChat,
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.mySessions,
+                        label: AppStrings.mySessions,
+                        iconColor: AppColors.iconMySessions,
+                        iconBackgroundColor: AppColors.iconBgMySessions,
                         onTap: () {
-                          Navigator.push(
+                          AppRoutes.navigateTo(context, AppRoutes.mySessions);
+                        },
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.moodTracker,
+                        label: AppStrings.moodTracker,
+                        iconColor: AppColors.iconMoodTracker,
+                        iconBackgroundColor: AppColors.iconBgMoodTracker,
+                        onTap: () {
+                          AppRoutes.navigateTo(context, AppRoutes.moodTracker);
+                        },
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.resources,
+                        label: AppStrings.resources,
+                        iconColor: AppColors.iconResources,
+                        iconBackgroundColor: AppColors.iconBgResources,
+                        onTap: () {
+                          AppRoutes.navigateTo(context, AppRoutes.resources);
+                        },
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.emergency,
+                        label: AppStrings.emergency,
+                        iconColor: AppColors.iconEmergency,
+                        iconBackgroundColor: AppColors.iconBgEmergency,
+                        onTap: () {
+                          AppRoutes.navigateTo(context, AppRoutes.emergency);
+                        },
+                      ),
+                      QuickActionTile(
+                        icon: AppIcons.settings,
+                        label: AppStrings.settings,
+                        iconColor: AppColors.iconSettings,
+                        iconBackgroundColor: AppColors.iconBgSettings,
+                        onTap: () {
+                          AppRoutes.navigateTo(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const ChatScreen(),
-                            ),
+                            AppRoutes.patientSettings,
                           );
                         },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.therapists,
-                      label: AppStrings.therapists,
-                      iconColor: AppColors.iconTherapists,
-                      iconBackgroundColor: AppColors.iconBgTherapists,
+                      ),
+                      QuickActionTile(
+                        icon: Icons.logout,
+                        label: 'Logout',
+                        iconColor: Colors.red,
+                        iconBackgroundColor: Colors.red.withOpacity(0.2),
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const TherapistListScreen(),
-                            ),
+                          // Show confirmation dialog
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Logout'),
+                                content: const Text(
+                                  'Are you sure you want to logout?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      AppRoutes.navigateClearStackTo(
+                                        context,
+                                        AppRoutes.roleSelection,
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Logout',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.mySessions,
-                      label: AppStrings.mySessions,
-                      iconColor: AppColors.iconMySessions,
-                      iconBackgroundColor: AppColors.iconBgMySessions,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MySessionsScreen(),
-                            ),
-                          );
-                        },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.moodTracker,
-                      label: AppStrings.moodTracker,
-                      iconColor: AppColors.iconMoodTracker,
-                      iconBackgroundColor: AppColors.iconBgMoodTracker,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MoodTrackerScreen(),
-                            ),
-                          );
-                        },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.resources,
-                      label: AppStrings.resources,
-                      iconColor: AppColors.iconResources,
-                      iconBackgroundColor: AppColors.iconBgResources,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ResourcesScreen(),
-                            ),
-                          );
-                        },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.emergency,
-                      label: AppStrings.emergency,
-                      iconColor: AppColors.iconEmergency,
-                      iconBackgroundColor: AppColors.iconBgEmergency,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const EmergencyScreen(),
-                            ),
-                          );
-                        },
-                    ),
-                    QuickActionTile(
-                      icon: AppIcons.settings,
-                      label: AppStrings.settings,
-                      iconColor: AppColors.iconSettings,
-                      iconBackgroundColor: AppColors.iconBgSettings,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SettingsScreen(),
-                            ),
-                          );
-                        },
-                    ),
-                  ],
+                      ),
+                    ],
                   ),
                 ),
               ),

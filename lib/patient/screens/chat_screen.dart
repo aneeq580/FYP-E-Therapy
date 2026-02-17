@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_therapy/navigation/app_routes.dart';
 import 'chat_detail_screen.dart';
 
 class ChatItem {
@@ -100,12 +101,10 @@ class ChatScreen extends StatelessWidget {
               ],
             ),
             onTap: () {
-              Navigator.push(
+              AppRoutes.navigateTo(
                 context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      ChatDetailScreen(chatId: chat.id, name: chat.name),
-                ),
+                AppRoutes.chatDetail,
+                arguments: {'chatId': chat.id, 'name': chat.name},
               );
             },
           );

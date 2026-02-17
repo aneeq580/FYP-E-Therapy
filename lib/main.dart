@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/constants/colors.dart';
-import 'screens/auth/role_selection_screen.dart';
+import 'navigation/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      home: const RoleSelectionScreen(), // 👈 START SCREEN
+      initialRoute: AppRoutes.roleSelection,
+      routes: AppRoutes.getRoutes(),
     );
   }
 }

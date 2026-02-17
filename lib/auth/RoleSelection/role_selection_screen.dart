@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:fyp_therapy/navigation/app_routes.dart';
+import 'widgets/role_card.dart';
+
+class RoleSelectionScreen extends StatelessWidget {
+  const RoleSelectionScreen({super.key});
+
+  void _navigate(BuildContext context, String role) {
+    AppRoutes.navigateTo(context, AppRoutes.login, arguments: role);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(),
+
+                const Icon(
+                  Icons.self_improvement,
+                  size: 70,
+                  color: Colors.white,
+                ),
+
+                const SizedBox(height: 20),
+
+                const Text(
+                  "Welcome",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                const Text(
+                  "Choose how you want to continue",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.white70),
+                ),
+
+                const SizedBox(height: 50),
+
+                RoleCard(
+                  title: "Continue as Therapist",
+                  icon: Icons.psychology_alt,
+                  onTap: () => _navigate(context, "Therapist"),
+                ),
+
+                const SizedBox(height: 20),
+
+                RoleCard(
+                  title: "Continue as Patient",
+                  icon: Icons.favorite_border,
+                  onTap: () => _navigate(context, "Patient"),
+                ),
+
+                const Spacer(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
