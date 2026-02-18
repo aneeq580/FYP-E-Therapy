@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      initialRoute: AppRoutes.roleSelection,
+      initialRoute: AppRoutes.therapistHome ,
       routes: AppRoutes.getRoutes(),
     );
   }
