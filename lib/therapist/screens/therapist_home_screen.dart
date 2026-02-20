@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_therapy/core/constants/colors.dart';
+import 'package:fyp_therapy/patient/screens/settings_screen.dart';
+import 'package:fyp_therapy/therapist/screens/availability_screen.dart';
+import 'package:fyp_therapy/therapist/screens/profile_screen.dart';
 import '../widgets/therapist_greeting_card.dart';
 import '../widgets/therapist_today_session_card.dart';
 import '../widgets/quick_action_tile.dart';
+import '../widgets/therapist_popup_menu.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
   const TherapistHomeScreen({Key? key}) : super(key: key);
@@ -11,16 +15,59 @@ class TherapistHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          "Dashboard",
-          style: TextStyle(fontWeight: FontWeight.w600),
+        elevation: 0, // flat look for modern feel
+        backgroundColor: Colors.transparent, // important!
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xFF7F5AF0).withOpacity(0.7),
+                Color(0xFF6246EA).withOpacity(1), // gentle green/purple mix
+              ],
+            ),
+          ),
         ),
-        actions: const [
-          Icon(Icons.notifications_none),
-          SizedBox(width: 16),
-          CircleAvatar(radius: 16, backgroundColor: Colors.grey),
-          SizedBox(width: 16),
+        title: Text(
+          "Dashboard", // ya "Therapist Home" – add kar sakte ho
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: true, // center kar do better lagega
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications_none, color: Colors.white),
+            onPressed: () {
+              // notifications screen
+            },
+          ),
+
+          TherapistPopupMenu(
+            onSelected: (value) {
+              if (value == 'availability') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AvailabilityScreen()),
+                );
+              } else if (value == 'profile') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                );
+              } else if (value == 'settings') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                );
+              }
+            },
+          ),
+
+          const SizedBox(width: 12),
         ],
       ),
       body: SingleChildScrollView(
@@ -31,7 +78,7 @@ class TherapistHomeScreen extends StatelessWidget {
             /// 🔹 Greeting Card
             TherapistGreetingCard(),
 
-            SizedBox(height: 24),
+            SizedBox(height: 22),
 
             /// 🔹 Quick Actions (Reused)
             GridView.count(

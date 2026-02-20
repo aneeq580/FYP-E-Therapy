@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+class AvailabilityScreen extends StatelessWidget {
+  const AvailabilityScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Manage Availability")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            /// Day Selection
+            _AvailabilityCard(
+              title: "Monday - Friday",
+              subtitle: "9:00 AM - 5:00 PM",
+            ),
+
+            const SizedBox(height: 16),
+
+            _AvailabilityCard(
+              title: "Saturday",
+              subtitle: "10:00 AM - 2:00 PM",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AvailabilityCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const _AvailabilityCard({required this.title, required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 4),
+              Text(subtitle, style: const TextStyle(color: Colors.grey)),
+            ],
+          ),
+          const Icon(Icons.edit_outlined),
+        ],
+      ),
+    );
+  }
+}
