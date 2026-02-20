@@ -43,14 +43,17 @@ class TherapistHomeScreen extends StatelessWidget {
               childAspectRatio: 2.5,
               children: [
                 QuickActionTile(
-                  icon: Icons.calendar_today,
-                  label: 'Schedule Session',
+                  icon: Icons.assignment_late_outlined, // or Icons.mail_outline
+                  label: 'Session Requests',
                   iconColor: AppColors.iconBookSession,
                   iconBackgroundColor: AppColors.iconBookSession.withOpacity(
                     0.3,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    // Navigate to Session Requests Screen
+                  },
                 ),
+
                 QuickActionTile(
                   icon: Icons.chat_bubble_outline,
                   label: 'View Chats',
@@ -79,12 +82,13 @@ class TherapistHomeScreen extends StatelessWidget {
             ),
 
             /// 🔹 Today's Sessions Title
+            SizedBox(height: 20),
             Text(
               "Today's Sessions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
 
-            SizedBox(height: 16),
+            SizedBox(height: 10),
 
             /// 🔹 Example Session Cards
             TherapistTodaySessionCard(
@@ -93,7 +97,7 @@ class TherapistHomeScreen extends StatelessWidget {
               sessionType: "Video Session",
             ),
 
-            SizedBox(height: 12),
+            SizedBox(height: 10),
 
             TherapistTodaySessionCard(
               patientName: "Sara Ahmed",

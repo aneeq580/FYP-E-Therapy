@@ -18,48 +18,65 @@ class TherapistTodaySessionCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                patientName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                "$time • $sessionType",
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
+          /// 👤 Patient Avatar
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: const Color(0xFF6246EA).withOpacity(0.1),
+            child: const Icon(Icons.person_outline, color: Color(0xFF6246EA)),
           ),
 
-          ElevatedButton(
+          const SizedBox(width: 14),
+
+          /// 📄 Patient Info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  patientName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  "$time • $sessionType",
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(width: 12),
+
+          /// 🎥 Join Button
+          ElevatedButton.icon(
             onPressed: () {},
+            icon: const Icon(Icons.video_call_outlined, size: 18),
+            label: const Text("Join"),
             style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: const Color(0xFF6246EA),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
               ),
             ),
-            child: const Text("Join"),
-          )
+          ),
         ],
       ),
     );
