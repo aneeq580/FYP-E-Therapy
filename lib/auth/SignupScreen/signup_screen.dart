@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_therapy/navigation/app_routes.dart';
 import 'widgets/custom_text_field.dart';
 import '../../core/widgets/primary_button.dart';
@@ -49,8 +50,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 40),
 
                   /// 🔥 Center Icon
-                  const Icon(
-                    Icons.self_improvement,
+                  const FaIcon(
+                    FontAwesomeIcons.handHoldingHeart,
                     size: 70,
                     color: Colors.white,
                   ),
@@ -71,7 +72,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   /// Full Name Field
                   CustomTextField(
                     hint: "Full Name",
-                    icon: Icons.person_outline,
+                    icon: FontAwesomeIcons.user,
                     controller: fullNameController,
                   ),
 
@@ -80,7 +81,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   /// Email Field
                   CustomTextField(
                     hint: "Email",
-                    icon: Icons.email_outlined,
+                    icon: FontAwesomeIcons.envelope,
                     controller: emailController,
                   ),
 
@@ -89,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   /// Password Field
                   CustomTextField(
                     hint: "Password",
-                    icon: Icons.lock_outline,
+                    icon: FontAwesomeIcons.lock,
                     controller: passwordController,
                     isPassword: true,
                   ),
@@ -99,7 +100,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   /// Confirm Password Field
                   CustomTextField(
                     hint: "Confirm Password",
-                    icon: Icons.lock_outline,
+                    icon: FontAwesomeIcons.lock,
                     controller: confirmPasswordController,
                     isPassword: true,
                   ),

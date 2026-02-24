@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_therapy/navigation/app_routes.dart';
 import 'widgets/custom_text_field.dart';
 import '../../../core/widgets/primary_button.dart';
@@ -88,8 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 /// 🔥 Center Icon
-                const Icon(
-                  Icons.self_improvement,
+                const FaIcon(
+                  FontAwesomeIcons.handHoldingHeart,
                   size: 70,
                   color: Colors.white,
                 ),
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 CustomTextField(
                   hint: "Email",
-                  icon: Icons.email_outlined,
+                  icon: FontAwesomeIcons.envelope,
                   controller: emailController,
                 ),
 
@@ -116,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 CustomTextField(
                   hint: "Password",
-                  icon: Icons.lock_outline,
+                  icon: FontAwesomeIcons.lock,
                   controller: passwordController,
                   isPassword: true,
                 ),

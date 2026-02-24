@@ -25,16 +25,16 @@ class TherapistCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
         if (index < rating.floor()) {
-          return const Icon(Icons.star, color: AppColors.secondary, size: 16);
+          return const FaIcon(FontAwesomeIcons.solidStar, color: AppColors.secondary, size: 16);
         } else if (index < rating) {
-          return const Icon(
-            Icons.star_half,
+          return const FaIcon(
+            FontAwesomeIcons.starHalf,
             color: AppColors.secondary,
             size: 16,
           );
         } else {
-          return Icon(
-            Icons.star_border,
+          return FaIcon(
+            FontAwesomeIcons.star,
             color: AppColors.secondary.withOpacity(0.3),
             size: 16,
           );
@@ -81,14 +81,14 @@ class TherapistCard extends StatelessWidget {
                             photoUrl!,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
-                              return Icon(
+                              return FaIcon(
                                 FontAwesomeIcons.userDoctor,
                                 color: AppColors.iconTherapists,
                                 size: 40,
                               );
                             },
                           )
-                        : Icon(
+                        : FaIcon(
                             FontAwesomeIcons.userDoctor,
                             color: AppColors.iconTherapists,
                             size: 40,

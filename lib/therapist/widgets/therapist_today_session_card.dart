@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TherapistTodaySessionCard extends StatelessWidget {
   final String patientName;
@@ -31,9 +32,13 @@ class TherapistTodaySessionCard extends StatelessWidget {
         children: [
           /// 👤 Patient Avatar
           CircleAvatar(
-            radius: 22,
+            radius: 20,
             backgroundColor: const Color(0xFF6246EA).withOpacity(0.1),
-            child: const Icon(Icons.person_outline, color: Color(0xFF6246EA)),
+            child: const FaIcon(
+              FontAwesomeIcons.user,
+              color: Color(0xFF6246EA),
+              size: 18,
+            ),
           ),
 
           const SizedBox(width: 14),
@@ -66,7 +71,7 @@ class TherapistTodaySessionCard extends StatelessWidget {
           /// 🎥 Join Button
           ElevatedButton.icon(
             onPressed: () {},
-            icon: const Icon(Icons.video_call_outlined, size: 18),
+            icon: const FaIcon(FontAwesomeIcons.video, size: 12),
             label: const Text("Join"),
             style: ElevatedButton.styleFrom(
               elevation: 0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_therapy/core/constants/colors.dart';
 import 'package:fyp_therapy/patient/screens/settings_screen.dart';
 import 'package:fyp_therapy/therapist/screens/availability_screen.dart';
@@ -7,6 +8,7 @@ import '../widgets/therapist_greeting_card.dart';
 import '../widgets/therapist_today_session_card.dart';
 import '../widgets/quick_action_tile.dart';
 import '../widgets/therapist_popup_menu.dart';
+import 'package:fyp_therapy/navigation/app_routes.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
   const TherapistHomeScreen({Key? key}) : super(key: key);
@@ -40,7 +42,7 @@ class TherapistHomeScreen extends StatelessWidget {
         centerTitle: true, // center kar do better lagega
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_none, color: Colors.white),
+            icon: FaIcon(FontAwesomeIcons.bell, color: Colors.white),
             onPressed: () {
               // notifications screen
             },
@@ -90,26 +92,29 @@ class TherapistHomeScreen extends StatelessWidget {
               childAspectRatio: 2.5,
               children: [
                 QuickActionTile(
-                  icon: Icons.assignment_late_outlined, // or Icons.mail_outline
+                  icon: FontAwesomeIcons.clipboardList,
                   label: 'Session Requests',
                   iconColor: AppColors.iconBookSession,
                   iconBackgroundColor: AppColors.iconBookSession.withOpacity(
                     0.3,
                   ),
                   onTap: () {
-                    // Navigate to Session Requests Screen
+                    AppRoutes.navigateTo(
+                      context,
+                      AppRoutes.appointmentRequests,
+                    );
                   },
                 ),
 
                 QuickActionTile(
-                  icon: Icons.chat_bubble_outline,
+                  icon: FontAwesomeIcons.commentDots,
                   label: 'View Chats',
                   iconColor: AppColors.iconChat,
                   iconBackgroundColor: AppColors.iconChat.withOpacity(0.3),
                   onTap: () {},
                 ),
                 QuickActionTile(
-                  icon: Icons.people_outline,
+                  icon: FontAwesomeIcons.users,
                   label: 'My Patients',
                   iconColor: AppColors.iconTherapists,
                   iconBackgroundColor: AppColors.iconTherapists.withOpacity(
@@ -117,7 +122,7 @@ class TherapistHomeScreen extends StatelessWidget {
                   ),
                 ),
                 QuickActionTile(
-                  icon: Icons.insert_chart_outlined,
+                  icon: FontAwesomeIcons.chartBar,
                   label: 'Reports',
                   iconColor: AppColors.iconMoodTracker,
                   iconBackgroundColor: AppColors.iconMoodTracker.withOpacity(

@@ -3,6 +3,8 @@ import 'core/constants/colors.dart';
 import 'navigation/app_routes.dart';
 
 void main() {
+  // Initialize session repository (auto-expiry logic)
+
   runApp(const MyApp());
 }
 
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      initialRoute: AppRoutes.therapistHome ,
+      initialRoute: AppRoutes.patientHome,
       routes: AppRoutes.getRoutes(),
     );
   }

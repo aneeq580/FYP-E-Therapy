@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 
@@ -49,7 +50,7 @@ class ActivityCard extends StatelessWidget {
               color: backgroundColor,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, size: 20, color: color),
+            child: FaIcon(icon, size: 20, color: color),
           ),
           const SizedBox(height: AppSizes.spacingSmall),
           Text(

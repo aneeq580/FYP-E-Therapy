@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/mood_selection_card.dart';
@@ -25,13 +26,7 @@ class _MoodTrackerScreenState extends State<MoodTrackerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Mood Tracker'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Mood Tracker'),
       body: SingleChildScrollView(
         child: Column(
           children: [

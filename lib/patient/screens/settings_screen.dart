@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/settings_tile.dart';
 
@@ -39,19 +41,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Settings'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Settings'),
       body: ListView(
         children: [
           const SizedBox(height: AppSizes.spacingSmall),
 
           // Notifications
           SettingsTile(
-            icon: Icons.notifications_outlined,
+            icon: FontAwesomeIcons.bell,
             title: 'Notifications',
             subtitle: 'Manage your notification preferences',
             onTap: _handleNotifications,
@@ -68,10 +65,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                Icons.dark_mode_outlined,
-                color: AppColors.primary,
-                size: 20,
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.moon,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
               ),
             ),
             title: Text(
@@ -103,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Language
           SettingsTile(
-            icon: Icons.language_outlined,
+            icon: FontAwesomeIcons.language,
             title: 'Language',
             subtitle: 'English',
             onTap: _handleLanguage,
@@ -113,7 +112,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Privacy Policy
           SettingsTile(
-            icon: Icons.privacy_tip_outlined,
+            icon: FontAwesomeIcons.shieldAlt,
             title: 'Privacy Policy',
             subtitle: 'View our privacy policy',
             onTap: _handlePrivacyPolicy,
@@ -123,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // About App
           SettingsTile(
-            icon: Icons.info_outline,
+            icon: FontAwesomeIcons.infoCircle,
             title: 'About App',
             subtitle: 'Version 1.0.0',
             onTap: _handleAboutApp,

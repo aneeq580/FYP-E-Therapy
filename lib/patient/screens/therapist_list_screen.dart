@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/colors.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/therapist_card.dart';
 
 /// Therapists Screen - Therapist discovery and listing
 class TherapistListScreen extends StatelessWidget {
-  const TherapistListScreen({super.key});
+  const TherapistListScreen({
+    super.key,
+    this.selectedTherapist,
+    this.selectedDate,
+    this.selectedTime,
+  });
+
+  final String? selectedTherapist;
+  final DateTime? selectedDate;
+  final TimeOfDay? selectedTime;
 
   // Static therapist data (UI only)
   static const List<Map<String, dynamic>> therapists = [
@@ -67,23 +77,23 @@ class TherapistListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Therapists'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Therapists'),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: AppSizes.spacingMedium),
         itemCount: therapists.length,
         itemBuilder: (context, index) {
           final therapist = therapists[index];
-          return TherapistCard(
-            name: therapist['name'] as String,
-            specialty: therapist['specialty'] as String,
-            rating: therapist['rating'] as double,
-            photoUrl: therapist['photoUrl'] as String?,
-            onViewProfile: () => _handleViewProfile(therapist['name'] as String),
+          return InkWell(
+            onTap: () {
+              Navigator.pop(context, therapist);
+            },
+            child: TherapistCard(
+              name: therapist['name'] as String,
+              specialty: therapist['specialty'] as String,
+              rating: therapist['rating'] as double,
+              photoUrl: therapist['photoUrl'] as String?,
+              onViewProfile: () => _handleViewProfile(therapist['name'] as String),
+            ),
           );
         },
       ),

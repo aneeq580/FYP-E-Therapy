@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/session_card.dart';
@@ -84,12 +85,7 @@ class MySessionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('My Sessions'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'My Sessions'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

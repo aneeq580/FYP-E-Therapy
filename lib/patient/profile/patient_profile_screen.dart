@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import 'profile_header.dart';
 import 'activity_card.dart';
 import 'settings_tile.dart';
@@ -17,12 +18,7 @@ class PatientProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Profile'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -66,12 +62,12 @@ class PatientProfileScreen extends StatelessWidget {
                     ),
                   ),
                   const Divider(height: 1),
-                  _buildInfoRow(Icons.cake_outlined, 'Age', '25 years'),
+                  _buildInfoRow(FontAwesomeIcons.cake, 'Age', '25 years'),
                   const Divider(height: 1, indent: 50),
-                  _buildInfoRow(Icons.person_outline, 'Gender', 'Male'),
+                  _buildInfoRow(FontAwesomeIcons.user, 'Gender', 'Male'),
                   const Divider(height: 1, indent: 50),
                   _buildInfoRow(
-                    Icons.calendar_today_outlined,
+                    FontAwesomeIcons.calendar,
                     'Joined',
                     'January 15, 2024',
                   ),
@@ -176,20 +172,20 @@ class PatientProfileScreen extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   SettingsTile(
-                    icon: Icons.notifications_outlined,
+                    icon: FontAwesomeIcons.bell,
                     title: 'Notifications',
                     onTap: () {},
                   ),
                   const Divider(height: 1, indent: 50),
                   SettingsTile(
-                    icon: Icons.lock_outline,
+                    icon: FontAwesomeIcons.lock,
                     title: 'Privacy & Security',
                     onTap: () {},
                   ),
                   const Divider(height: 1, indent: 50),
                   ListTile(
-                    leading: Icon(
-                      Icons.dark_mode_outlined,
+                    leading: FaIcon(
+                      FontAwesomeIcons.moon,
                       color: AppColors.primary,
                     ),
                     title: Text(
@@ -210,14 +206,14 @@ class PatientProfileScreen extends StatelessWidget {
                   ),
                   const Divider(height: 1, indent: 50),
                   SettingsTile(
-                    icon: Icons.language_outlined,
+                    icon: FontAwesomeIcons.language,
                     title: 'Language',
                     subtitle: 'English',
                     onTap: () {},
                   ),
                   const Divider(height: 1, indent: 50),
                   SettingsTile(
-                    icon: Icons.help_outline,
+                    icon: FontAwesomeIcons.circleQuestion,
                     title: 'Help & Support',
                     onTap: () {},
                   ),
@@ -245,7 +241,7 @@ class PatientProfileScreen extends StatelessWidget {
                     width: double.infinity,
                     child: OutlinedButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.logout_outlined),
+                      icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
                       label: const Text(
                         'Logout',
                         style: TextStyle(
@@ -282,7 +278,7 @@ class PatientProfileScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: AppColors.primary),
+          FaIcon(icon, size: 20, color: AppColors.primary),
           const SizedBox(width: AppSizes.spacingMedium),
           Expanded(
             child: Text(

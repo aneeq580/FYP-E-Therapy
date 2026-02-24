@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
 import '../constants/styles.dart';
 
@@ -29,7 +30,7 @@ class SettingsTile extends StatelessWidget {
           color: AppColors.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, color: AppColors.primary, size: 20),
+        child: Center(child: FaIcon(icon, color: AppColors.primary, size: 20)),
       ),
       title: Text(
         title,
@@ -44,7 +45,10 @@ class SettingsTile extends StatelessWidget {
       trailing:
           trailing ??
           (onTap != null
-              ? Icon(Icons.chevron_right, color: AppColors.textLight)
+              ? FaIcon(
+                  FontAwesomeIcons.chevronRight,
+                  color: AppColors.textLight,
+                )
               : null),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(

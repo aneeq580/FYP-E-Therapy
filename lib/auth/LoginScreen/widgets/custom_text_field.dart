@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hint;
@@ -22,7 +23,7 @@ class CustomTextField extends StatelessWidget {
       style: const TextStyle(fontSize: 16),
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon: Icon(icon, color: Colors.grey.shade600),
+        prefixIcon: FaIcon(icon, color: Colors.grey.shade600),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 20,

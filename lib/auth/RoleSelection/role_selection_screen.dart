@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_therapy/navigation/app_routes.dart';
 import 'widgets/role_card.dart';
 
@@ -29,8 +30,8 @@ class RoleSelectionScreen extends StatelessWidget {
               children: [
                 const Spacer(),
 
-                const Icon(
-                  Icons.self_improvement,
+                const FaIcon(
+                  FontAwesomeIcons.handHoldingHeart,
                   size: 70,
                   color: Colors.white,
                 ),
@@ -58,7 +59,7 @@ class RoleSelectionScreen extends StatelessWidget {
 
                 RoleCard(
                   title: "Continue as Therapist",
-                  icon: Icons.psychology_alt,
+                  icon: FontAwesomeIcons.brain,
                   onTap: () => _navigate(context, "Therapist"),
                 ),
 
@@ -66,7 +67,7 @@ class RoleSelectionScreen extends StatelessWidget {
 
                 RoleCard(
                   title: "Continue as Patient",
-                  icon: Icons.favorite_border,
+                  icon: FontAwesomeIcons.heart,
                   onTap: () => _navigate(context, "Patient"),
                 ),
 

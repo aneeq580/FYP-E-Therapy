@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/widgets/patient_app_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Message {
   final String text;
@@ -35,8 +37,8 @@ class ChatDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
+      appBar: PatientAppBar(
+        titleWidget: Row(
           children: [
             SizedBox(
               width: 40,
@@ -149,7 +151,7 @@ class ChatDetailScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   CircleAvatar(
                     backgroundColor: Theme.of(context).primaryColor,
-                    child: const Icon(Icons.send, color: Colors.white),
+                    child: const FaIcon(FontAwesomeIcons.paperPlane, color: Colors.white),
                   ),
                 ],
               ),

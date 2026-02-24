@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 
@@ -19,7 +20,7 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
+      leading: FaIcon(icon, color: AppColors.primary),
       title: Text(
         title,
         style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500),
@@ -27,7 +28,7 @@ class SettingsTile extends StatelessWidget {
       subtitle: subtitle != null
           ? Text(subtitle!, style: AppTextStyles.bodyTextSecondary)
           : null,
-      trailing: const Icon(Icons.chevron_right, color: AppColors.textLight),
+      trailing: const FaIcon(FontAwesomeIcons.chevronRight, color: AppColors.textLight),
       onTap: onTap ?? () {},
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSizes.spacingMedium,

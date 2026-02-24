@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
 import '../constants/styles.dart';
 
@@ -56,7 +57,7 @@ class EmergencyActionCard extends StatelessWidget {
                   color: iconColor.withOpacity(0.15),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: iconColor, size: 32),
+                child: Center(child: FaIcon(icon, color: iconColor, size: 32)),
               ),
               const SizedBox(width: AppSizes.spacingMedium),
 
@@ -87,7 +88,7 @@ class EmergencyActionCard extends StatelessWidget {
               ),
 
               // Arrow Icon
-              Icon(Icons.arrow_forward_ios, color: iconColor, size: 20),
+              FaIcon(FontAwesomeIcons.chevronRight, color: iconColor, size: 20),
             ],
           ),
         ),

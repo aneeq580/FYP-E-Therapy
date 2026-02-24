@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               backgroundColor: Colors.grey,
-              child: Icon(Icons.person, size: 40, color: Colors.white),
+              child: FaIcon(FontAwesomeIcons.user, size: 40, color: Colors.white),
             ),
             SizedBox(height: 16),
             Text(

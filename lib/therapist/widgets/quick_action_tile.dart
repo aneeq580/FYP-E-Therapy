@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 
 class QuickActionTile extends StatelessWidget {
@@ -54,7 +55,7 @@ class QuickActionTile extends StatelessWidget {
             CircleAvatar(
               radius: 20,
               backgroundColor: effectiveIconBg,
-              child: Icon(icon, color: effectiveIconColor, size: 20),
+              child: FaIcon(icon, color: effectiveIconColor, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(child: Text(label, style: textStyle)),

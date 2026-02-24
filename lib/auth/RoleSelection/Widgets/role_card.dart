@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RoleCard extends StatelessWidget {
   final String title;
@@ -26,7 +27,7 @@ class RoleCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.white, size: 28),
+            FaIcon(icon, color: Colors.white, size: 28),
             const SizedBox(width: 20),
             Expanded(
               child: Text(
@@ -38,7 +39,11 @@ class RoleCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.white),
+            const FaIcon(
+              FontAwesomeIcons.arrowRight,
+              size: 18,
+              color: Colors.white,
+            ),
           ],
         ),
       ),

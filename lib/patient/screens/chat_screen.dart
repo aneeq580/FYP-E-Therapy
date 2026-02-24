@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_therapy/navigation/app_routes.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import 'chat_detail_screen.dart';
 
 class ChatItem {
@@ -48,7 +49,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Messages')),
+      appBar: const PatientAppBar(title: 'Messages'),
       body: ListView.separated(
         itemCount: sampleChats.length,
         separatorBuilder: (_, __) => const Divider(height: 1),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
 import '../constants/styles.dart';
 
@@ -48,7 +49,7 @@ class ResourceCategoryCard extends StatelessWidget {
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: iconColor, size: 24),
+                child: Center(child: FaIcon(icon, color: iconColor, size: 24)),
               ),
               const SizedBox(width: AppSizes.spacingMedium),
 
@@ -78,7 +79,11 @@ class ResourceCategoryCard extends StatelessWidget {
               ),
 
               // Chevron Icon
-              Icon(Icons.chevron_right, color: AppColors.textLight, size: 24),
+              FaIcon(
+                FontAwesomeIcons.chevronRight,
+                color: AppColors.textLight,
+                size: 24,
+              ),
             ],
           ),
         ),

@@ -15,6 +15,7 @@ import 'package:fyp_therapy/patient/screens/chat_detail_screen.dart';
 import 'package:fyp_therapy/patient/profile/patient_profile_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_home_screen.dart';
 import 'package:fyp_therapy/therapist/screens/appointment_requests_screen.dart';
+import 'package:fyp_therapy/therapist/screens/pending_sessions_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_chat_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_profile_screen.dart';
 
@@ -40,6 +41,7 @@ class AppRoutes {
   // Therapist routes
   static const String therapistHome = '/therapistHome';
   static const String appointmentRequests = '/appointmentRequests';
+  static const String pendingSessions = '/pendingSessions';
   static const String therapistChat = '/therapistChat';
   static const String therapistProfile = '/therapistProfile';
 
@@ -79,6 +81,7 @@ class AppRoutes {
       // Therapist routes
       therapistHome: (context) => const TherapistHomeScreen(),
       appointmentRequests: (context) => const AppointmentRequestsScreen(),
+      pendingSessions: (context) => const PendingSessionsScreen(),
       therapistChat: (context) => const TherapistChatScreen(),
       therapistProfile: (context) => const TherapistProfileScreen(),
     };

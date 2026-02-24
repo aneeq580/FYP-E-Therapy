@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -11,15 +12,15 @@ class SettingsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: const [
           ListTile(
-            leading: Icon(Icons.notifications_outlined),
+            leading: FaIcon(FontAwesomeIcons.bell),
             title: Text("Notifications"),
           ),
           ListTile(
-            leading: Icon(Icons.lock_outline),
+            leading: FaIcon(FontAwesomeIcons.lock),
             title: Text("Privacy & Security"),
           ),
           ListTile(
-            leading: Icon(Icons.dark_mode_outlined),
+            leading: FaIcon(FontAwesomeIcons.moon),
             title: Text("Dark Mode"),
           ),
         ],

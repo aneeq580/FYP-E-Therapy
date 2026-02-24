@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
+import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/resource_category_card.dart';
 
@@ -54,12 +55,7 @@ class ResourcesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Resources'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Resources'),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: AppSizes.spacingMedium),
         itemCount: resourceCategories.length,

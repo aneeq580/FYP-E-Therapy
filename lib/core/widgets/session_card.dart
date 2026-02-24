@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
 import '../constants/styles.dart';
 
@@ -148,7 +149,7 @@ class SessionCard extends StatelessWidget {
               ),
 
               // Chevron Icon
-              Icon(Icons.chevron_right, color: AppColors.textLight, size: 24),
+              FaIcon(FontAwesomeIcons.chevronRight, color: AppColors.textLight, size: 24),
             ],
           ),
         ),

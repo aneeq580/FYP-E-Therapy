@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 
 class TherapistChatScreen extends StatelessWidget {
@@ -18,8 +19,8 @@ class TherapistChatScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.supervised_user_circle,
+            FaIcon(
+              FontAwesomeIcons.userGroup,
               size: 80,
               color: AppColors.primary.withOpacity(0.5),
             ),

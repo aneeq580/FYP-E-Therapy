@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AvailabilityScreen extends StatelessWidget {
   const AvailabilityScreen({Key? key}) : super(key: key);
@@ -58,7 +59,7 @@ class _AvailabilityCard extends StatelessWidget {
               Text(subtitle, style: const TextStyle(color: Colors.grey)),
             ],
           ),
-          const Icon(Icons.edit_outlined),
+          const FaIcon(FontAwesomeIcons.pen),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_therapy/core/widgets/patient_app_bar.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/emergency_action_card.dart';
@@ -34,12 +35,7 @@ class EmergencyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Emergency Help'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Emergency'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -61,7 +57,7 @@ class EmergencyScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: softEmergencyRed, size: 28),
+                  FaIcon(FontAwesomeIcons.infoCircle, color: softEmergencyRed, size: 28),
                   const SizedBox(width: AppSizes.spacingMedium),
                   Expanded(
                     child: Column(
@@ -93,7 +89,7 @@ class EmergencyScreen extends StatelessWidget {
 
             // Call Emergency Card
             EmergencyActionCard(
-              icon: Icons.phone,
+              icon: FontAwesomeIcons.phone,
               title: 'Call Emergency',
               subtitle: 'Dial 911 for immediate emergency assistance',
               backgroundColor: softEmergencyRed.withOpacity(0.1),
@@ -113,7 +109,7 @@ class EmergencyScreen extends StatelessWidget {
 
             // Helpline Info Card
             EmergencyActionCard(
-              icon: Icons.info,
+              icon: FontAwesomeIcons.infoCircle,
               title: 'Helpline Info',
               subtitle: 'View crisis helpline numbers and resources',
               backgroundColor: softEmergencyPink.withOpacity(0.1),

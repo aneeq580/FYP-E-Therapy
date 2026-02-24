@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 
 class TherapistProfileScreen extends StatelessWidget {
@@ -18,9 +19,9 @@ class TherapistProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.person,
-              size: 80,
+            FaIcon(
+              FontAwesomeIcons.user,
+              size: 40,
               color: AppColors.primary.withOpacity(0.5),
             ),
             const SizedBox(height: 20),

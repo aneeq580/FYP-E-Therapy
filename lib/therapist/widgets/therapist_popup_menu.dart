@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TherapistPopupMenu extends StatelessWidget {
   final Function(String) onSelected;
@@ -12,18 +13,27 @@ class TherapistPopupMenu extends StatelessWidget {
       offset: const Offset(0, 45),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 8,
-      icon: const CircleAvatar(
+      icon: CircleAvatar(
         radius: 16,
-        backgroundColor: Color(0xFF7F5AF0),
-        child: Icon(Icons.menu, size: 18, color: Colors.white),
+        backgroundColor: const Color(0xFF7F5AF0),
+        child: FaIcon(FontAwesomeIcons.bars, size: 18, color: Colors.white),
       ),
       onSelected: onSelected,
       itemBuilder: (context) => [
-        _buildItem(Icons.schedule, "Manage Availability", "availability"),
-        _buildItem(Icons.person_outline, "My Profile", "profile"),
-        _buildItem(Icons.settings_outlined, "Settings", "settings"),
+        _buildItem(
+          FontAwesomeIcons.calendar,
+          "Manage Availability",
+          "availability",
+        ),
+        _buildItem(FontAwesomeIcons.user, "My Profile", "profile"),
+        _buildItem(FontAwesomeIcons.gear, "Settings", "settings"),
         const PopupMenuDivider(),
-        _buildItem(Icons.logout, "Logout", "logout", isDanger: true),
+        _buildItem(
+          FontAwesomeIcons.rightFromBracket,
+          "Logout",
+          "logout",
+          isDanger: true,
+        ),
       ],
     );
   }
@@ -38,7 +48,11 @@ class TherapistPopupMenu extends StatelessWidget {
       value: value,
       child: Row(
         children: [
-          Icon(icon, size: 20, color: isDanger ? Colors.red : Colors.grey[700]),
+          FaIcon(
+            icon,
+            size: 20,
+            color: isDanger ? Colors.red : Colors.grey[700],
+          ),
           const SizedBox(width: 12),
           Text(
             text,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
+import '../../core/widgets/patient_app_bar.dart';
 
 class PatientProfileScreen extends StatelessWidget {
   const PatientProfileScreen({super.key});
@@ -9,12 +10,7 @@ class PatientProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      appBar: const PatientAppBar(title: 'Profile'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -146,8 +142,8 @@ class PatientProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.edit_outlined,
+                    child: const FaIcon(
+                      FontAwesomeIcons.pen,
                       size: 18,
                       color: AppColors.textOnPrimary,
                     ),
@@ -175,8 +171,8 @@ class PatientProfileScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.email_outlined,
+              const FaIcon(
+                FontAwesomeIcons.envelope,
                 size: 16,
                 color: AppColors.textSecondary,
               ),
@@ -208,7 +204,7 @@ class PatientProfileScreen extends StatelessWidget {
             onPressed: () {
               // Edit Profile functionality (UI only)
             },
-            icon: const Icon(Icons.edit_outlined, size: 18),
+            icon: const FaIcon(FontAwesomeIcons.pen, size: 18),
             label: const Text('Edit Profile'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -259,7 +255,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Age
           _buildInfoRow(
-            icon: Icons.cake_outlined,
+            icon: FontAwesomeIcons.cake,
             label: 'Age',
             value: '25 years',
           ),
@@ -268,7 +264,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Gender
           _buildInfoRow(
-            icon: Icons.person_outline,
+            icon: FontAwesomeIcons.user,
             label: 'Gender',
             value: 'Male',
           ),
@@ -277,7 +273,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Joined Date
           _buildInfoRow(
-            icon: Icons.calendar_today_outlined,
+            icon: FontAwesomeIcons.calendar,
             label: 'Joined',
             value: 'January 15, 2024',
           ),
@@ -299,7 +295,7 @@ class PatientProfileScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: AppColors.primary),
+          FaIcon(icon, size: 20, color: AppColors.primary),
           const SizedBox(width: AppSizes.spacingMedium),
           Expanded(
             child: Text(
@@ -415,7 +411,7 @@ class PatientProfileScreen extends StatelessWidget {
               color: backgroundColor,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, size: 20, color: color),
+            child: FaIcon(icon, size: 20, color: color),
           ),
           const SizedBox(height: AppSizes.spacingSmall),
           Text(
@@ -475,7 +471,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Notifications
           _buildSettingsTile(
-            icon: Icons.notifications_outlined,
+            icon: FontAwesomeIcons.bell,
             title: 'Notifications',
             onTap: () {},
           ),
@@ -484,7 +480,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Privacy & Security
           _buildSettingsTile(
-            icon: Icons.lock_outline,
+            icon: FontAwesomeIcons.lock,
             title: 'Privacy & Security',
             onTap: () {},
           ),
@@ -493,7 +489,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Dark Mode (UI toggle only)
           ListTile(
-            leading: Icon(Icons.dark_mode_outlined, color: AppColors.primary),
+            leading: FaIcon(FontAwesomeIcons.moon, color: AppColors.primary),
             title: Text(
               'Dark Mode',
               style: AppTextStyles.bodyText.copyWith(
@@ -517,7 +513,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Language
           _buildSettingsTile(
-            icon: Icons.language_outlined,
+            icon: FontAwesomeIcons.language,
             title: 'Language',
             subtitle: 'English',
             onTap: () {},
@@ -527,7 +523,7 @@ class PatientProfileScreen extends StatelessWidget {
 
           // Help & Support
           _buildSettingsTile(
-            icon: Icons.help_outline,
+            icon: FontAwesomeIcons.circleQuestion,
             title: 'Help & Support',
             onTap: () {},
           ),
@@ -544,7 +540,7 @@ class PatientProfileScreen extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
+      leading: FaIcon(icon, color: AppColors.primary),
       title: Text(
         title,
         style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500),
@@ -552,7 +548,10 @@ class PatientProfileScreen extends StatelessWidget {
       subtitle: subtitle != null
           ? Text(subtitle, style: AppTextStyles.bodyTextSecondary)
           : null,
-      trailing: const Icon(Icons.chevron_right, color: AppColors.textLight),
+      trailing: const FaIcon(
+        FontAwesomeIcons.chevronRight,
+        color: AppColors.textLight,
+      ),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSizes.spacingMedium,
@@ -581,7 +580,7 @@ class PatientProfileScreen extends StatelessWidget {
               onPressed: () {
                 // Logout functionality (UI only)
               },
-              icon: const Icon(Icons.logout_outlined),
+              icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
               label: const Text(
                 'Logout',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

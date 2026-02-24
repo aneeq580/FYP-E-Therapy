@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 
@@ -111,8 +112,8 @@ class ProfileHeader extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.edit_outlined,
+                    child: const FaIcon(
+                      FontAwesomeIcons.pen,
                       size: 18,
                       color: AppColors.textOnPrimary,
                     ),

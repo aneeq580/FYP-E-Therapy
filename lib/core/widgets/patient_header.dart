@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
 import '../constants/styles.dart';
 
@@ -31,214 +31,128 @@ class PatientHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(
-        AppSizes.headerPadding,
-        AppSizes.headerPadding + 8,
-        AppSizes.headerPadding,
-        AppSizes.headerPadding + 12,
-      ),
+      // margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
           colors: [
-            AppColors.primary,
-            AppColors.primaryLight,
-            AppColors.secondaryLight,
+            AppColors.primary.withOpacity(0.9),
+            AppColors.secondary.withOpacity(0.9),
           ],
         ),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(AppSizes.headerBorderRadius),
-          bottomRight: Radius.circular(AppSizes.headerBorderRadius),
-        ),
+        borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Decorative Circles
-          Positioned(
-            top: -20,
-            right: -20,
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.textOnPrimary.withOpacity(0.1),
-              ),
+          // Greeting Line
+          Text(
+            "${_getGreeting()}, $username!",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              height: 1,
             ),
           ),
-          Positioned(
-            top: 10,
-            right: 60,
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.textOnPrimary.withOpacity(0.15),
-              ),
+          const SizedBox(height: 6),
+
+          // Motivational / Empathetic Line
+          Text(
+            "Take a moment for yourself today 💙",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white.withOpacity(0.9),
+              height: 1.4,
             ),
           ),
-          // Content
+          const SizedBox(height: 5),
+
+          // Quick Mood Check-in (Recommended – bohot engaging banata hai)
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Welcome Message and Username
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          _getGreeting(),
-                          style: AppTextStyles.headerSubtitle.copyWith(
-                            fontSize: 16,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        const Text('👋', style: TextStyle(fontSize: 20)),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      username,
-                      style: AppTextStyles.headerTitle.copyWith(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.5,
-                        shadows: [
-                          Shadow(
-                            color: AppColors.textPrimary.withOpacity(0.08),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (subtitle != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle!,
-                        style: AppTextStyles.headerSubtitle.copyWith(
-                          fontSize: 13,
-                          color: AppColors.textOnPrimary.withOpacity(0.9),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              // Beautiful Profile Image
-              GestureDetector(
-                onTap: onProfileTap,
-                child: Container(
-                  width: AppSizes.profileImageSize + 8,
-                  height: AppSizes.profileImageSize + 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        AppColors.textOnPrimary,
-                        AppColors.secondaryLight,
-                      ],
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.textPrimary.withOpacity(0.18),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.textOnPrimary,
-                        width: 2.5,
-                      ),
-                    ),
-                    child: ClipOval(
-                      child: profileImageUrl != null
-                          ? Image.network(
-                              profileImageUrl!,
-                              width: AppSizes.profileImageSize + 2,
-                              height: AppSizes.profileImageSize + 2,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return _buildDefaultProfileIcon();
-                              },
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return _buildLoadingIndicator();
-                                  },
-                            )
-                          : _buildDefaultProfileIcon(),
-                    ),
-                  ),
-                ),
-              ),
+              _buildMoodButton("😊", "Happy", Colors.greenAccent),
+              _buildMoodButton("😐", "Okay", Colors.amber),
+              _buildMoodButton("😟", "Anxious", Colors.orange),
+              _buildMoodButton("😔", "Sad", Colors.blueGrey),
             ],
           ),
+          const SizedBox(height: 5),
+
+          // Optional Quick Action Button
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              icon: const FaIcon(
+                FontAwesomeIcons.wind,
+                color: Colors.white,
+                size: 14,
+              ),
+              label: const Text(
+                "Quick Breathe",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.25),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(width: 1.0, color: Colors.white),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+              ),
+              onPressed: () {
+                // Navigate to breathing exercise screen
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildDefaultProfileIcon() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.primaryLight],
-        ),
-      ),
-      child: const Icon(
-        AppIcons.profile,
-        color: AppColors.textOnPrimary,
-        size: 32,
-      ),
-    );
-  }
-
-  Widget _buildLoadingIndicator() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.primaryLight],
-        ),
-      ),
-      child: Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: const AlwaysStoppedAnimation<Color>(
-            AppColors.textOnPrimary,
+  Widget _buildMoodButton(String emoji, String label, Color color) {
+    return GestureDetector(
+      onTap: () {
+        // TODO: Save mood to local/Firestore + show snackbar "Mood logged!"
+        print("Mood selected: $label");
+      },
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.25),
+              shape: BoxShape.circle,
+            ),
+            child: Text(emoji, style: const TextStyle(fontSize: 20)),
           ),
-        ),
+          // const SizedBox(height: 3),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
