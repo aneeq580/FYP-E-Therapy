@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:fyp_therapy/controllers/mood_tracker_controller.dart';
 import '../../core/widgets/patient_app_bar.dart';
-import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/mood_selection_card.dart';
 import '../../core/widgets/mood_history_card.dart';
 
 /// Mood Tracker Screen - Main screen for tracking daily moods
-class MoodTrackerScreen extends StatefulWidget {
+class MoodTrackerScreen extends GetView<MoodTrackerController> {
   const MoodTrackerScreen({super.key});
-
-  @override
-  State<MoodTrackerScreen> createState() => _MoodTrackerScreenState();
-}
-
-class _MoodTrackerScreenState extends State<MoodTrackerScreen> {
-  String? selectedMood;
-
-  void _handleMoodSelection(String mood) {
-    setState(() {
-      selectedMood = mood;
-    });
-    // TODO: Save mood to backend/local storage
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +20,11 @@ class _MoodTrackerScreenState extends State<MoodTrackerScreen> {
             const SizedBox(height: AppSizes.spacingLarge),
 
             // Mood Selection Card
-            MoodSelectionCard(
-              selectedMood: selectedMood,
-              onMoodSelected: _handleMoodSelection,
+            Obx(
+              () => MoodSelectionCard(
+                selectedMood: controller.selectedMood.value,
+                onMoodSelected: controller.setMood,
+              ),
             ),
 
             const SizedBox(height: AppSizes.spacingLarge),

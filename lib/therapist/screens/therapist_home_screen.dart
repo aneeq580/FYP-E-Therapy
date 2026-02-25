@@ -8,7 +8,8 @@ import '../widgets/therapist_greeting_card.dart';
 import '../widgets/therapist_today_session_card.dart';
 import '../widgets/quick_action_tile.dart';
 import '../widgets/therapist_popup_menu.dart';
-import 'package:fyp_therapy/navigation/app_routes.dart';
+import 'package:get/get.dart';
+import 'package:fyp_therapy/routes/app_routes.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
   const TherapistHomeScreen({Key? key}) : super(key: key);
@@ -48,26 +49,17 @@ class TherapistHomeScreen extends StatelessWidget {
             },
           ),
 
-          TherapistPopupMenu(
-            onSelected: (value) {
-              if (value == 'availability') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AvailabilityScreen()),
-                );
-              } else if (value == 'profile') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
-                );
-              } else if (value == 'settings') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
-                );
-              }
-            },
-          ),
+            TherapistPopupMenu(
+              onSelected: (value) {
+                if (value == 'availability') {
+                  Get.to(() => const AvailabilityScreen());
+                } else if (value == 'profile') {
+                  Get.to(() => const ProfileScreen());
+                } else if (value == 'settings') {
+                  Get.to(() => const SettingsScreen());
+                }
+              },
+            ),
 
           const SizedBox(width: 12),
         ],
@@ -99,10 +91,7 @@ class TherapistHomeScreen extends StatelessWidget {
                     0.3,
                   ),
                   onTap: () {
-                    AppRoutes.navigateTo(
-                      context,
-                      AppRoutes.appointmentRequests,
-                    );
+                    Get.toNamed(AppRoutes.appointmentRequests);
                   },
                 ),
 

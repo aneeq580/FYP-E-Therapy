@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:fyp_therapy/controllers/settings_controller.dart';
 import '../../core/constants/colors.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/settings_tile.dart';
 
 /// Settings Screen - App settings and preferences
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends GetView<SettingsController> {
   const SettingsScreen({super.key});
-
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  // UI only state for Dark Mode toggle
-  bool _isDarkMode = false;
 
   void _handleNotifications() {
     // TODO: Navigate to notifications settings screen
@@ -57,44 +51,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Divider(height: 1, indent: 70),
 
           // Dark Mode
-          ListTile(
-            leading: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: FaIcon(
-                  FontAwesomeIcons.moon,
-                  color: AppColors.primary,
-                  size: 20,
+          Obx(
+            () => ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.moon,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
                 ),
               ),
-            ),
-            title: Text(
-              'Dark Mode',
-              style: AppTextStyles.bodyText.copyWith(
-                fontWeight: FontWeight.w500,
+              title: Text(
+                'Dark Mode',
+                style: AppTextStyles.bodyText.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            subtitle: Text(
-              'Switch to dark theme',
-              style: AppTextStyles.bodyTextSecondary.copyWith(fontSize: 12),
-            ),
-            trailing: Switch(
-              value: _isDarkMode,
-              onChanged: (value) {
-                setState(() {
-                  _isDarkMode = value; // UI only, no logic
-                });
-              },
-              activeColor: AppColors.primary,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.spacingMedium,
-              vertical: 4,
+              subtitle: Text(
+                'Switch to dark theme',
+                style:
+                    AppTextStyles.bodyTextSecondary.copyWith(fontSize: 12),
+              ),
+              trailing: Switch(
+                value: controller.isDarkMode.value,
+                onChanged: controller.toggleDarkMode,
+                activeColor: AppColors.primary,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.spacingMedium,
+                vertical: 4,
+              ),
             ),
           ),
 

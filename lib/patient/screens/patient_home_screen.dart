@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fyp_therapy/navigation/app_routes.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/therapist/widgets/quick_action_tile.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/strings.dart';
@@ -33,7 +32,7 @@ class PatientHomeScreen extends StatelessWidget {
               profileImageUrl:
                   'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
               onProfileTap: () {
-                AppRoutes.navigateTo(context, AppRoutes.patientProfile);
+                Get.toNamed(AppRoutes.patientProfile);
               },
             ),
 
@@ -54,7 +53,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconBookSession,
                   iconBackgroundColor: AppColors.iconBgBookSession,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.bookSession);
+                    Get.toNamed(AppRoutes.bookSession);
                   },
                 ),
 
@@ -64,7 +63,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconChat,
                   iconBackgroundColor: AppColors.iconBgChat,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.patientChat);
+                    Get.toNamed(AppRoutes.patientChat);
                   },
                 ),
 
@@ -74,7 +73,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconTherapists,
                   iconBackgroundColor: AppColors.iconBgTherapists,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.therapistList);
+                    Get.toNamed(AppRoutes.therapistList);
                   },
                 ),
 
@@ -84,7 +83,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconMySessions,
                   iconBackgroundColor: AppColors.iconBgMySessions,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.mySessions);
+                    Get.toNamed(AppRoutes.mySessions);
                   },
                 ),
 
@@ -94,7 +93,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconMoodTracker,
                   iconBackgroundColor: AppColors.iconBgMoodTracker,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.moodTracker);
+                    Get.toNamed(AppRoutes.moodTracker);
                   },
                 ),
 
@@ -104,7 +103,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconResources,
                   iconBackgroundColor: AppColors.iconBgResources,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.resources);
+                    Get.toNamed(AppRoutes.resources);
                   },
                 ),
 
@@ -114,7 +113,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconEmergency,
                   iconBackgroundColor: AppColors.iconBgEmergency,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.emergency);
+                    Get.toNamed(AppRoutes.emergency);
                   },
                 ),
 
@@ -124,7 +123,7 @@ class PatientHomeScreen extends StatelessWidget {
                   iconColor: AppColors.iconSettings,
                   iconBackgroundColor: AppColors.iconBgSettings,
                   onTap: () {
-                    AppRoutes.navigateTo(context, AppRoutes.patientSettings);
+                    Get.toNamed(AppRoutes.patientSettings);
                   },
                 ),
 

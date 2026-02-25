@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_therapy/navigation/app_routes.dart';
+import 'package:get/get.dart';
+import 'package:fyp_therapy/routes/app_routes.dart';
 import '../../core/widgets/patient_app_bar.dart';
-import 'chat_detail_screen.dart';
 
 class ChatItem {
   final String id;
@@ -102,8 +102,7 @@ class ChatScreen extends StatelessWidget {
               ],
             ),
             onTap: () {
-              AppRoutes.navigateTo(
-                context,
+              Get.toNamed(
                 AppRoutes.chatDetail,
                 arguments: {'chatId': chat.id, 'name': chat.name},
               );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../core/constants/colors.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
@@ -85,14 +86,15 @@ class TherapistListScreen extends StatelessWidget {
           final therapist = therapists[index];
           return InkWell(
             onTap: () {
-              Navigator.pop(context, therapist);
+              Get.back(result: therapist);
             },
             child: TherapistCard(
               name: therapist['name'] as String,
               specialty: therapist['specialty'] as String,
               rating: therapist['rating'] as double,
               photoUrl: therapist['photoUrl'] as String?,
-              onViewProfile: () => _handleViewProfile(therapist['name'] as String),
+              onViewProfile:
+                  () => _handleViewProfile(therapist['name'] as String),
             ),
           );
         },

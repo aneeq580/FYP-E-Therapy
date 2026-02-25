@@ -22,8 +22,10 @@ class SessionCard extends StatelessWidget {
 
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
+      case 'pending':
+        return AppColors.warning; // orange
       case 'upcoming':
-        return AppColors.accent;
+        return AppColors.iconBookSession; // calming blue
       case 'completed':
         return AppColors.success;
       case 'cancelled':
@@ -35,8 +37,10 @@ class SessionCard extends StatelessWidget {
 
   Color _getStatusBackgroundColor(String status) {
     switch (status.toLowerCase()) {
+      case 'pending':
+        return AppColors.warning.withOpacity(0.1);
       case 'upcoming':
-        return AppColors.accent.withOpacity(0.1);
+        return AppColors.iconBgBookSession;
       case 'completed':
         return AppColors.success.withOpacity(0.1);
       case 'cancelled':
@@ -149,7 +153,11 @@ class SessionCard extends StatelessWidget {
               ),
 
               // Chevron Icon
-              FaIcon(FontAwesomeIcons.chevronRight, color: AppColors.textLight, size: 24),
+              FaIcon(
+                FontAwesomeIcons.chevronRight,
+                color: AppColors.textLight,
+                size: 24,
+              ),
             ],
           ),
         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import '../constants/colors.dart';
-import '../../navigation/app_routes.dart';
+import '../../routes/app_routes.dart';
 
 class PatientAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -61,7 +62,7 @@ class PatientAppBar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      AppRoutes.navigateTo(context, AppRoutes.patientProfile);
+                      Get.toNamed(AppRoutes.patientProfile);
                     },
                   ),
                   const SizedBox(width: 8),

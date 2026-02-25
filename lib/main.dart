@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'core/constants/colors.dart';
-import 'navigation/app_routes.dart';
+import 'services/session_service.dart';
+import 'routes/app_routes.dart';
+import 'routes/app_pages.dart';
 
 void main() {
-  // Initialize session repository (auto-expiry logic)
+  // Initialize global GetX services.
+  //
+  // SessionService currently uses in-memory dummy data only.
+  // TODO: Replace with Firebase initialization and Firestore-backed services.
+  Get.put(SessionService(), permanent: true);
 
   runApp(const MyApp());
 }
@@ -13,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Online Therapy App',
       theme: ThemeData(
@@ -41,8 +48,8 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      initialRoute: AppRoutes.patientHome,
-      routes: AppRoutes.getRoutes(),
+      initialRoute: AppRoutes.roleSelection,
+      getPages: AppPages.routes,
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
-
-import '../../navigation/app_routes.dart';
+import 'package:get/get.dart';
+import '../../routes/app_routes.dart';
+import '../../services/session_service.dart';
 
 class AppointmentRequestsScreen extends StatefulWidget {
   const AppointmentRequestsScreen({super.key});
@@ -13,26 +14,20 @@ class AppointmentRequestsScreen extends StatefulWidget {
 }
 
 class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
-  
+  final SessionService _sessionService = Get.find<SessionService>();
 
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
   void dispose() {
-    
     super.dispose();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -61,8 +56,11 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
                   ),
                 ),
                 const Spacer(),
-            
-                  Container(
+                Obx(() {
+                  final pendingCount = _sessionService
+                      .getPendingRequests()
+                      .length;
+                  return Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 6,
@@ -71,40 +69,45 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
                       color: AppColors.primary.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                   
-                  ),
+                    child: Text(
+                      '$pendingCount pending',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                }),
               ],
             ),
 
             const SizedBox(height: 16),
 
-            // Preview list (up to 3) or empty state
-            
-              const SizedBox(height: 8),
+            const SizedBox(height: 16),
 
-              // View all button
-              Align(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: () {
-                    AppRoutes.navigateTo(context, AppRoutes.pendingSessions);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.textOnPrimary,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+            // View all button
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(AppRoutes.pendingSessions);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textOnPrimary,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
                   ),
-                  child: const Text('View All Requests'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                child: const Text('View All Requests'),
               ),
-            ],
-          
+            ),
+          ],
         ),
       ),
     );
