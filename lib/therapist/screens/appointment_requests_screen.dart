@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/colors.dart';
 import 'package:get/get.dart';
 import '../../routes/app_routes.dart';
-import '../../services/session_service.dart';
+import '../../controllers/appointment_controller.dart';
 
 class AppointmentRequestsScreen extends StatefulWidget {
   const AppointmentRequestsScreen({super.key});
@@ -14,11 +14,12 @@ class AppointmentRequestsScreen extends StatefulWidget {
 }
 
 class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
-  final SessionService _sessionService = Get.find<SessionService>();
-
   @override
   void initState() {
     super.initState();
+    if (!Get.isRegistered<AppointmentController>()) {
+      Get.put(AppointmentController());
+    }
   }
 
   @override
@@ -57,8 +58,8 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
                 ),
                 const Spacer(),
                 Obx(() {
-                  final pendingCount = _sessionService
-                      .getPendingRequests()
+                  final pendingCount = Get.find<AppointmentController>()
+                      .therapistPendingAppointments
                       .length;
                   return Container(
                     padding: const EdgeInsets.symmetric(

@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Auth requirement helper
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    match /appointments/{appointmentId} {
+      // Create: user must be authenticated, must be the ones booking it
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.patientId;
+      
+      // Read: only the assigned patient or assigned therapist can read it
+      allow read: if isAuthenticated() && 
+                  (request.auth.uid == resource.data.patientId || 
+                   request.auth.uid == resource.data.therapistId);
+                   
+      // Update: only the therapist can update the status
+      allow update: if isAuthenticated() && 
+                    request.auth.uid == resource.data.therapistId &&
+                    // Restrict changes strictly to the status field if necessary, or just allow full update
+                    request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
+      
+      // Delete: no deletions permitted natively right now, just cancel
+      allow delete: if false;
+    }
+  }
+}

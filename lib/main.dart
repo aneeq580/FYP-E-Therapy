@@ -1,22 +1,51 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_therapy/firebase_options.dart';
+import 'package:fyp_therapy/services/appointment_service.dart';
 import 'package:get/get.dart';
+import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'core/constants/colors.dart';
 import 'services/session_service.dart';
+import 'services/auth_service.dart';
 import 'routes/app_routes.dart';
 import 'routes/app_pages.dart';
 
-void main() {
-  // Initialize global GetX services.
-  //
-  // SessionService currently uses in-memory dummy data only.
-  // TODO: Replace with Firebase initialization and Firestore-backed services.
-  Get.put(SessionService(), permanent: true);
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MyApp());
+  Get.put(SessionService(), permanent: true);
+  Get.put(AuthService(), permanent: true);
+  Get.put(AppointmentService(), permanent: true);
+  // Ensure AuthController is available app-wide for screens that call Get.find<AuthController>()
+  Get.put(AuthController(), permanent: true);
+
+  // Decide initial route based on Firebase auth persistence.
+  final User? user = FirebaseAuth.instance.currentUser;
+  String initialRoute = AppRoutes.roleSelection;
+
+  if (user != null) {
+    try {
+      final authService = Get.find<AuthService>();
+      final role = await authService.fetchUserRole(user.uid);
+      if (role == 'therapist') {
+        initialRoute = AppRoutes.therapistHome;
+      } else {
+        initialRoute = AppRoutes.patientHome;
+      }
+    } catch (e) {
+      initialRoute = AppRoutes.patientHome; // Fallback
+    }
+  }
+
+  runApp(MyApp(initialRoute: initialRoute));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +62,7 @@ class MyApp extends StatelessWidget {
           background: AppColors.background,
           brightness: Brightness.light,
         ),
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textOnPrimary,
         ),
@@ -48,7 +77,7 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      initialRoute: AppRoutes.roleSelection,
+      initialRoute: initialRoute,
       getPages: AppPages.routes,
     );
   }

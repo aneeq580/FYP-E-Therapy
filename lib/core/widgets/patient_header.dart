@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
-import '../constants/styles.dart';
 
 class PatientHeader extends StatelessWidget {
   final String username;

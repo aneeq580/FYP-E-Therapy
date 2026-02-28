@@ -4,6 +4,7 @@ class AppRoutes {
   static const String roleSelection = '/roleSelection';
   static const String login = '/login';
   static const String signup = '/signup';
+  static const String forgotPassword = '/forgot-password';
 
   // Patient routes
   static const String patientHome = '/patientHome';
@@ -25,4 +26,3 @@ class AppRoutes {
   static const String therapistChat = '/therapistChat';
   static const String therapistProfile = '/therapistProfile';
 }
-

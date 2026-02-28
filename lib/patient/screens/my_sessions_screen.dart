@@ -4,29 +4,15 @@ import 'package:get/get.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
-import '../../core/widgets/session_card.dart';
-import '../../controllers/session_controller.dart';
-import '../../models/session_model.dart';
+import '../../core/widgets/role_based_session_card.dart';
+import '../../controllers/appointment_controller.dart';
+import '../../models/appointment_model.dart';
 
 /// My Sessions Screen - Patient view with 4 status tabs.
-class MySessionsScreen extends GetView<SessionController> {
+class MySessionsScreen extends StatelessWidget {
   const MySessionsScreen({super.key});
 
-  String _formatDate(SessionModel session) {
-    final dt = session.sessionDateTime;
-    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final weekday = weekdays[dt.weekday - 1];
-    final day = dt.day.toString().padLeft(2, '0');
-    return '$weekday $day';
-  }
-
-  String _formatTime(SessionModel session) {
-    final dt = session.sessionDateTime;
-    final hour = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
-    final minute = dt.minute.toString().padLeft(2, '0');
-    final period = dt.hour >= 12 ? 'PM' : 'AM';
-    return '$hour:$minute $period';
-  }
+  // These are handled by the new RoleBasedSessionCard now!
 
   Widget _buildEmptyState(String message) {
     return Center(
@@ -52,39 +38,52 @@ class MySessionsScreen extends GetView<SessionController> {
     );
   }
 
-  Widget _buildSessionList(RxList<SessionModel> sessions) {
-    return Obx(() {
-      final items = sessions;
-      if (items.isEmpty) {
-        return _buildEmptyState(
-          'No sessions here yet.\nNew bookings will appear in this tab.',
-        );
-      }
+  Widget _buildSessionList(
+    List<AppointmentModel> sessions,
+    String filterStatus,
+  ) {
+    // Upcoming tab should match both 'approved' and 'upcoming' statuses from firestore
+    final bool isUpcomingTab = filterStatus.toLowerCase() == 'approved';
 
-      return ListView.builder(
-        padding: const EdgeInsets.only(
-          top: AppSizes.spacingMedium,
-          bottom: AppSizes.spacingLarge,
-        ),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final session = items[index];
-          return SessionCard(
-            date: _formatDate(session),
-            time: _formatTime(session),
-            therapistName: session.therapistName,
-            status: session.status.capitalizeFirst ?? session.status,
-            onTap: () {
-              // TODO: Navigate to session details screen when implemented.
-            },
-          );
-        },
+    final items = sessions.where((s) {
+      final status = s.status.toLowerCase();
+      if (isUpcomingTab) {
+        return status == 'approved' || status == 'upcoming';
+      }
+      return status == filterStatus.toLowerCase();
+    }).toList();
+
+    if (items.isEmpty) {
+      return _buildEmptyState(
+        'No sessions here yet.\nNew bookings will appear in this tab.',
       );
-    });
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: AppSizes.spacingMedium,
+        bottom: AppSizes.spacingLarge,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final session = items[index];
+        return RoleBasedSessionCard(
+          appointment: session,
+          role: 'patient',
+          onTap: () {
+            // Navigate to session details
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<AppointmentController>()) {
+      Get.put(AppointmentController());
+    }
+    final controller = Get.find<AppointmentController>();
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -129,14 +128,17 @@ class MySessionsScreen extends GetView<SessionController> {
             ),
             const SizedBox(height: AppSizes.spacingMedium),
             Expanded(
-              child: TabBarView(
-                children: [
-                  _buildSessionList(controller.getPendingSessions()),
-                  _buildSessionList(controller.getUpcomingSessions()),
-                  _buildSessionList(controller.getCompletedSessions()),
-                  _buildSessionList(controller.getCancelledSessions()),
-                ],
-              ),
+              child: Obx(() {
+                final sessions = controller.patientAppointments.toList();
+                return TabBarView(
+                  children: [
+                    _buildSessionList(sessions, 'pending'),
+                    _buildSessionList(sessions, 'approved'),
+                    _buildSessionList(sessions, 'completed'),
+                    _buildSessionList(sessions, 'cancelled'),
+                  ],
+                );
+              }),
             ),
           ],
         ),

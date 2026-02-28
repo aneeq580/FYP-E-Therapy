@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:fyp_therapy/controllers/auth_controller.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/patient_app_bar.dart';
@@ -578,7 +580,8 @@ class PatientProfileScreen extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () {
-                // Logout functionality (UI only)
+                final authController = Get.find<AuthController>();
+                authController.handleLogout();
               },
               icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
               label: const Text(

@@ -39,9 +39,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   flutter_chat_ui: ^2.9.2
   get: ^4.6.6
-  firebase_core: ^4.4.0
-  firebase_auth: ^6.1.4
-  cloud_firestore: ^6.1.2
+  
 
 dev_dependencies:
   flutter_test:

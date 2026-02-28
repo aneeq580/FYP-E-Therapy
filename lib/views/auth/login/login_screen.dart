@@ -71,23 +71,40 @@ class _LoginScreenState extends State<LoginScreen> {
                   isPassword: true,
                 ),
 
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.forgotPassword);
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+
                 const SizedBox(height: 35),
 
                 /// 🔥 Bigger Button
                 SizedBox(
                   width: double.infinity,
                   height: 58,
-                  child: PrimaryButton(
-                    text: "Login",
-                    onPressed: () {
-                      authController.updateCredentials(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        role: widget.role,
-                      );
-                      authController.handleLogin();
-                    },
-                  ),
+                  child: Obx(() {
+                    final bool disabled = authController.isLoading.value;
+                    return PrimaryButton(
+                      text: disabled ? "Please wait..." : "Login",
+                      onPressed: () {
+                        if (disabled) return;
+                        authController.updateCredentials(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          role: widget.role,
+                        );
+                        authController.handleLogin();
+                      },
+                    );
+                  }),
                 ),
 
                 const SizedBox(height: 20),

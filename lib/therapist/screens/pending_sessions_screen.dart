@@ -3,28 +3,30 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../core/constants/colors.dart';
-import '../../models/session_model.dart';
-import '../../services/session_service.dart';
+import '../../models/appointment_model.dart';
+import '../../controllers/appointment_controller.dart';
+import 'package:intl/intl.dart';
 
 class PendingSessionsScreen extends StatelessWidget {
   const PendingSessionsScreen({super.key});
 
-  SessionService get _sessionService => Get.find<SessionService>();
-
-  String _formatDate(SessionModel session) {
-    final dt = session.sessionDateTime;
-    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final weekday = weekdays[dt.weekday - 1];
-    final day = dt.day.toString().padLeft(2, '0');
-    return '$weekday $day';
+  AppointmentController get _appointmentController {
+    if (!Get.isRegistered<AppointmentController>()) {
+      Get.put(AppointmentController());
+    }
+    return Get.find<AppointmentController>();
   }
 
-  String _formatTime(SessionModel session) {
-    final dt = session.sessionDateTime;
-    final hour = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
-    final minute = dt.minute.toString().padLeft(2, '0');
-    final period = dt.hour >= 12 ? 'PM' : 'AM';
-    return '$hour:$minute $period';
+  String _formatDate(AppointmentModel session) {
+    if (session.date == null) return '';
+    final dt = session.date.toDate();
+    return DateFormat('E dd').format(dt);
+  }
+
+  String _formatTime(AppointmentModel session) {
+    if (session.date == null) return '';
+    final dt = session.date.toDate();
+    return DateFormat('h:mm a').format(dt);
   }
 
   @override
@@ -38,7 +40,7 @@ class PendingSessionsScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Obx(() {
-        final pending = _sessionService.getPendingRequests();
+        final pending = _appointmentController.therapistPendingAppointments;
 
         if (pending.isEmpty) {
           return Center(
@@ -135,7 +137,7 @@ class PendingSessionsScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    if (session.reason != null && session.reason!.isNotEmpty)
+                    /* if (session.reason != null && session.reason!.isNotEmpty)
                       Text(
                         session.reason!,
                         style: TextStyle(
@@ -144,13 +146,13 @@ class PendingSessionsScreen extends StatelessWidget {
                         ),
                       ),
                     if (session.reason != null && session.reason!.isNotEmpty)
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 10), */
                     Row(
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              _sessionService.rejectSession(session.id);
+                              _appointmentController.rejectAppointment(session.id);
                             },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.error,
@@ -172,7 +174,7 @@ class PendingSessionsScreen extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              _sessionService.acceptSession(session.id);
+                              _appointmentController.acceptAppointment(session.id);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,

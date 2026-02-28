@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "983841823918",
+    "project_id": "e-therapy-f78d2",
+    "storage_bucket": "e-therapy-f78d2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983841823918:android:02410ee79a5fa69246213f",
+        "android_client_info": {
+          "package_name": "com.example.fyp_therapy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy-It9mC6KLjaAShOjLYVV3ox3JFoazZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

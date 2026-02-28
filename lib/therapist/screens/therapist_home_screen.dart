@@ -10,6 +10,8 @@ import '../widgets/quick_action_tile.dart';
 import '../widgets/therapist_popup_menu.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
+import 'package:fyp_therapy/controllers/auth_controller.dart';
+import '../../core/widgets/therapist_app_bar.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
   const TherapistHomeScreen({Key? key}) : super(key: key);
@@ -17,30 +19,8 @@ class TherapistHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0, // flat look for modern feel
-        backgroundColor: Colors.transparent, // important!
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color(0xFF7F5AF0).withOpacity(0.7),
-                Color(0xFF6246EA).withOpacity(1), // gentle green/purple mix
-              ],
-            ),
-          ),
-        ),
-        title: Text(
-          "Dashboard", // ya "Therapist Home" – add kar sakte ho
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-          ),
-        ),
-        centerTitle: true, // center kar do better lagega
+      appBar: TherapistAppBar(
+        title: "Dashboard",
         actions: [
           IconButton(
             icon: FaIcon(FontAwesomeIcons.bell, color: Colors.white),
@@ -49,17 +29,20 @@ class TherapistHomeScreen extends StatelessWidget {
             },
           ),
 
-            TherapistPopupMenu(
-              onSelected: (value) {
-                if (value == 'availability') {
-                  Get.to(() => const AvailabilityScreen());
-                } else if (value == 'profile') {
-                  Get.to(() => const ProfileScreen());
-                } else if (value == 'settings') {
-                  Get.to(() => const SettingsScreen());
-                }
-              },
-            ),
+          TherapistPopupMenu(
+            onSelected: (value) {
+              if (value == 'availability') {
+                Get.to(() => const AvailabilityScreen());
+              } else if (value == 'profile') {
+                Get.to(() => const ProfileScreen());
+              } else if (value == 'settings') {
+                Get.to(() => const SettingsScreen());
+              } else if (value == 'logout') {
+                final authController = Get.find<AuthController>();
+                authController.handleLogout();
+              }
+            },
+          ),
 
           const SizedBox(width: 12),
         ],
@@ -85,7 +68,7 @@ class TherapistHomeScreen extends StatelessWidget {
               children: [
                 QuickActionTile(
                   icon: FontAwesomeIcons.clipboardList,
-                  label: 'Session Requests',
+                  label: 'Appointment Requests',
                   iconColor: AppColors.iconBookSession,
                   iconBackgroundColor: AppColors.iconBookSession.withOpacity(
                     0.3,

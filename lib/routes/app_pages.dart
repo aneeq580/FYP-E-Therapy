@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:fyp_therapy/views/auth/role_selection/role_selection_screen.dart';
 import 'package:fyp_therapy/views/auth/login/login_screen.dart';
 import 'package:fyp_therapy/views/auth/signup/signup_screen.dart';
+import 'package:fyp_therapy/views/auth/forgot_password/forgot_password_screen.dart';
 import 'package:fyp_therapy/patient/screens/patient_home_screen.dart';
 import 'package:fyp_therapy/patient/screens/therapist_list_screen.dart';
 import 'package:fyp_therapy/patient/screens/book_session_screen.dart';
@@ -14,7 +15,7 @@ import 'package:fyp_therapy/patient/screens/settings_screen.dart';
 import 'package:fyp_therapy/patient/screens/chat_detail_screen.dart';
 import 'package:fyp_therapy/patient/profile/patient_profile_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_home_screen.dart';
-import 'package:fyp_therapy/therapist/screens/appointment_requests_screen.dart';
+import 'package:fyp_therapy/therapist/screens/therapist_appointments_screen.dart';
 import 'package:fyp_therapy/therapist/screens/pending_sessions_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_chat_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_profile_screen.dart';
@@ -33,6 +34,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.roleSelection,
       page: () => const RoleSelectionScreen(),
+      binding: AuthBinding(),
     ),
     GetPage(
       name: AppRoutes.login,
@@ -42,6 +44,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.signup,
       page: () => SignupScreen(role: Get.arguments as String? ?? ''),
+      binding: AuthBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.forgotPassword,
+      page: () => const ForgotPasswordScreen(),
       binding: AuthBinding(),
     ),
 
@@ -96,7 +103,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.appointmentRequests,
-      page: () => const AppointmentRequestsScreen(),
+      page: () => const TherapistAppointmentsScreen(),
     ),
     GetPage(
       name: AppRoutes.pendingSessions,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/views/auth/signup/custom_text_field.dart';
 import 'package:fyp_therapy/core/widgets/primary_button.dart';
@@ -13,8 +14,6 @@ class SignupScreen extends StatefulWidget {
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
-
-void _noop() {}
 
 class _SignupScreenState extends State<SignupScreen> {
   final fullNameController = TextEditingController();
@@ -33,6 +32,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authController = Get.find<AuthController>();
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -110,8 +111,31 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   const SizedBox(height: 35),
 
-                  /// Sign Up Button (UI only for now)
-                  const PrimaryButton(text: "Sign Up", onPressed: _noop),
+                  Obx(() {
+                    final bool disabled = authController.isLoading.value;
+                    return PrimaryButton(
+                      text: disabled ? "Please wait..." : "Sign Up",
+                      onPressed: () {
+                        if (disabled) return;
+                        if (passwordController.text.trim() !=
+                            confirmPasswordController.text.trim()) {
+                          Get.snackbar(
+                            'Error',
+                            'Passwords do not match',
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                          return;
+                        }
+
+                        authController.updateCredentials(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          role: widget.role,
+                        );
+                        authController.handleSignup();
+                      },
+                    );
+                  }),
 
                   const SizedBox(height: 20),
 

@@ -3,8 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/book_session_controller.dart';
 import 'package:fyp_therapy/patient/screens/therapist_list_screen.dart';
-import 'package:fyp_therapy/models/session_model.dart';
-import 'package:fyp_therapy/services/session_service.dart';
+import 'package:fyp_therapy/models/appointment_model.dart';
+import 'package:fyp_therapy/controllers/appointment_controller.dart';
+import 'package:fyp_therapy/controllers/auth_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import '../../core/constants/colors.dart';
 import '../../core/widgets/patient_app_bar.dart';
@@ -54,7 +56,10 @@ class BookSessionScreen extends GetView<BookSessionController> {
 
   @override
   Widget build(BuildContext context) {
-    final sessionService = Get.find<SessionService>();
+    if (!Get.isRegistered<AppointmentController>()) {
+      Get.put(AppointmentController());
+    }
+    final appointmentController = Get.find<AppointmentController>();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -161,30 +166,28 @@ class BookSessionScreen extends GetView<BookSessionController> {
                               selectedTime.hour,
                               selectedTime.minute,
                             );
+                            final patientUser =
+                                Get.find<AuthController>().currentUser.value!;
 
-                            final newSession = SessionModel(
-                              id: DateTime.now().microsecondsSinceEpoch
-                                  .toString(),
-                              patientId: currentPatientId,
-                              patientName:
-                                  'Alex Johnson', // TODO: Replace with logged-in patient name from Firebase
+                            final newAppointment = AppointmentModel(
+                              id: '', // Firestore auto generates
+                              patientId: patientUser.uid,
+                              patientName: patientUser.displayName ?? 'Patient',
                               therapistId:
-                                  currentTherapistId, // TODO: Replace with selected therapist ID from Firestore
+                                  selectedTherapist['uid'] as String? ??
+                                  'unknown_therapist',
                               therapistName:
                                   selectedTherapist['name'] as String? ??
                                   'Therapist',
-                              sessionDateTime: sessionDateTime,
-                              sessionType:
-                                  'Online video', // TODO: Make this selectable in UI
-                              status: SessionStatus.pending,
-                              reason: null,
-                              createdAt: DateTime.now(),
-                              updatedAt: DateTime.now(),
+                              date: Timestamp.fromDate(sessionDateTime),
+                              status: 'pending',
                             );
 
-                            sessionService.bookSession(newSession);
+                            appointmentController.bookAppointment(
+                              newAppointment,
+                            );
 
-                            Get.toNamed(AppRoutes.mySessions);
+                            Get.offNamed(AppRoutes.mySessions);
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
