@@ -66,9 +66,13 @@ class TherapistAppointmentsScreen extends StatelessWidget {
       itemCount: sessions.length,
       itemBuilder: (context, index) {
         final session = sessions[index];
+        final now = DateTime.now();
+        final canStart =
+            session.startedAt == null && now.isAfter(session.date.toDate());
         return RoleBasedSessionCard(
           appointment: session,
           role: 'therapist',
+          onStart: canStart ? () => controller.startSession(session.id) : null,
           onComplete: () => controller.completeAppointment(session.id),
           onCancel: () => controller.cancelAppointment(session.id),
         );

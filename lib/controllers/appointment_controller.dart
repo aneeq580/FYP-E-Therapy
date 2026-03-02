@@ -9,6 +9,10 @@ class AppointmentController extends GetxController {
 
   // Streams for real-time updates
   RxList<AppointmentModel> patientAppointments = <AppointmentModel>[].obs;
+
+  /// sessions eligible for chat (patient)
+  RxList<AppointmentModel> patientActiveSessions = <AppointmentModel>[].obs;
+
   RxList<AppointmentModel> therapistPendingAppointments =
       <AppointmentModel>[].obs;
   RxList<AppointmentModel> therapistUpcomingAppointments =
@@ -17,6 +21,9 @@ class AppointmentController extends GetxController {
       <AppointmentModel>[].obs;
   RxList<AppointmentModel> therapistCancelledAppointments =
       <AppointmentModel>[].obs;
+
+  /// sessions eligible for chat (therapist)
+  RxList<AppointmentModel> therapistActiveSessions = <AppointmentModel>[].obs;
 
   @override
   void onInit() {
@@ -31,6 +38,9 @@ class AppointmentController extends GetxController {
       patientAppointments.bindStream(
         _appointmentService.getPatientAppointments(user.uid),
       );
+      patientActiveSessions.bindStream(
+        _appointmentService.getActivePatientSessions(user.uid),
+      );
 
       // Bind therapist appointments
       therapistPendingAppointments.bindStream(
@@ -44,6 +54,9 @@ class AppointmentController extends GetxController {
       );
       therapistCancelledAppointments.bindStream(
         _appointmentService.getCancelledAppointments(user.uid),
+      );
+      therapistActiveSessions.bindStream(
+        _appointmentService.getActiveTherapistSessions(user.uid),
       );
     }
   }
@@ -90,6 +103,15 @@ class AppointmentController extends GetxController {
       Get.snackbar('Success', 'Appointment rejected.');
     } catch (e) {
       Get.snackbar('Error', 'Failed to reject appointment: $e');
+    }
+  }
+
+  Future<void> startSession(String appointmentId) async {
+    try {
+      await _appointmentService.startSession(appointmentId);
+      Get.snackbar('Session started', 'Chat is now enabled for this session.');
+    } catch (e) {
+      Get.snackbar('Error', 'Unable to start session: $e');
     }
   }
 

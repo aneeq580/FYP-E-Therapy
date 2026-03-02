@@ -25,7 +25,6 @@ import 'package:fyp_therapy/bindings/auth_binding.dart';
 import 'package:fyp_therapy/bindings/book_session_binding.dart';
 import 'package:fyp_therapy/bindings/mood_tracker_binding.dart';
 import 'package:fyp_therapy/bindings/settings_binding.dart';
-import 'package:fyp_therapy/bindings/session_binding.dart';
 
 /// Central GetX page configuration.
 class AppPages {
@@ -66,7 +65,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.mySessions,
       page: () => const MySessionsScreen(),
-      binding: SessionBinding(),
+      // binding: SessionBinding(),
     ),
     GetPage(name: AppRoutes.patientChat, page: () => const ChatScreen()),
     GetPage(
@@ -74,7 +73,7 @@ class AppPages {
       page: () {
         final args = Get.arguments as Map<String, dynamic>? ?? {};
         return ChatDetailScreen(
-          chatId: args['chatId'] as String? ?? '',
+          sessionId: args['sessionId'] as String? ?? '',
           name: args['name'] as String? ?? '',
         );
       },

@@ -16,6 +16,7 @@ class RoleBasedSessionCard extends StatelessWidget {
   final VoidCallback? onReject;
   final VoidCallback? onComplete;
   final VoidCallback? onCancel;
+  final VoidCallback? onStart;
 
   const RoleBasedSessionCard({
     super.key,
@@ -26,6 +27,7 @@ class RoleBasedSessionCard extends StatelessWidget {
     this.onReject,
     this.onComplete,
     this.onCancel,
+    this.onStart,
   });
 
   String _formatDate() {
@@ -179,6 +181,15 @@ class RoleBasedSessionCard extends StatelessWidget {
                             ),
                           ],
                         ),
+                        if (appointment.duration > 0) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            '${appointment.duration} min • ends ${DateFormat('h:mm a').format(appointment.endTime.toDate())}',
+                            style: AppTextStyles.bodyTextSecondary.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -196,7 +207,8 @@ class RoleBasedSessionCard extends StatelessWidget {
                   (onAccept != null ||
                       onReject != null ||
                       onComplete != null ||
-                      onCancel != null))
+                      onCancel != null ||
+                      onStart != null))
                 Container(
                   margin: const EdgeInsets.only(top: 16),
                   padding: const EdgeInsets.only(top: 12),
@@ -231,6 +243,25 @@ class RoleBasedSessionCard extends StatelessWidget {
                           ),
                         ),
                       if ((onReject != null || onCancel != null) &&
+                          (onStart != null ||
+                              onAccept != null ||
+                              onComplete != null))
+                        const SizedBox(width: 12),
+                      if (onStart != null)
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: onStart,
+                            child: const Text('Start'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                            ),
+                          ),
+                        ),
+                      if (onStart != null &&
                           (onAccept != null || onComplete != null))
                         const SizedBox(width: 12),
                       if (onAccept != null || onComplete != null)

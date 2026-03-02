@@ -83,7 +83,9 @@ class TherapistHomeScreen extends StatelessWidget {
                   label: 'View Chats',
                   iconColor: AppColors.iconChat,
                   iconBackgroundColor: AppColors.iconChat.withOpacity(0.3),
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(AppRoutes.therapistChat);
+                  },
                 ),
                 QuickActionTile(
                   icon: FontAwesomeIcons.users,

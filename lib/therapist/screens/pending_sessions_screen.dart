@@ -18,13 +18,11 @@ class PendingSessionsScreen extends StatelessWidget {
   }
 
   String _formatDate(AppointmentModel session) {
-    if (session.date == null) return '';
     final dt = session.date.toDate();
     return DateFormat('E dd').format(dt);
   }
 
   String _formatTime(AppointmentModel session) {
-    if (session.date == null) return '';
     final dt = session.date.toDate();
     return DateFormat('h:mm a').format(dt);
   }
@@ -152,7 +150,9 @@ class PendingSessionsScreen extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              _appointmentController.rejectAppointment(session.id);
+                              _appointmentController.rejectAppointment(
+                                session.id,
+                              );
                             },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.error,
@@ -174,7 +174,9 @@ class PendingSessionsScreen extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              _appointmentController.acceptAppointment(session.id);
+                              _appointmentController.acceptAppointment(
+                                session.id,
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,

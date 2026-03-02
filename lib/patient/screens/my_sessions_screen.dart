@@ -42,13 +42,15 @@ class MySessionsScreen extends StatelessWidget {
     List<AppointmentModel> sessions,
     String filterStatus,
   ) {
-    // Upcoming tab should match both 'approved' and 'upcoming' statuses from firestore
+    // Upcoming tab should match 'approved', 'upcoming' and 'active' statuses from firestore
     final bool isUpcomingTab = filterStatus.toLowerCase() == 'approved';
 
     final items = sessions.where((s) {
       final status = s.status.toLowerCase();
       if (isUpcomingTab) {
-        return status == 'approved' || status == 'upcoming';
+        return status == 'approved' ||
+            status == 'upcoming' ||
+            status == 'active';
       }
       return status == filterStatus.toLowerCase();
     }).toList();

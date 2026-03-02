@@ -6,11 +6,13 @@ class BookSessionController extends GetxController {
   final selectedTherapistData = Rxn<Map<String, dynamic>>();
   final selectedDate = Rxn<DateTime>();
   final selectedTime = Rxn<TimeOfDay>();
+  final selectedDuration = Rxn<int>(); // minutes
 
   bool get isBookingValid =>
       selectedTherapistData.value != null &&
       selectedDate.value != null &&
-      selectedTime.value != null;
+      selectedTime.value != null &&
+      selectedDuration.value != null;
 
   void setTherapist(Map<String, dynamic> therapist) {
     selectedTherapistData.value = therapist;
@@ -23,5 +25,8 @@ class BookSessionController extends GetxController {
   void setTime(TimeOfDay time) {
     selectedTime.value = time;
   }
-}
+
+  void setDuration(int minutes) {
+    selectedDuration.value = minutes;
+  }}
 

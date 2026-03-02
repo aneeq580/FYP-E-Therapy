@@ -142,6 +142,73 @@ class BookSessionScreen extends GetView<BookSessionController> {
                 selectedTime: time,
               ),
 
+              const SizedBox(height: 12),
+
+              /// Duration Selection
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.spacingMedium,
+                ),
+                child: Row(
+                  children: [
+                    const Text('Duration:'),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          final choice = await showDialog<int>(
+                            context: context,
+                            builder: (ctx) {
+                              return SimpleDialog(
+                                title: const Text('Select duration'),
+                                children: [
+                                  SimpleDialogOption(
+                                    onPressed: () => Navigator.pop(ctx, 30),
+                                    child: const Text('30 minutes'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () => Navigator.pop(ctx, 45),
+                                    child: const Text('45 minutes'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () => Navigator.pop(ctx, 60),
+                                    child: const Text('60 minutes'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (choice != null) {
+                            controller.setDuration(choice);
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Obx(() {
+                            final dur = controller.selectedDuration.value;
+                            return Text(
+                              dur != null ? '$dur mins' : 'Select duration',
+                              style: TextStyle(
+                                color: dur != null
+                                    ? AppColors.textPrimary
+                                    : Colors.grey,
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 24),
 
               /// Confirm Button
@@ -169,6 +236,11 @@ class BookSessionScreen extends GetView<BookSessionController> {
                             final patientUser =
                                 Get.find<AuthController>().currentUser.value!;
 
+                            final duration =
+                                controller.selectedDuration.value!;
+                            final endDateTime = sessionDateTime
+                                .add(Duration(minutes: duration));
+
                             final newAppointment = AppointmentModel(
                               id: '', // Firestore auto generates
                               patientId: patientUser.uid,
@@ -180,6 +252,8 @@ class BookSessionScreen extends GetView<BookSessionController> {
                                   selectedTherapist['name'] as String? ??
                                   'Therapist',
                               date: Timestamp.fromDate(sessionDateTime),
+                              duration: duration,
+                              endTime: Timestamp.fromDate(endDateTime),
                               status: 'pending',
                             );
 

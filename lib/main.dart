@@ -3,10 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_therapy/firebase_options.dart';
 import 'package:fyp_therapy/services/appointment_service.dart';
+import 'package:fyp_therapy/services/chat_service.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'core/constants/colors.dart';
-import 'services/session_service.dart';
 import 'services/auth_service.dart';
 import 'routes/app_routes.dart';
 import 'routes/app_pages.dart';
@@ -15,9 +15,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  Get.put(SessionService(), permanent: true);
   Get.put(AuthService(), permanent: true);
   Get.put(AppointmentService(), permanent: true);
+  Get.put(ChatService(), permanent: true);
   // Ensure AuthController is available app-wide for screens that call Get.find<AuthController>()
   Get.put(AuthController(), permanent: true);
 
