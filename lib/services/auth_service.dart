@@ -44,18 +44,34 @@ class AuthService extends GetxService {
   }
 
   /// Create a user document in Firestore to persist profile data such as role.
+  ///
+  /// This is called right after signup. Additional profile fields like
+  /// age / gender / profileImageUrl can be updated later via
+  /// [updateUserProfile].
   Future<void> createUserRecord({
     required String uid,
     required String email,
     required String role,
     String? fullName,
+    int? age,
+    String? gender,
+    String? profileImageUrl,
+    DateTime? joinedAt,
   }) async {
     final doc = _firestore.collection('users').doc(uid);
     await doc.set({
       'email': email,
       'role': role,
       'fullName': fullName ?? '',
-      'createdAt': FieldValue.serverTimestamp(),
+      // Optional fields – mostly populated/updated later.
+      if (age != null) 'age': age,
+      if (gender != null) 'gender': gender,
+      if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
+      // Prefer a custom joinedAt if provided, otherwise rely on server time.
+      'createdAt': joinedAt != null
+          ? Timestamp.fromDate(joinedAt)
+          : FieldValue.serverTimestamp(),
+      if (joinedAt != null) 'joinedAt': Timestamp.fromDate(joinedAt),
     });
   }
 
@@ -66,6 +82,42 @@ class AuthService extends GetxService {
     final data = doc.data();
     if (data == null) return null;
     return (data['role'] as String?)?.toLowerCase();
+  }
+
+  /// Fetch full user profile document from Firestore.
+  ///
+  /// Returns the raw `Map<String, dynamic>` for flexibility in UI.
+  Future<Map<String, dynamic>?> fetchUserProfile(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    if (!doc.exists) return null;
+    return doc.data();
+  }
+
+  /// Partially update profile information for the given user.
+  ///
+  /// Only non‑null fields are sent to Firestore.
+  Future<void> updateUserProfile({
+    required String uid,
+    String? fullName,
+    String? email,
+    int? age,
+    String? gender,
+    DateTime? joinedAt,
+    String? profileImageUrl,
+  }) async {
+    final payload = <String, dynamic>{};
+    if (fullName != null) payload['fullName'] = fullName;
+    if (email != null) payload['email'] = email;
+    if (age != null) payload['age'] = age;
+    if (gender != null) payload['gender'] = gender;
+    if (profileImageUrl != null) payload['profileImageUrl'] = profileImageUrl;
+    if (joinedAt != null) {
+      payload['joinedAt'] = Timestamp.fromDate(joinedAt);
+    }
+
+    if (payload.isEmpty) return;
+
+    await _firestore.collection('users').doc(uid).update(payload);
   }
 
   Future<void> signOut() {

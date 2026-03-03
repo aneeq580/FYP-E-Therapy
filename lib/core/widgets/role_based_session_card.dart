@@ -251,7 +251,6 @@ class RoleBasedSessionCard extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: onStart,
-                            child: const Text('Start'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
                               shape: RoundedRectangleBorder(
@@ -259,6 +258,7 @@ class RoleBasedSessionCard extends StatelessWidget {
                               ),
                               padding: const EdgeInsets.symmetric(vertical: 10),
                             ),
+                            child: const Text('Start'),
                           ),
                         ),
                       if (onStart != null &&

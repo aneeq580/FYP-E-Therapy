@@ -78,7 +78,7 @@ class MoodHistoryCard extends StatelessWidget {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );

@@ -13,6 +13,7 @@ class AuthController extends GetxController {
   final email = ''.obs;
   final password = ''.obs;
   final role = ''.obs; // 'patient' or 'therapist'
+  final fullName = ''.obs;
 
   /// Global loading flag used by Login / Signup buttons.
   final isLoading = false.obs;
@@ -28,6 +29,10 @@ class AuthController extends GetxController {
     this.email.value = email.trim();
     this.password.value = password.trim();
     this.role.value = role.toLowerCase();
+  }
+
+  void updateFullName(String value) {
+    fullName.value = value.trim();
   }
 
   Future<void> handleLogin() async {
@@ -128,12 +133,18 @@ class AuthController extends GetxController {
 
       print('User created: ${user.uid}'); // debug
 
-      // Firestore write
+      // Firestore write with initial profile info.
       await _authService.createUserRecord(
         uid: user.uid,
         email: currentEmail,
         role: currentRole.toLowerCase(),
+        fullName: fullName.value.isNotEmpty ? fullName.value : null,
       );
+
+      // Also update FirebaseAuth display name for convenience.
+      if (fullName.value.isNotEmpty) {
+        await user.updateDisplayName(fullName.value);
+      }
 
       print('Firestore record created for ${user.uid}'); // debug
 

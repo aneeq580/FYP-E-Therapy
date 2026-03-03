@@ -10,13 +10,13 @@ class QuickActionTile extends StatelessWidget {
   final Color? iconBackgroundColor;
 
   const QuickActionTile({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
     this.onTap,
     this.iconColor,
     this.iconBackgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

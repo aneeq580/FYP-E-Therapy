@@ -7,11 +7,11 @@ class TherapistTodaySessionCard extends StatelessWidget {
   final String sessionType;
 
   const TherapistTodaySessionCard({
-    Key? key,
+    super.key,
     required this.patientName,
     required this.time,
     required this.sessionType,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

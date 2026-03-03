@@ -127,6 +127,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           return;
                         }
 
+                        authController.updateFullName(
+                          fullNameController.text,
+                        );
                         authController.updateCredentials(
                           email: emailController.text,
                           password: passwordController.text,
