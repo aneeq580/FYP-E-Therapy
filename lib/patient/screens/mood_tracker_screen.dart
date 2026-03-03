@@ -29,8 +29,14 @@ class MoodTrackerScreen extends GetView<MoodTrackerController> {
 
             const SizedBox(height: AppSizes.spacingLarge),
 
-            // Mood History Card
-            const MoodHistoryCard(),
+            // Mood History Card with dynamic history and insights
+            Obx(
+              () => MoodHistoryCard(
+                history: controller.moodHistory,
+                progressSummary: controller.progressSummary.value,
+                suggestion: controller.suggestion.value,
+              ),
+            ),
 
             const SizedBox(height: AppSizes.spacingLarge),
           ],
