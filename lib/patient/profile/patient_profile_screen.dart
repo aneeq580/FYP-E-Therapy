@@ -320,23 +320,22 @@ class PatientProfileScreen extends StatelessWidget {
     BuildContext context,
     PatientProfileController controller,
   ) {
-    final nameController = TextEditingController(
-      text: controller.fullName.value,
-    );
-    final emailController = TextEditingController(text: controller.email.value);
+    final nameController =
+        TextEditingController(text: controller.fullName.value);
+    final emailController =
+        TextEditingController(text: controller.email.value);
     final ageController = TextEditingController(
       text: controller.age.value != null ? '${controller.age.value}' : '',
     );
-    // Normalize gender into one of the allowed options if possible.
-    final normalizedGender = _normalizeGender(controller.gender.value);
+    final genderController =
+        TextEditingController(text: controller.gender.value);
     final joinedController = TextEditingController(
       text: controller.formattedJoinedDate == 'Not set'
           ? ''
           : controller.formattedJoinedDate,
     );
-    final imageUrlController = TextEditingController(
-      text: controller.profileImageUrl.value,
-    );
+    final imageUrlController =
+        TextEditingController(text: controller.profileImageUrl.value);
 
     DateTime? selectedJoinedAt = controller.joinedAt.value;
 
@@ -366,20 +365,9 @@ class PatientProfileScreen extends StatelessWidget {
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 8),
-                DropdownButtonFormField<String>(
-                  initialValue: normalizedGender.isEmpty
-                      ? null
-                      : normalizedGender,
+                TextField(
+                  controller: genderController,
                   decoration: const InputDecoration(labelText: 'Gender'),
-                  items: const [
-                    DropdownMenuItem(value: 'Male', child: Text('Male')),
-                    DropdownMenuItem(value: 'Female', child: Text('Female')),
-                    DropdownMenuItem(
-                      value: 'Prefer not to say',
-                      child: Text('Prefer not to say'),
-                    ),
-                  ],
-                  onChanged: (_) {},
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
@@ -401,9 +389,8 @@ class PatientProfileScreen extends StatelessWidget {
                   child: AbsorbPointer(
                     child: TextField(
                       controller: joinedController,
-                      decoration: const InputDecoration(
-                        labelText: 'Joined date',
-                      ),
+                      decoration:
+                          const InputDecoration(labelText: 'Joined date'),
                     ),
                   ),
                 ),
@@ -429,12 +416,11 @@ class PatientProfileScreen extends StatelessWidget {
                     ? null
                     : () async {
                         final parsedAge = int.tryParse(ageController.text);
-                        final selectedGender = normalizedGender;
                         await controller.saveProfileEdits(
                           newFullName: nameController.text,
                           newEmail: emailController.text,
                           newAge: parsedAge,
-                          newGender: selectedGender,
+                          newGender: genderController.text,
                           newJoinedAt: selectedJoinedAt,
                           newProfileImageUrl: imageUrlController.text,
                         );
@@ -453,14 +439,5 @@ class PatientProfileScreen extends StatelessWidget {
         );
       },
     );
-  }
-
-  /// Map any stored gender string into one of the three allowed options.
-  String _normalizeGender(String raw) {
-    final value = raw.trim().toLowerCase();
-    if (value.isEmpty) return '';
-    if (value == 'male' || value == 'm') return 'Male';
-    if (value == 'female' || value == 'f') return 'Female';
-    return 'Prefer not to say';
   }
 }

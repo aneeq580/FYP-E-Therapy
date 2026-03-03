@@ -24,13 +24,11 @@ class TherapistChatScreen extends StatelessWidget {
       ),
       body: Obx(() {
         // capture snapshots once to avoid mid-build mutation issues
-        final all =
-            <AppointmentModel>[
-                ...appointmentController.therapistPendingAppointments,
-                ...appointmentController.therapistUpcomingAppointments,
-              ]
-              ..addAll(appointmentController.therapistActiveSessions)
-              ..addAll(appointmentController.therapistCompletedAppointments);
+        final all = <AppointmentModel>[
+          ...appointmentController.therapistPendingAppointments,
+          ...appointmentController.therapistUpcomingAppointments,
+          ...appointmentController.therapistActiveSessions,
+        ]..addAll(appointmentController.therapistCompletedAppointments);
 
         final sessions = all
             .where((s) => s.isActive || s.status == 'completed')
