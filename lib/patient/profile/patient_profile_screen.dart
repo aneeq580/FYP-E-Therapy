@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
+import 'package:fyp_therapy/patient/profile/patient_profile_controller.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/patient_app_bar.dart';
@@ -14,9 +15,8 @@ class PatientProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const displayName = 'Aneeq Ahmed';
-    const imageUrl =
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face';
+    // Ensure controller is available for this screen.
+    final controller = Get.put(PatientProfileController());
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -24,56 +24,74 @@ class PatientProfileScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ProfileHeader(
-              displayName: displayName,
-              subtitle: 'aneeq@example.com',
-              profileImageUrl: imageUrl,
-              onEditTap: () {},
+            Obx(
+              () => ProfileHeader(
+                displayName: controller.displayName,
+                subtitle: controller.displayEmail,
+                profileImageUrl: controller.profileImageUrl.value.isEmpty
+                    ? null
+                    : controller.profileImageUrl.value,
+                onEditTap: () => _showEditProfileDialog(context, controller),
+              ),
             ),
 
             const SizedBox(height: AppSizes.spacingLarge),
 
             // Account Information
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: AppSizes.spacingMedium,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.backgroundLight,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.textPrimary.withOpacity(0.05),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(AppSizes.spacingMedium),
-                    child: Text(
-                      'Account Information',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
+            Obx(
+              () => Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.spacingMedium,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundLight,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.textPrimary.withOpacity(0.05),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(AppSizes.spacingMedium),
+                      child: Text(
+                        'Account Information',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ),
-                  ),
-                  const Divider(height: 1),
-                  _buildInfoRow(FontAwesomeIcons.cake, 'Age', '25 years'),
-                  const Divider(height: 1, indent: 50),
-                  _buildInfoRow(FontAwesomeIcons.user, 'Gender', 'Male'),
-                  const Divider(height: 1, indent: 50),
-                  _buildInfoRow(
-                    FontAwesomeIcons.calendar,
-                    'Joined',
-                    'January 15, 2024',
-                  ),
-                ],
+                    const Divider(height: 1),
+                    _buildInfoRow(
+                      FontAwesomeIcons.cake,
+                      'Age',
+                      controller.age.value != null
+                          ? '${controller.age.value} years'
+                          : 'Not set',
+                    ),
+                    const Divider(height: 1, indent: 50),
+                    _buildInfoRow(
+                      FontAwesomeIcons.user,
+                      'Gender',
+                      controller.gender.value.isEmpty
+                          ? 'Not set'
+                          : controller.gender.value,
+                    ),
+                    const Divider(height: 1, indent: 50),
+                    _buildInfoRow(
+                      FontAwesomeIcons.calendar,
+                      'Joined',
+                      controller.formattedJoinedDate,
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -199,7 +217,7 @@ class PatientProfileScreen extends StatelessWidget {
                     trailing: Switch(
                       value: false,
                       onChanged: (v) {},
-                      activeColor: AppColors.primary,
+                      activeThumbColor: AppColors.primary,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: AppSizes.spacingMedium,
@@ -295,6 +313,131 @@ class PatientProfileScreen extends StatelessWidget {
           Text(value, style: AppTextStyles.bodyTextSecondary),
         ],
       ),
+    );
+  }
+
+  void _showEditProfileDialog(
+    BuildContext context,
+    PatientProfileController controller,
+  ) {
+    final nameController =
+        TextEditingController(text: controller.fullName.value);
+    final emailController =
+        TextEditingController(text: controller.email.value);
+    final ageController = TextEditingController(
+      text: controller.age.value != null ? '${controller.age.value}' : '',
+    );
+    final genderController =
+        TextEditingController(text: controller.gender.value);
+    final joinedController = TextEditingController(
+      text: controller.formattedJoinedDate == 'Not set'
+          ? ''
+          : controller.formattedJoinedDate,
+    );
+    final imageUrlController =
+        TextEditingController(text: controller.profileImageUrl.value);
+
+    DateTime? selectedJoinedAt = controller.joinedAt.value;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Profile'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(labelText: 'Full Name'),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: ageController,
+                  decoration: const InputDecoration(labelText: 'Age'),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: genderController,
+                  decoration: const InputDecoration(labelText: 'Gender'),
+                ),
+                const SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () async {
+                    final now = DateTime.now();
+                    final initialDate = selectedJoinedAt ?? now;
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: initialDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(now.year + 1),
+                    );
+                    if (picked != null) {
+                      selectedJoinedAt = picked;
+                      joinedController.text =
+                          '${picked.day}/${picked.month}/${picked.year}';
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextField(
+                      controller: joinedController,
+                      decoration:
+                          const InputDecoration(labelText: 'Joined date'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: imageUrlController,
+                  decoration: const InputDecoration(
+                    labelText: 'Profile image URL',
+                    hintText: 'https://...',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: const Text('Cancel'),
+            ),
+            Obx(
+              () => TextButton(
+                onPressed: controller.isLoading.value
+                    ? null
+                    : () async {
+                        final parsedAge = int.tryParse(ageController.text);
+                        await controller.saveProfileEdits(
+                          newFullName: nameController.text,
+                          newEmail: emailController.text,
+                          newAge: parsedAge,
+                          newGender: genderController.text,
+                          newJoinedAt: selectedJoinedAt,
+                          newProfileImageUrl: imageUrlController.text,
+                        );
+                        Get.back();
+                      },
+                child: controller.isLoading.value
+                    ? const SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Save'),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
