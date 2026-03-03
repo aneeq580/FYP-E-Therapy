@@ -27,8 +27,8 @@ class TherapistChatScreen extends StatelessWidget {
         final all =
             <AppointmentModel>[
                 ...appointmentController.therapistPendingAppointments,
+                ...appointmentController.therapistUpcomingAppointments,
               ]
-              ..addAll(appointmentController.therapistUpcomingAppointments)
               ..addAll(appointmentController.therapistActiveSessions)
               ..addAll(appointmentController.therapistCompletedAppointments);
 

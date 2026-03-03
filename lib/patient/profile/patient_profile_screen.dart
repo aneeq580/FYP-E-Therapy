@@ -320,10 +320,10 @@ class PatientProfileScreen extends StatelessWidget {
     BuildContext context,
     PatientProfileController controller,
   ) {
-    final nameController =
-        TextEditingController(text: controller.fullName.value);
-    final emailController =
-        TextEditingController(text: controller.email.value);
+    final nameController = TextEditingController(
+      text: controller.fullName.value,
+    );
+    final emailController = TextEditingController(text: controller.email.value);
     final ageController = TextEditingController(
       text: controller.age.value != null ? '${controller.age.value}' : '',
     );
@@ -334,8 +334,9 @@ class PatientProfileScreen extends StatelessWidget {
           ? ''
           : controller.formattedJoinedDate,
     );
-    final imageUrlController =
-        TextEditingController(text: controller.profileImageUrl.value);
+    final imageUrlController = TextEditingController(
+      text: controller.profileImageUrl.value,
+    );
 
     DateTime? selectedJoinedAt = controller.joinedAt.value;
 
@@ -366,17 +367,13 @@ class PatientProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
-                  value: normalizedGender.isEmpty ? null : normalizedGender,
+                  initialValue: normalizedGender.isEmpty
+                      ? null
+                      : normalizedGender,
                   decoration: const InputDecoration(labelText: 'Gender'),
                   items: const [
-                    DropdownMenuItem(
-                      value: 'Male',
-                      child: Text('Male'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'Female',
-                      child: Text('Female'),
-                    ),
+                    DropdownMenuItem(value: 'Male', child: Text('Male')),
+                    DropdownMenuItem(value: 'Female', child: Text('Female')),
                     DropdownMenuItem(
                       value: 'Prefer not to say',
                       child: Text('Prefer not to say'),
@@ -404,8 +401,9 @@ class PatientProfileScreen extends StatelessWidget {
                   child: AbsorbPointer(
                     child: TextField(
                       controller: joinedController,
-                      decoration:
-                          const InputDecoration(labelText: 'Joined date'),
+                      decoration: const InputDecoration(
+                        labelText: 'Joined date',
+                      ),
                     ),
                   ),
                 ),
