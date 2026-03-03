@@ -14,7 +14,7 @@ import 'package:fyp_therapy/controllers/auth_controller.dart';
 import '../../core/widgets/therapist_app_bar.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
-  const TherapistHomeScreen({Key? key}) : super(key: key);
+  const TherapistHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

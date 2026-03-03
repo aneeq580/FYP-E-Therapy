@@ -52,7 +52,7 @@ class PatientProfileScreen extends StatelessWidget {
     const imageUrl =
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face';
 
-    String _initials(String name) {
+    String initials(String name) {
       final parts = name
           .trim()
           .split(RegExp('\\s+'))
@@ -63,7 +63,7 @@ class PatientProfileScreen extends StatelessWidget {
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
-    Widget _initialsAvatar(String name, double size) {
+    Widget initialsAvatar(String name, double size) {
       return Container(
         width: size,
         height: size,
@@ -77,7 +77,7 @@ class PatientProfileScreen extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            _initials(name),
+            initials(name),
             style: TextStyle(
               color: AppColors.textOnPrimary,
               fontSize: size * 0.36,
@@ -115,10 +115,10 @@ class PatientProfileScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
-                        return _initialsAvatar(displayName, 100);
+                        return initialsAvatar(displayName, 100);
                       },
                       errorBuilder: (context, error, stackTrace) {
-                        return _initialsAvatar(displayName, 100);
+                        return initialsAvatar(displayName, 100);
                       },
                     ),
                   ),
@@ -503,7 +503,7 @@ class PatientProfileScreen extends StatelessWidget {
               onChanged: (value) {
                 // UI only, no functionality
               },
-              activeColor: AppColors.primary,
+              activeThumbColor: AppColors.primary,
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSizes.spacingMedium,

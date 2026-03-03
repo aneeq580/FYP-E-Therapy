@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'therapist_stats_chip.dart';
 
 class TherapistGreetingCard extends StatelessWidget {
-  const TherapistGreetingCard({Key? key}) : super(key: key);
+  const TherapistGreetingCard({super.key});
 
   String getGreeting() {
     final hour = DateTime.now().hour;

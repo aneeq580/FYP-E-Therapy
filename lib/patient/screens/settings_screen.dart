@@ -76,13 +76,12 @@ class SettingsScreen extends GetView<SettingsController> {
               ),
               subtitle: Text(
                 'Switch to dark theme',
-                style:
-                    AppTextStyles.bodyTextSecondary.copyWith(fontSize: 12),
+                style: AppTextStyles.bodyTextSecondary.copyWith(fontSize: 12),
               ),
               trailing: Switch(
                 value: controller.isDarkMode.value,
                 onChanged: controller.toggleDarkMode,
-                activeColor: AppColors.primary,
+                activeThumbColor: AppColors.primary,
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppSizes.spacingMedium,

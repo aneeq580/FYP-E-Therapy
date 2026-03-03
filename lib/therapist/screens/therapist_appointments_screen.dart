@@ -36,10 +36,11 @@ class TherapistAppointmentsScreen extends StatelessWidget {
     List<AppointmentModel> sessions,
     AppointmentController controller,
   ) {
-    if (sessions.isEmpty)
+    if (sessions.isEmpty) {
       return _buildEmptyState(
         'No pending requests yet.\nPatients\' requests will appear here.',
       );
+    }
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: AppSizes.spacingMedium),
       itemCount: sessions.length,
@@ -59,8 +60,9 @@ class TherapistAppointmentsScreen extends StatelessWidget {
     List<AppointmentModel> sessions,
     AppointmentController controller,
   ) {
-    if (sessions.isEmpty)
+    if (sessions.isEmpty) {
       return _buildEmptyState('No upcoming sessions scheduled.');
+    }
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: AppSizes.spacingMedium),
       itemCount: sessions.length,
