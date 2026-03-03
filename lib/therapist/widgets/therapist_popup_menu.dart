@@ -4,8 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class TherapistPopupMenu extends StatelessWidget {
   final Function(String) onSelected;
 
-  const TherapistPopupMenu({Key? key, required this.onSelected})
-    : super(key: key);
+  const TherapistPopupMenu({super.key, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
