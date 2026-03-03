@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/therapist/widgets/quick_action_tile.dart';
+import 'package:fyp_therapy/patient/profile/patient_profile_controller.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/strings.dart';
 import '../../core/constants/styles.dart';
@@ -15,7 +16,9 @@ class PatientHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String username = 'Aneeq';
+    // Use the same profile controller used in the profile screen so
+    // greeting reflects the logged‑in user's name.
+    final profileController = Get.put(PatientProfileController(), permanent: true);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -26,14 +29,18 @@ class PatientHomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Greeting Header (keeps existing PatientHeader look)
-            PatientHeader(
-              username: username,
-              subtitle: 'Ready for your wellness journey?',
-              profileImageUrl:
-                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face',
-              onProfileTap: () {
-                Get.toNamed(AppRoutes.patientProfile);
-              },
+            Obx(
+              () => PatientHeader(
+                username: profileController.displayName,
+                subtitle: 'Ready for your wellness journey?',
+                profileImageUrl:
+                    profileController.profileImageUrl.value.isEmpty
+                        ? null
+                        : profileController.profileImageUrl.value,
+                onProfileTap: () {
+                  Get.toNamed(AppRoutes.patientProfile);
+                },
+              ),
             ),
 
             const SizedBox(height: 10),
