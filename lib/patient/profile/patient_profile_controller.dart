@@ -7,8 +7,8 @@ class PatientProfileController extends GetxController {
   PatientProfileController() : _authService = Get.find<AuthService>();
 
   final AuthService _authService;
-
   final isLoading = false.obs;
+  final hasShownCompletionPrompt = false.obs;
 
   final fullName = ''.obs;
   final email = ''.obs;
@@ -44,6 +44,14 @@ class PatientProfileController extends GetxController {
     gender.value = '';
     joinedAt.value = null;
     profileImageUrl.value = '';
+  }
+
+  bool get isProfileIncomplete {
+    // Require at least full name, age, and gender.
+    final hasName = fullName.value.trim().isNotEmpty;
+    final hasAge = age.value != null && age.value! > 0;
+    final hasGender = gender.value.trim().isNotEmpty;
+    return !(hasName && hasAge && hasGender);
   }
 
   Future<void> _loadProfileForUid(String uid, {String? fallbackEmail}) async {

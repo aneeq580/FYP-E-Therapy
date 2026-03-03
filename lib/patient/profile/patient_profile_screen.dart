@@ -327,8 +327,8 @@ class PatientProfileScreen extends StatelessWidget {
     final ageController = TextEditingController(
       text: controller.age.value != null ? '${controller.age.value}' : '',
     );
-    final genderController =
-        TextEditingController(text: controller.gender.value);
+    // Normalize gender into one of the allowed options if possible.
+    final normalizedGender = _normalizeGender(controller.gender.value);
     final joinedController = TextEditingController(
       text: controller.formattedJoinedDate == 'Not set'
           ? ''
@@ -339,105 +339,140 @@ class PatientProfileScreen extends StatelessWidget {
 
     DateTime? selectedJoinedAt = controller.joinedAt.value;
 
+    String? selectedGender = normalizedGender.isEmpty ? null : normalizedGender;
+
     showDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Edit Profile'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Full Name'),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: ageController,
-                  decoration: const InputDecoration(labelText: 'Age'),
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: genderController,
-                  decoration: const InputDecoration(labelText: 'Gender'),
-                ),
-                const SizedBox(height: 8),
-                GestureDetector(
-                  onTap: () async {
-                    final now = DateTime.now();
-                    final initialDate = selectedJoinedAt ?? now;
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: initialDate,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(now.year + 1),
-                    );
-                    if (picked != null) {
-                      selectedJoinedAt = picked;
-                      joinedController.text =
-                          '${picked.day}/${picked.month}/${picked.year}';
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: TextField(
-                      controller: joinedController,
-                      decoration:
-                          const InputDecoration(labelText: 'Joined date'),
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Edit Profile'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(labelText: 'Full Name'),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(labelText: 'Email'),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: ageController,
+                      decoration: const InputDecoration(labelText: 'Age'),
+                      keyboardType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 8),
+                    DropdownButtonFormField<String>(
+                      value: selectedGender,
+                      decoration: const InputDecoration(labelText: 'Gender'),
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'Male',
+                          child: Text('Male'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Female',
+                          child: Text('Female'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Prefer not to say',
+                          child: Text('Prefer not to say'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          selectedGender = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    GestureDetector(
+                      onTap: () async {
+                        final now = DateTime.now();
+                        final initialDate = selectedJoinedAt ?? now;
+                        final picked = await showDatePicker(
+                          context: dialogContext,
+                          initialDate: initialDate,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(now.year + 1),
+                        );
+                        if (picked != null) {
+                          selectedJoinedAt = picked;
+                          joinedController.text =
+                              '${picked.day}/${picked.month}/${picked.year}';
+                        }
+                      },
+                      child: AbsorbPointer(
+                        child: TextField(
+                          controller: joinedController,
+                          decoration:
+                              const InputDecoration(labelText: 'Joined date'),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: imageUrlController,
+                      decoration: const InputDecoration(
+                        labelText: 'Profile image URL',
+                        hintText: 'https://...',
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: imageUrlController,
-                  decoration: const InputDecoration(
-                    labelText: 'Profile image URL',
-                    hintText: 'https://...',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Get.back(),
+                  child: const Text('Cancel'),
+                ),
+                Obx(
+                  () => TextButton(
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : () async {
+                            final parsedAge =
+                                int.tryParse(ageController.text);
+                            await controller.saveProfileEdits(
+                              newFullName: nameController.text,
+                              newEmail: emailController.text,
+                              newAge: parsedAge,
+                              newGender: selectedGender ?? '',
+                              newJoinedAt: selectedJoinedAt,
+                              newProfileImageUrl: imageUrlController.text,
+                            );
+                            Get.back();
+                          },
+                    child: controller.isLoading.value
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Text('Save'),
                   ),
                 ),
               ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Get.back(),
-              child: const Text('Cancel'),
-            ),
-            Obx(
-              () => TextButton(
-                onPressed: controller.isLoading.value
-                    ? null
-                    : () async {
-                        final parsedAge = int.tryParse(ageController.text);
-                        await controller.saveProfileEdits(
-                          newFullName: nameController.text,
-                          newEmail: emailController.text,
-                          newAge: parsedAge,
-                          newGender: genderController.text,
-                          newJoinedAt: selectedJoinedAt,
-                          newProfileImageUrl: imageUrlController.text,
-                        );
-                        Get.back();
-                      },
-                child: controller.isLoading.value
-                    ? const SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Save'),
-              ),
-            ),
-          ],
+            );
+          },
         );
       },
     );
+  }
+
+  /// Map any stored gender string into one of the three allowed options.
+  String _normalizeGender(String raw) {
+    final value = raw.trim().toLowerCase();
+    if (value.isEmpty) return '';
+    if (value == 'male' || value == 'm') return 'Male';
+    if (value == 'female' || value == 'f') return 'Female';
+    return 'Prefer not to say';
   }
 }

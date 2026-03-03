@@ -154,7 +154,12 @@ class AuthController extends GetxController {
       if (currentRole == 'therapist') {
         Get.offAllNamed(AppRoutes.therapistHome);
       } else {
-        Get.offAllNamed(AppRoutes.patientHome);
+        // For patients, force initial profile completion by going first
+        // to the profile screen with a flag.
+        Get.offAllNamed(
+          AppRoutes.patientProfile,
+          arguments: {'requireCompletion': true},
+        );
       }
 
       print('Navigation called successfully'); // debug
