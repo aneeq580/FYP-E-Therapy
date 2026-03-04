@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'package:fyp_therapy/patient/profile/patient_profile_controller.dart';
+import 'package:fyp_therapy/routes/app_routes.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/patient_app_bar.dart';
@@ -18,6 +19,27 @@ class PatientProfileScreen extends StatelessWidget {
     // Ensure controller is available for this screen.
     final controller = Get.put(PatientProfileController());
 
+    // check if this screen was opened immediately after signup and
+    // requires the user to complete their profile.  the sign-up flow
+    // passes an argument `requireCompletion: true` when navigating here.
+    final args = Get.arguments as Map<String, dynamic>?;
+    final requireCompletion = args != null && args['requireCompletion'] == true;
+
+    // if profile completion is forced we show the edit dialog as soon
+    // as the screen is rendered.  using a post-frame callback ensures
+    // the context is ready when the dialog is pushed.
+    if (requireCompletion && !controller.hasShownCompletionPrompt.value) {
+      // ensure we only show it once even if the widget rebuilds
+      controller.hasShownCompletionPrompt.value = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showEditProfileDialog(
+          context,
+          controller,
+          requireCompletion: requireCompletion,
+        );
+      });
+    }
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const PatientAppBar(title: 'Profile'),
@@ -31,7 +53,11 @@ class PatientProfileScreen extends StatelessWidget {
                 profileImageUrl: controller.profileImageUrl.value.isEmpty
                     ? null
                     : controller.profileImageUrl.value,
-                onEditTap: () => _showEditProfileDialog(context, controller),
+                onEditTap: () => _showEditProfileDialog(
+                  context,
+                  controller,
+                  requireCompletion: requireCompletion,
+                ),
               ),
             ),
 
@@ -217,7 +243,7 @@ class PatientProfileScreen extends StatelessWidget {
                     trailing: Switch(
                       value: false,
                       onChanged: (v) {},
-                      activeThumbColor: AppColors.primary,
+                      thumbColor: WidgetStateProperty.all(AppColors.primary),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: AppSizes.spacingMedium,
@@ -318,12 +344,13 @@ class PatientProfileScreen extends StatelessWidget {
 
   void _showEditProfileDialog(
     BuildContext context,
-    PatientProfileController controller,
-  ) {
-    final nameController =
-        TextEditingController(text: controller.fullName.value);
-    final emailController =
-        TextEditingController(text: controller.email.value);
+    PatientProfileController controller, {
+    bool requireCompletion = false,
+  }) {
+    final nameController = TextEditingController(
+      text: controller.fullName.value,
+    );
+    final emailController = TextEditingController(text: controller.email.value);
     final ageController = TextEditingController(
       text: controller.age.value != null ? '${controller.age.value}' : '',
     );
@@ -334,8 +361,9 @@ class PatientProfileScreen extends StatelessWidget {
           ? ''
           : controller.formattedJoinedDate,
     );
-    final imageUrlController =
-        TextEditingController(text: controller.profileImageUrl.value);
+    final imageUrlController = TextEditingController(
+      text: controller.profileImageUrl.value,
+    );
 
     DateTime? selectedJoinedAt = controller.joinedAt.value;
 
@@ -373,10 +401,7 @@ class PatientProfileScreen extends StatelessWidget {
                       value: selectedGender,
                       decoration: const InputDecoration(labelText: 'Gender'),
                       items: const [
-                        DropdownMenuItem(
-                          value: 'Male',
-                          child: Text('Male'),
-                        ),
+                        DropdownMenuItem(value: 'Male', child: Text('Male')),
                         DropdownMenuItem(
                           value: 'Female',
                           child: Text('Female'),
@@ -412,8 +437,9 @@ class PatientProfileScreen extends StatelessWidget {
                       child: AbsorbPointer(
                         child: TextField(
                           controller: joinedController,
-                          decoration:
-                              const InputDecoration(labelText: 'Joined date'),
+                          decoration: const InputDecoration(
+                            labelText: 'Joined date',
+                          ),
                         ),
                       ),
                     ),
@@ -438,8 +464,7 @@ class PatientProfileScreen extends StatelessWidget {
                     onPressed: controller.isLoading.value
                         ? null
                         : () async {
-                            final parsedAge =
-                                int.tryParse(ageController.text);
+                            final parsedAge = int.tryParse(ageController.text);
                             await controller.saveProfileEdits(
                               newFullName: nameController.text,
                               newEmail: emailController.text,
@@ -449,6 +474,15 @@ class PatientProfileScreen extends StatelessWidget {
                               newProfileImageUrl: imageUrlController.text,
                             );
                             Get.back();
+
+                            // if this profile dialog was shown as part of the
+                            // initial signup flow we now redirect to the
+                            // patient's home screen so the user lands on the
+                            // dashboard rather than remaining on the profile
+                            // page.
+                            if (requireCompletion) {
+                              Get.offAllNamed(AppRoutes.patientHome);
+                            }
                           },
                     child: controller.isLoading.value
                         ? const SizedBox(

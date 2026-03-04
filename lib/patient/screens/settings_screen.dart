@@ -81,7 +81,7 @@ class SettingsScreen extends GetView<SettingsController> {
               trailing: Switch(
                 value: controller.isDarkMode.value,
                 onChanged: controller.toggleDarkMode,
-                activeThumbColor: AppColors.primary,
+                thumbColor: WidgetStateProperty.all(AppColors.primary),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppSizes.spacingMedium,

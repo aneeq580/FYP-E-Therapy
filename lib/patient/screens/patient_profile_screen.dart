@@ -503,7 +503,7 @@ class PatientProfileScreen extends StatelessWidget {
               onChanged: (value) {
                 // UI only, no functionality
               },
-              activeThumbColor: AppColors.primary,
+              activeColor: AppColors.primary,
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSizes.spacingMedium,
