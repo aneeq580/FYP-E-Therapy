@@ -26,18 +26,38 @@ class PatientProfileScreen extends StatelessWidget {
     final requireCompletion = args != null && args['requireCompletion'] == true;
 
     // if profile completion is forced we show the edit dialog as soon
-    // as the screen is rendered.  using a post-frame callback ensures
+    // as the profile data has finished loading.  using a post-frame callback ensures
     // the context is ready when the dialog is pushed.
     if (requireCompletion && !controller.hasShownCompletionPrompt.value) {
       // ensure we only show it once even if the widget rebuilds
       controller.hasShownCompletionPrompt.value = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showEditProfileDialog(
-          context,
-          controller,
-          requireCompletion: requireCompletion,
-        );
-      });
+
+      // Wait for profile to load before showing dialog to ensure name/email are populated
+      if (controller.hasLoadedInitialProfile.value) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _showEditProfileDialog(
+            context,
+            controller,
+            requireCompletion: requireCompletion,
+          );
+        });
+      } else {
+        // If profile hasn't loaded yet, wait for it to load
+        ever<bool>(controller.hasLoadedInitialProfile, (_) {
+          if (controller.hasLoadedInitialProfile.value &&
+              controller.hasShownCompletionPrompt.value) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) {
+                _showEditProfileDialog(
+                  context,
+                  controller,
+                  requireCompletion: requireCompletion,
+                );
+              }
+            });
+          }
+        });
+      }
     }
 
     return Scaffold(
@@ -356,16 +376,9 @@ class PatientProfileScreen extends StatelessWidget {
     );
     // Normalize gender into one of the allowed options if possible.
     final normalizedGender = _normalizeGender(controller.gender.value);
-    final joinedController = TextEditingController(
-      text: controller.formattedJoinedDate == 'Not set'
-          ? ''
-          : controller.formattedJoinedDate,
-    );
     final imageUrlController = TextEditingController(
       text: controller.profileImageUrl.value,
     );
-
-    DateTime? selectedJoinedAt = controller.joinedAt.value;
 
     String? selectedGender = normalizedGender.isEmpty ? null : normalizedGender;
 
@@ -418,29 +431,31 @@ class PatientProfileScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 8),
-                    GestureDetector(
-                      onTap: () async {
-                        final now = DateTime.now();
-                        final initialDate = selectedJoinedAt ?? now;
-                        final picked = await showDatePicker(
-                          context: dialogContext,
-                          initialDate: initialDate,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(now.year + 1),
-                        );
-                        if (picked != null) {
-                          selectedJoinedAt = picked;
-                          joinedController.text =
-                              '${picked.day}/${picked.month}/${picked.year}';
-                        }
-                      },
-                      child: AbsorbPointer(
-                        child: TextField(
-                          controller: joinedController,
-                          decoration: const InputDecoration(
-                            labelText: 'Joined date',
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Joined date: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
+                          Icon(
+                            Icons.lock,
+                            size: 16,
+                            color: Colors.grey.shade400,
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -470,7 +485,7 @@ class PatientProfileScreen extends StatelessWidget {
                               newEmail: emailController.text,
                               newAge: parsedAge,
                               newGender: selectedGender ?? '',
-                              newJoinedAt: selectedJoinedAt,
+                              newJoinedAt: DateTime.now(),
                               newProfileImageUrl: imageUrlController.text,
                             );
                             Get.back();

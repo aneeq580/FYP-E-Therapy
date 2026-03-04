@@ -9,6 +9,7 @@ class PatientProfileController extends GetxController {
   final AuthService _authService;
   final isLoading = false.obs;
   final hasShownCompletionPrompt = false.obs;
+  final hasLoadedInitialProfile = false.obs;
 
   final fullName = ''.obs;
   final email = ''.obs;
@@ -61,6 +62,7 @@ class PatientProfileController extends GetxController {
       if (data == null) {
         // Fallback values from FirebaseAuth if Firestore doc is missing.
         email.value = fallbackEmail ?? '';
+        hasLoadedInitialProfile.value = true;
         return;
       }
 
@@ -78,6 +80,7 @@ class PatientProfileController extends GetxController {
 
       profileImageUrl.value =
           (data['profileImageUrl'] as String?)?.trim() ?? '';
+      hasLoadedInitialProfile.value = true;
     } finally {
       isLoading.value = false;
     }
