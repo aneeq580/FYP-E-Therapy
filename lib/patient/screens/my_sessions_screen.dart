@@ -7,6 +7,7 @@ import '../../core/constants/styles.dart';
 import '../../core/widgets/role_based_session_card.dart';
 import '../../controllers/appointment_controller.dart';
 import '../../models/appointment_model.dart';
+import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 
 /// My Sessions Screen - Patient view with 4 status tabs.
 class MySessionsScreen extends StatelessWidget {
@@ -48,6 +49,7 @@ class MySessionsScreen extends StatelessWidget {
     final items = sessions.where((s) {
       final status = s.status.toLowerCase();
       if (isUpcomingTab) {
+        // treat started/active as part of upcoming so patient can tap through
         return status == 'approved' ||
             status == 'upcoming' ||
             status == 'active';
@@ -73,7 +75,14 @@ class MySessionsScreen extends StatelessWidget {
           appointment: session,
           role: 'patient',
           onTap: () {
-            // Navigate to session details
+            if (session.status.toLowerCase() == 'started' ||
+                session.status.toLowerCase() == 'active') {
+              Get.to(
+                () => ChatScreen(sessionId: session.id, isTherapist: false),
+              );
+            } else {
+              // regular detail view or nothing
+            }
           },
         );
       },

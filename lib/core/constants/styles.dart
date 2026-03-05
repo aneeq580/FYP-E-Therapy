@@ -70,13 +70,13 @@ class AppSizes {
 class AppIcons {
   // Grid Item Icons (Beautiful Font Awesome Icons)
   static const IconData bookSession = FontAwesomeIcons.calendarCheck;
-  static const IconData chat = FontAwesomeIcons.comments;
   static const IconData therapists = FontAwesomeIcons.userDoctor;
   static const IconData mySessions = FontAwesomeIcons.calendarDays;
   static const IconData moodTracker = FontAwesomeIcons.faceSmile;
   static const IconData resources = FontAwesomeIcons.bookOpen;
   static const IconData emergency = FontAwesomeIcons.circleExclamation;
   static const IconData settings = FontAwesomeIcons.gear;
+  static const IconData chat = FontAwesomeIcons.message;
 
   // Header Icons
   static const IconData profile = FontAwesomeIcons.userCircle;

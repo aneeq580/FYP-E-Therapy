@@ -10,7 +10,7 @@ class AppointmentController extends GetxController {
   // Streams for real-time updates
   RxList<AppointmentModel> patientAppointments = <AppointmentModel>[].obs;
 
-  /// sessions eligible for chat (patient)
+  /// sessions currently active for patient
   RxList<AppointmentModel> patientActiveSessions = <AppointmentModel>[].obs;
 
   RxList<AppointmentModel> therapistPendingAppointments =
@@ -22,7 +22,7 @@ class AppointmentController extends GetxController {
   RxList<AppointmentModel> therapistCancelledAppointments =
       <AppointmentModel>[].obs;
 
-  /// sessions eligible for chat (therapist)
+  /// sessions currently active for therapist
   RxList<AppointmentModel> therapistActiveSessions = <AppointmentModel>[].obs;
 
   @override
@@ -109,7 +109,7 @@ class AppointmentController extends GetxController {
   Future<void> startSession(String appointmentId) async {
     try {
       await _appointmentService.startSession(appointmentId);
-      Get.snackbar('Session started', 'Chat is now enabled for this session.');
+      Get.snackbar('Session started', 'Session has started.');
     } catch (e) {
       Get.snackbar('Error', 'Unable to start session: $e');
     }

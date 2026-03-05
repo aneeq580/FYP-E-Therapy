@@ -44,21 +44,21 @@ class AppColors {
 
   // Individual Icon Colors (distinct per quick-action)
   static const Color iconBookSession = Color(0xFF4A90E2); // Blue
-  static const Color iconChat = Color(0xFF2ECC71); // Green
   static const Color iconTherapists = Color(0xFFE74C3C); // Red
   static const Color iconMySessions = Color(0xFF9B59B6); // Purple
   static const Color iconMoodTracker = Color(0xFFF39C12); // Orange
   static const Color iconResources = Color(0xFF1ABC9C); // Teal
   static const Color iconEmergency = Color(0xFFE91E63); // Pink
   static const Color iconSettings = Color(0xFF607D8B); // Blue Grey
+  static const Color iconChat = Color(0xFF00BCD4); // Cyan for chat
 
   // Light Background Colors for Icons (subtle tints)
   static const Color iconBgBookSession = Color(0xFFE3F2FD); // Light Blue
-  static const Color iconBgChat = Color(0xFFE8F5E9); // Light Green
   static const Color iconBgTherapists = Color(0xFFFFEBEE); // Light Red
   static const Color iconBgMySessions = Color(0xFFF3E5F5); // Light Purple
   static const Color iconBgMoodTracker = Color(0xFFFFF3E0); // Light Orange
   static const Color iconBgResources = Color(0xFFE0F2F1); // Light Teal
   static const Color iconBgEmergency = Color(0xFFFCE4EC); // Light Pink
   static const Color iconBgSettings = Color(0xFFECEFF1); // Light Blue Grey
+  static const Color iconBgChat = Color(0xFFE0F7FA); // Light Cyan
 }

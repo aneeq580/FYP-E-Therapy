@@ -37,7 +37,6 @@ dependencies:
   
   # Beautiful Font Awesome icons
   font_awesome_flutter: ^10.7.0
-  flutter_chat_ui: ^2.9.2
   get: ^4.6.6
   
 

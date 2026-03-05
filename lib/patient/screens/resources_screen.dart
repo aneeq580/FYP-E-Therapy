@@ -22,8 +22,8 @@ class ResourcesScreen extends StatelessWidget {
       'icon': FontAwesomeIcons.wind,
       'title': 'Breathing Exercises',
       'subtitle': 'Guided breathing techniques to help you relax and focus',
-      'iconColor': AppColors.iconChat,
-      'backgroundColor': AppColors.iconBgChat,
+      'iconColor': AppColors.iconResources,
+      'backgroundColor': AppColors.iconBgResources,
     },
     {
       'icon': FontAwesomeIcons.om,

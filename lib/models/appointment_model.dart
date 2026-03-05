@@ -10,11 +10,15 @@ class AppointmentModel {
   final int duration; // minutes
   final Timestamp endTime;
   final String status;
+
   final Timestamp? createdAt;
   final Timestamp? acceptedAt;
   final Timestamp? startedAt;
   final Timestamp? endedAt;
   final bool isActive;
+
+  /// optional value used for chat room documents (patient_therapist sorted)
+  final String? chatRoomId;
 
   AppointmentModel({
     required this.id,
@@ -31,6 +35,7 @@ class AppointmentModel {
     this.startedAt,
     this.endedAt,
     this.isActive = false,
+    this.chatRoomId,
   });
 
   factory AppointmentModel.fromMap(Map<String, dynamic> data, String curId) {
@@ -49,6 +54,42 @@ class AppointmentModel {
       startedAt: data['startedAt'] as Timestamp?,
       endedAt: data['endedAt'] as Timestamp?,
       isActive: data['isActive'] as bool? ?? false,
+      chatRoomId: data['chatRoomId'] as String?,
+    );
+  }
+
+  /// utility for making modified copies without rebuilding all fields
+  AppointmentModel copyWith({
+    String? id,
+    String? patientId,
+    String? patientName,
+    String? therapistId,
+    String? therapistName,
+    Timestamp? date,
+    int? duration,
+    Timestamp? endTime,
+    String? status,
+    Timestamp? createdAt,
+    Timestamp? acceptedAt,
+    Timestamp? startedAt,
+    Timestamp? endedAt,
+    bool? isActive,
+  }) {
+    return AppointmentModel(
+      id: id ?? this.id,
+      patientId: patientId ?? this.patientId,
+      patientName: patientName ?? this.patientName,
+      therapistId: therapistId ?? this.therapistId,
+      therapistName: therapistName ?? this.therapistName,
+      date: date ?? this.date,
+      duration: duration ?? this.duration,
+      endTime: endTime ?? this.endTime,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      acceptedAt: acceptedAt ?? this.acceptedAt,
+      startedAt: startedAt ?? this.startedAt,
+      endedAt: endedAt ?? this.endedAt,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -67,6 +108,7 @@ class AppointmentModel {
       'startedAt': startedAt,
       'endedAt': endedAt,
       'isActive': isActive,
+      'chatRoomId': chatRoomId,
     };
   }
 }

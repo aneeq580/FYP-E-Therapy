@@ -10,6 +10,8 @@ import '../../core/constants/styles.dart';
 import '../../core/widgets/patient_header.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import '../../therapist/widgets/therapist_today_session_card.dart';
+import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
+import '../../controllers/appointment_controller.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
@@ -18,7 +20,10 @@ class PatientHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use the same profile controller used in the profile screen so
     // greeting reflects the logged‑in user's name.
-    final profileController = Get.put(PatientProfileController(), permanent: true);
+    final profileController = Get.put(
+      PatientProfileController(),
+      permanent: true,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -33,10 +38,9 @@ class PatientHomeScreen extends StatelessWidget {
               () => PatientHeader(
                 username: profileController.displayName,
                 subtitle: 'Ready for your wellness journey?',
-                profileImageUrl:
-                    profileController.profileImageUrl.value.isEmpty
-                        ? null
-                        : profileController.profileImageUrl.value,
+                profileImageUrl: profileController.profileImageUrl.value.isEmpty
+                    ? null
+                    : profileController.profileImageUrl.value,
                 onProfileTap: () {
                   Get.toNamed(AppRoutes.patientProfile);
                 },
@@ -65,16 +69,6 @@ class PatientHomeScreen extends StatelessWidget {
                 ),
 
                 QuickActionTile(
-                  icon: AppIcons.chat,
-                  label: AppStrings.chat,
-                  iconColor: AppColors.iconChat,
-                  iconBackgroundColor: AppColors.iconBgChat,
-                  onTap: () {
-                    Get.toNamed(AppRoutes.patientChat);
-                  },
-                ),
-
-                QuickActionTile(
                   icon: AppIcons.therapists,
                   label: AppStrings.therapists,
                   iconColor: AppColors.iconTherapists,
@@ -91,6 +85,18 @@ class PatientHomeScreen extends StatelessWidget {
                   iconBackgroundColor: AppColors.iconBgMySessions,
                   onTap: () {
                     Get.toNamed(AppRoutes.mySessions);
+                  },
+                ),
+                QuickActionTile(
+                  icon: AppIcons.chat,
+                  label: AppStrings.chat,
+                  iconColor: AppColors.iconChat,
+                  iconBackgroundColor: AppColors.iconBgChat,
+                  onTap: () {
+                    if (!Get.isRegistered<AppointmentController>()) {
+                      Get.put(AppointmentController());
+                    }
+                    Get.to(() => ChatListScreen(isTherapist: false));
                   },
                 ),
 

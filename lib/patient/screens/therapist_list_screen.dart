@@ -12,11 +12,13 @@ class TherapistListScreen extends StatelessWidget {
     this.selectedTherapist,
     this.selectedDate,
     this.selectedTime,
+    this.isSelectionMode = false,
   });
 
   final String? selectedTherapist;
   final DateTime? selectedDate;
   final TimeOfDay? selectedTime;
+  final bool isSelectionMode;
 
   // Static therapist data (UI only)
   static const List<Map<String, dynamic>> therapists = [
@@ -72,13 +74,14 @@ class TherapistListScreen extends StatelessWidget {
   ];
 
   void _handleViewProfile(String therapistName) {
-    // TODO: Navigate to therapist profile screen
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => TherapistProfileScreen(name: therapistName),
-    //   ),
-    // );
+    Get.snackbar(
+      'Coming Soon',
+      'Profile view for $therapistName is currently under development.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: AppColors.background,
+      colorText: AppColors.textPrimary,
+      margin: const EdgeInsets.all(AppSizes.spacingMedium),
+    );
   }
 
   @override
@@ -93,7 +96,11 @@ class TherapistListScreen extends StatelessWidget {
           final therapist = therapists[index];
           return InkWell(
             onTap: () {
-              Get.back(result: therapist);
+              if (isSelectionMode) {
+                Get.back(result: therapist);
+              } else {
+                _handleViewProfile(therapist['name'] as String);
+              }
             },
             child: TherapistCard(
               name: therapist['name'] as String,

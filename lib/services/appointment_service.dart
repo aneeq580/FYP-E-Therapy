@@ -24,7 +24,7 @@ class AppointmentService extends GetxService {
         );
   }
 
-  /// Sessions that are currently chat‑eligible for a patient.
+  /// Sessions that are currently active for a patient.
   Stream<List<AppointmentModel>> getActivePatientSessions(String patientId) {
     final now = Timestamp.now();
     return _firestore
@@ -58,10 +58,14 @@ class AppointmentService extends GetxService {
   }
 
   Stream<List<AppointmentModel>> getUpcomingAppointments(String therapistId) {
+    // The “upcoming” tab should show appointments that haven’t begun yet.
+    // Started sessions are surfaced via therapistActiveSessions instead,
+    // so we omit the 'started' status here.  This ensures the card disappears
+    // when the therapist hits Start.
     return _firestore
         .collection('appointments')
         .where('therapistId', isEqualTo: therapistId)
-        .where('status', whereIn: ['approved', 'upcoming']) // fallback for both
+        .where('status', whereIn: ['approved', 'upcoming'])
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
@@ -132,12 +136,27 @@ class AppointmentService extends GetxService {
     await _firestore.collection('appointments').doc(appointmentId).update(data);
   }
 
-  /// Mark session as started and enable chat timer.
+  /// Mark session as started and begin timer.
   Future<void> startSession(String appointmentId) async {
-    await _firestore.collection('appointments').doc(appointmentId).update({
-      'startedAt': FieldValue.serverTimestamp(),
-      'isActive': true,
-      'status': 'active',
+    // Use a transaction to atomically set startedAt, status, isActive and
+    // compute chatRoomId if not already present.
+    final ref = _firestore.collection('appointments').doc(appointmentId);
+    await _firestore.runTransaction((tx) async {
+      final snap = await tx.get(ref);
+      if (!snap.exists) return;
+      final data = snap.data()!;
+      String? chatRoom = (data['chatRoomId'] as String?);
+      if (chatRoom == null || chatRoom.isEmpty) {
+        // assign unique room per session id
+        chatRoom = appointmentId;
+        tx.update(ref, {'chatRoomId': chatRoom});
+      }
+      tx.update(ref, {
+        'startedAt': FieldValue.serverTimestamp(),
+        'isActive': true,
+        'status': 'started',
+        'chatRoomId': chatRoom,
+      });
     });
   }
 }

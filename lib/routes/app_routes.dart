@@ -11,8 +11,6 @@ class AppRoutes {
   static const String therapistList = '/therapistList';
   static const String bookSession = '/bookSession';
   static const String mySessions = '/mySessions';
-  static const String patientChat = '/patientChat';
-  static const String chatDetail = '/chatDetail';
   static const String moodTracker = '/moodTracker';
   static const String resources = '/resources';
   static const String emergency = '/emergency';
@@ -23,6 +21,17 @@ class AppRoutes {
   static const String therapistHome = '/therapistHome';
   static const String appointmentRequests = '/appointmentRequests';
   static const String pendingSessions = '/pendingSessions';
-  static const String therapistChat = '/therapistChat';
   static const String therapistProfile = '/therapistProfile';
+
+  // patients list & detail
+  static const String therapistPatients = '/therapistPatients';
+  static const String therapistPatientDetail = '/therapistPatientDetail';
+
+  // active sessions/chat list
+  static const String activeSessions = '/activeSessions';
+  static const String chatList = '/chatList';
+
+  // Chat screens
+  static const String patientChat = '/patientChat';
+  static const String therapistChat = '/therapistChat';
 }

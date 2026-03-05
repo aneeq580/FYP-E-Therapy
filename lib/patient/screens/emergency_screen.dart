@@ -22,7 +22,7 @@ class EmergencyScreen extends StatelessWidget {
   }
 
   void _handleContactTherapist() {
-    // TODO: Navigate to therapist contact or chat
+    // TODO: Navigate to therapist contact
     // Navigator.push(context, ...);
   }
 
@@ -57,7 +57,11 @@ class EmergencyScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.infoCircle, color: softEmergencyRed, size: 28),
+                  FaIcon(
+                    FontAwesomeIcons.infoCircle,
+                    color: softEmergencyRed,
+                    size: 28,
+                  ),
                   const SizedBox(width: AppSizes.spacingMedium),
                   Expanded(
                     child: Column(

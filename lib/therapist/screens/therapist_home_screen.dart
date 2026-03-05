@@ -10,8 +10,11 @@ import '../widgets/quick_action_tile.dart';
 import '../widgets/therapist_popup_menu.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
+import 'package:fyp_therapy/core/constants/strings.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import '../../core/widgets/therapist_app_bar.dart';
+import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
+import '../../controllers/appointment_controller.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
   const TherapistHomeScreen({super.key});
@@ -79,21 +82,27 @@ class TherapistHomeScreen extends StatelessWidget {
                 ),
 
                 QuickActionTile(
-                  icon: FontAwesomeIcons.commentDots,
-                  label: 'View Chats',
-                  iconColor: AppColors.iconChat,
-                  iconBackgroundColor: AppColors.iconChat.withOpacity(0.3),
-                  onTap: () {
-                    Get.toNamed(AppRoutes.therapistChat);
-                  },
-                ),
-                QuickActionTile(
                   icon: FontAwesomeIcons.users,
                   label: 'My Patients',
                   iconColor: AppColors.iconTherapists,
                   iconBackgroundColor: AppColors.iconTherapists.withOpacity(
                     0.3,
                   ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.therapistPatients);
+                  },
+                ),
+                QuickActionTile(
+                  icon: FontAwesomeIcons.comments,
+                  label: AppStrings.chat,
+                  iconColor: AppColors.iconChat,
+                  iconBackgroundColor: AppColors.iconBgChat,
+                  onTap: () {
+                    if (!Get.isRegistered<AppointmentController>()) {
+                      Get.put(AppointmentController());
+                    }
+                    Get.to(() => ChatListScreen(isTherapist: true));
+                  },
                 ),
                 QuickActionTile(
                   icon: FontAwesomeIcons.chartBar,

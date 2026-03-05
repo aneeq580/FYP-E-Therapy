@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_therapy/firebase_options.dart';
 import 'package:fyp_therapy/services/appointment_service.dart';
-import 'package:fyp_therapy/services/chat_service.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'core/constants/colors.dart';
@@ -17,7 +16,6 @@ Future<void> main() async {
 
   Get.put(AuthService(), permanent: true);
   Get.put(AppointmentService(), permanent: true);
-  Get.put(ChatService(), permanent: true);
   // Ensure AuthController is available app-wide for screens that call Get.find<AuthController>()
   Get.put(AuthController(), permanent: true);
 

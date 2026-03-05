@@ -8,6 +8,7 @@ import 'package:fyp_therapy/controllers/appointment_controller.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
+import 'package:fyp_therapy/patient/profile/patient_profile_controller.dart';
 import '../../core/constants/colors.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
@@ -20,7 +21,7 @@ class BookSessionScreen extends GetView<BookSessionController> {
   /// Therapist Selection
   Future<void> _handleTherapistSelection() async {
     final result = await Get.to<Map<String, dynamic>>(
-      () => const TherapistListScreen(),
+      () => const TherapistListScreen(isSelectionMode: true),
     );
 
     if (result != null) {
@@ -236,15 +237,16 @@ class BookSessionScreen extends GetView<BookSessionController> {
                             final patientUser =
                                 Get.find<AuthController>().currentUser.value!;
 
-                            final duration =
-                                controller.selectedDuration.value!;
-                            final endDateTime = sessionDateTime
-                                .add(Duration(minutes: duration));
+                            final duration = controller.selectedDuration.value!;
+                            final endDateTime = sessionDateTime.add(
+                              Duration(minutes: duration),
+                            );
 
                             final newAppointment = AppointmentModel(
                               id: '', // Firestore auto generates
                               patientId: patientUser.uid,
-                              patientName: patientUser.displayName ?? 'Patient',
+                              patientName: Get.find<PatientProfileController>()
+                                  .displayName,
                               therapistId:
                                   selectedTherapist['uid'] as String? ??
                                   'unknown_therapist',

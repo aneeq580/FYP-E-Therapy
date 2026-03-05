@@ -6,6 +6,7 @@ import '../../core/widgets/role_based_session_card.dart';
 import '../../controllers/appointment_controller.dart';
 import '../../models/appointment_model.dart';
 import '../../core/widgets/therapist_app_bar.dart';
+import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TherapistAppointmentsScreen extends StatelessWidget {
@@ -74,7 +75,14 @@ class TherapistAppointmentsScreen extends StatelessWidget {
         return RoleBasedSessionCard(
           appointment: session,
           role: 'therapist',
-          onStart: canStart ? () => controller.startSession(session.id) : null,
+          onStart: canStart
+              ? () async {
+                  await controller.startSession(session.id);
+                  Get.to(
+                    () => ChatScreen(sessionId: session.id, isTherapist: true),
+                  );
+                }
+              : null,
           onComplete: () => controller.completeAppointment(session.id),
           onCancel: () => controller.cancelAppointment(session.id),
         );
