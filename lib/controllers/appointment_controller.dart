@@ -10,8 +10,8 @@ class AppointmentController extends GetxController {
   // Streams for real-time updates
   RxList<AppointmentModel> patientAppointments = <AppointmentModel>[].obs;
 
-  /// sessions currently active for patient
-  RxList<AppointmentModel> patientActiveSessions = <AppointmentModel>[].obs;
+  /// Sessions currently ongoing (status == 'started') for patient
+  RxList<AppointmentModel> patientOngoingSessions = <AppointmentModel>[].obs;
 
   RxList<AppointmentModel> therapistPendingAppointments =
       <AppointmentModel>[].obs;
@@ -38,8 +38,8 @@ class AppointmentController extends GetxController {
       patientAppointments.bindStream(
         _appointmentService.getPatientAppointments(user.uid),
       );
-      patientActiveSessions.bindStream(
-        _appointmentService.getActivePatientSessions(user.uid),
+      patientOngoingSessions.bindStream(
+        _appointmentService.getOngoingPatientSessions(user.uid),
       );
 
       // Bind therapist appointments

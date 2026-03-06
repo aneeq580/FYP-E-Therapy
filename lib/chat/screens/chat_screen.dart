@@ -53,11 +53,28 @@ class ChatScreen extends StatelessWidget {
           Obx(() {
             final rem = sessionCtrl.remaining.value;
             if (sessionCtrl.status.value == 'completed') {
-              return Container(
-                width: double.infinity,
-                color: Colors.grey.shade200,
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: const Center(child: Text('Session Ended')),
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8F5E9),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Text(
+                      'Session Ended',
+                      style: TextStyle(
+                        color: Color(0xFF4CAF50),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
               );
             }
 

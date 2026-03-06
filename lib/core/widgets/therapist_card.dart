@@ -25,7 +25,11 @@ class TherapistCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
         if (index < rating.floor()) {
-          return const FaIcon(FontAwesomeIcons.solidStar, color: AppColors.secondary, size: 16);
+          return const FaIcon(
+            FontAwesomeIcons.solidStar,
+            color: AppColors.secondary,
+            size: 16,
+          );
         } else if (index < rating) {
           return const FaIcon(
             FontAwesomeIcons.starHalf,
@@ -75,24 +79,26 @@ class TherapistCard extends StatelessWidget {
                       width: 2,
                     ),
                   ),
-                  child: ClipOval(
-                    child: photoUrl != null
-                        ? Image.network(
-                            photoUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return FaIcon(
-                                FontAwesomeIcons.userDoctor,
-                                color: AppColors.iconTherapists,
-                                size: 40,
-                              );
-                            },
-                          )
-                        : FaIcon(
-                            FontAwesomeIcons.userDoctor,
-                            color: AppColors.iconTherapists,
-                            size: 40,
-                          ),
+                  child: Center(
+                    child: ClipOval(
+                      child: photoUrl != null
+                          ? Image.network(
+                              photoUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return FaIcon(
+                                  FontAwesomeIcons.userDoctor,
+                                  color: AppColors.iconTherapists,
+                                  size: 40,
+                                );
+                              },
+                            )
+                          : FaIcon(
+                              FontAwesomeIcons.userDoctor,
+                              color: AppColors.iconTherapists,
+                              size: 40,
+                            ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSizes.spacingMedium),

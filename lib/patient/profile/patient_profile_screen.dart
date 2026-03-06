@@ -485,7 +485,6 @@ class PatientProfileScreen extends StatelessWidget {
                               newEmail: emailController.text,
                               newAge: parsedAge,
                               newGender: selectedGender ?? '',
-                              newJoinedAt: DateTime.now(),
                               newProfileImageUrl: imageUrlController.text,
                             );
                             Get.back();

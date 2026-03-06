@@ -17,6 +17,8 @@ class RoleBasedSessionCard extends StatelessWidget {
   final VoidCallback? onComplete;
   final VoidCallback? onCancel;
   final VoidCallback? onStart;
+  // When true, the Start button renders at reduced opacity (session time not yet reached)
+  final bool isStartDisabled;
 
   const RoleBasedSessionCard({
     super.key,
@@ -28,6 +30,7 @@ class RoleBasedSessionCard extends StatelessWidget {
     this.onComplete,
     this.onCancel,
     this.onStart,
+    this.isStartDisabled = false,
   });
 
   String _formatDate() {
@@ -77,6 +80,8 @@ class RoleBasedSessionCard extends StatelessWidget {
     final statusBgColor = statusColor.withOpacity(0.1);
     final displayStatus = appointment.status.toLowerCase() == 'approved'
         ? 'Upcoming'
+        : appointment.status.toLowerCase() == 'completed'
+        ? 'Session Ended'
         : appointment.status[0].toUpperCase() + appointment.status.substring(1);
 
     final String displayName = isPatient
@@ -247,18 +252,23 @@ class RoleBasedSessionCard extends StatelessWidget {
                               onAccept != null ||
                               onComplete != null))
                         const SizedBox(width: 12),
-                      if (onStart != null)
+                      if (onStart != null || isStartDisabled)
                         Expanded(
-                          child: ElevatedButton(
-                            onPressed: onStart,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                          child: Opacity(
+                            opacity: isStartDisabled ? 0.4 : 1.0,
+                            child: ElevatedButton(
+                              onPressed: isStartDisabled ? null : onStart,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Text('Start'),
                             ),
-                            child: const Text('Start'),
                           ),
                         ),
                       if (onStart != null &&

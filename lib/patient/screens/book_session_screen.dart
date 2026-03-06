@@ -128,9 +128,13 @@ class BookSessionScreen extends GetView<BookSessionController> {
               /// Therapist Selection
               TherapistSelectionCard(
                 onTap: _handleTherapistSelection,
-                selectedTherapist: therapist?['name'] as String?,
+                selectedTherapist:
+                    therapist?['fullName'] as String? ??
+                    therapist?['name'] as String?,
                 selectedTherapistSpecialty: therapist?['specialty'] as String?,
-                profileImageUrl: therapist?['photoUrl'] as String?,
+                profileImageUrl:
+                    therapist?['profileImageUrl'] as String? ??
+                    therapist?['photoUrl'] as String?,
               ),
 
               const SizedBox(height: 12),
@@ -251,6 +255,7 @@ class BookSessionScreen extends GetView<BookSessionController> {
                                   selectedTherapist['uid'] as String? ??
                                   'unknown_therapist',
                               therapistName:
+                                  selectedTherapist['fullName'] as String? ??
                                   selectedTherapist['name'] as String? ??
                                   'Therapist',
                               date: Timestamp.fromDate(sessionDateTime),

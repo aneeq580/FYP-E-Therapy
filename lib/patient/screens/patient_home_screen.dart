@@ -188,19 +188,66 @@ class PatientHomeScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            TherapistTodaySessionCard(
-              patientName: "Next Session",
-              time: "10:00 AM",
-              sessionType: "Video Session",
-            ),
+            Obx(() {
+              if (!Get.isRegistered<AppointmentController>()) {
+                Get.put(AppointmentController());
+              }
+              final apptCtrl = Get.find<AppointmentController>();
 
-            const SizedBox(height: 10),
+              // Combine active and upcoming sessions for the patient
+              final sessions = [
+                ...apptCtrl.patientOngoingSessions,
+                ...apptCtrl.patientAppointments.where(
+                  (a) => a.status == 'approved' || a.status == 'upcoming',
+                ),
+              ];
 
-            TherapistTodaySessionCard(
-              patientName: "Follow-up",
-              time: "2:30 PM",
-              sessionType: "In-Person",
-            ),
+              // Filter to show only sessions scheduled for today
+              final now = DateTime.now();
+              final todaysSessions = sessions.where((s) {
+                final date = s.date.toDate();
+                return date.year == now.year &&
+                    date.month == now.month &&
+                    date.day == now.day;
+              }).toList();
+
+              if (todaysSessions.isEmpty) {
+                return Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppColors.backgroundLight,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "No sessions scheduled for today.",
+                      style: AppTextStyles.bodyTextSecondary,
+                    ),
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: todaysSessions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+                itemBuilder: (context, index) {
+                  final session = todaysSessions[index];
+                  // Format time (e.g., "10:00 AM")
+                  final timeString =
+                      "${session.date.toDate().hour > 12 ? session.date.toDate().hour - 12 : session.date.toDate().hour}:${session.date.toDate().minute.toString().padLeft(2, '0')} ${session.date.toDate().hour >= 12 ? 'PM' : 'AM'}";
+
+                  return TherapistTodaySessionCard(
+                    patientName: session.therapistName,
+                    time: timeString,
+                    sessionType: "${session.duration} min Session",
+                  );
+                },
+              );
+            }),
           ],
         ),
       ),

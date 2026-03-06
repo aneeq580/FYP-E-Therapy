@@ -11,6 +11,7 @@ import '../widgets/therapist_popup_menu.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/core/constants/strings.dart';
+import 'package:fyp_therapy/core/constants/styles.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import '../../core/widgets/therapist_app_bar.dart';
 import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
@@ -116,29 +117,72 @@ class TherapistHomeScreen extends StatelessWidget {
               ],
             ),
 
-            /// 🔹 Today's Sessions Title
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Today's Sessions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-            /// 🔹 Example Session Cards
-            TherapistTodaySessionCard(
-              patientName: "Ali Khan",
-              time: "10:00 AM",
-              sessionType: "Video Session",
-            ),
+            Obx(() {
+              if (!Get.isRegistered<AppointmentController>()) {
+                Get.put(AppointmentController());
+              }
+              final apptCtrl = Get.find<AppointmentController>();
 
-            SizedBox(height: 10),
+              // Combine active and upcoming sessions for the therapist
+              final sessions = [
+                ...apptCtrl.therapistActiveSessions,
+                ...apptCtrl.therapistUpcomingAppointments,
+              ];
 
-            TherapistTodaySessionCard(
-              patientName: "Sara Ahmed",
-              time: "12:30 PM",
-              sessionType: "In-Person",
-            ),
+              // Filter to show only sessions scheduled for today
+              final now = DateTime.now();
+              final todaysSessions = sessions.where((s) {
+                final date = s.date.toDate();
+                return date.year == now.year &&
+                    date.month == now.month &&
+                    date.day == now.day;
+              }).toList();
+
+              if (todaysSessions.isEmpty) {
+                return Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppColors.backgroundLight,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "No sessions scheduled for today.",
+                      style: AppTextStyles.bodyTextSecondary,
+                    ),
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: todaysSessions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+                itemBuilder: (context, index) {
+                  final session = todaysSessions[index];
+                  // Format time (e.g., "10:00 AM")
+                  final timeString =
+                      "${session.date.toDate().hour > 12 ? session.date.toDate().hour - 12 : session.date.toDate().hour}:${session.date.toDate().minute.toString().padLeft(2, '0')} ${session.date.toDate().hour >= 12 ? 'PM' : 'AM'}";
+
+                  return TherapistTodaySessionCard(
+                    patientName: session.patientName,
+                    time: timeString,
+                    sessionType: "${session.duration} min Session",
+                  );
+                },
+              );
+            }),
           ],
         ),
       ),

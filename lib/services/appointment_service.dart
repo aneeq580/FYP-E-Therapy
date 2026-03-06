@@ -24,22 +24,19 @@ class AppointmentService extends GetxService {
         );
   }
 
-  /// Sessions that are currently active for a patient.
-  Stream<List<AppointmentModel>> getActivePatientSessions(String patientId) {
-    final now = Timestamp.now();
+  /// Sessions that are currently active for a patient (clean status-based query).
+  Stream<List<AppointmentModel>> getOngoingPatientSessions(String patientId) {
     return _firestore
         .collection('appointments')
         .where('patientId', isEqualTo: patientId)
-        .where('isActive', isEqualTo: true)
-        // endTime filter moved to client side to avoid index
+        .where('status', isEqualTo: 'started')
         .snapshots()
         .handleError((e) {
-          debugPrint('getActivePatientSessions stream error: $e');
+          debugPrint('getOngoingPatientSessions stream error: $e');
         })
         .map(
           (snapshot) => snapshot.docs
               .map((doc) => AppointmentModel.fromMap(doc.data(), doc.id))
-              .where((appt) => appt.endTime.compareTo(now) > 0)
               .toList(),
         );
   }

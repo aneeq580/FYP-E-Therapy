@@ -126,7 +126,6 @@ class PatientProfileController extends GetxController {
     required String newEmail,
     required int? newAge,
     required String newGender,
-    required DateTime? newJoinedAt,
     required String newProfileImageUrl,
   }) async {
     final user = _authService.currentUser.value;
@@ -134,24 +133,29 @@ class PatientProfileController extends GetxController {
 
     isLoading.value = true;
     try {
-      await _authService.updateUserProfile(
-        uid: user.uid,
-        fullName: newFullName.trim().isEmpty ? null : newFullName.trim(),
-        email: newEmail.trim().isEmpty ? null : newEmail.trim(),
-        age: newAge,
-        gender: newGender.trim().isEmpty ? null : newGender.trim(),
-        joinedAt: newJoinedAt,
-        profileImageUrl: newProfileImageUrl.trim().isEmpty
-            ? null
+      final payload = <String, dynamic>{
+        'fullName': newFullName.trim().isEmpty
+            ? FieldValue.delete()
+            : newFullName.trim(),
+        'email': newEmail.trim().isEmpty
+            ? FieldValue.delete()
+            : newEmail.trim(),
+        'age': newAge ?? FieldValue.delete(),
+        'gender': newGender.trim().isEmpty
+            ? FieldValue.delete()
+            : newGender.trim(),
+        'profileImageUrl': newProfileImageUrl.trim().isEmpty
+            ? FieldValue.delete()
             : newProfileImageUrl.trim(),
-      );
+      };
+
+      await _authService.updateUserProfile(user.uid, payload);
 
       // Update local state so UI reflects immediately.
       fullName.value = newFullName.trim();
       email.value = newEmail.trim();
       age.value = newAge;
       gender.value = newGender.trim();
-      joinedAt.value = newJoinedAt;
       profileImageUrl.value = newProfileImageUrl.trim();
     } finally {
       isLoading.value = false;

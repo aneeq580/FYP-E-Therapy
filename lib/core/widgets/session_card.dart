@@ -138,7 +138,9 @@ class SessionCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            status,
+                            status.toLowerCase() == 'completed'
+                                ? 'Session Ended'
+                                : status[0].toUpperCase() + status.substring(1),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,

@@ -76,7 +76,7 @@ class AppIcons {
   static const IconData resources = FontAwesomeIcons.bookOpen;
   static const IconData emergency = FontAwesomeIcons.circleExclamation;
   static const IconData settings = FontAwesomeIcons.gear;
-  static const IconData chat = FontAwesomeIcons.message;
+  static const IconData chat = FontAwesomeIcons.comments;
 
   // Header Icons
   static const IconData profile = FontAwesomeIcons.userCircle;

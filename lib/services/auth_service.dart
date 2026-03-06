@@ -93,31 +93,16 @@ class AuthService extends GetxService {
     return doc.data();
   }
 
-  /// Partially update profile information for the given user.
+  /// Update profile information for the given user.
   ///
-  /// Only non‑null fields are sent to Firestore.
-  Future<void> updateUserProfile({
-    required String uid,
-    String? fullName,
-    String? email,
-    int? age,
-    String? gender,
-    DateTime? joinedAt,
-    String? profileImageUrl,
-  }) async {
-    final payload = <String, dynamic>{};
-    if (fullName != null) payload['fullName'] = fullName;
-    if (email != null) payload['email'] = email;
-    if (age != null) payload['age'] = age;
-    if (gender != null) payload['gender'] = gender;
-    if (profileImageUrl != null) payload['profileImageUrl'] = profileImageUrl;
-    if (joinedAt != null) {
-      payload['joinedAt'] = Timestamp.fromDate(joinedAt);
-    }
+  /// Pass data to merge into the user's document. Allows explicit removal by passing FieldValue.delete().
+  Future<void> updateUserProfile(String uid, Map<String, dynamic> data) async {
+    if (data.isEmpty) return;
 
-    if (payload.isEmpty) return;
-
-    await _firestore.collection('users').doc(uid).update(payload);
+    await _firestore
+        .collection('users')
+        .doc(uid)
+        .set(data, SetOptions(merge: true));
   }
 
   Future<void> signOut() {

@@ -33,6 +33,7 @@ class TherapistAppointmentsScreen extends StatelessWidget {
     );
   }
 
+  // ── 1. REQUESTS TAB: Show Accept + Reject ─────────────────────────────────
   Widget _buildPendingList(
     List<AppointmentModel> sessions,
     AppointmentController controller,
@@ -57,6 +58,7 @@ class TherapistAppointmentsScreen extends StatelessWidget {
     );
   }
 
+  // ── 2. UPCOMING TAB: Show Start (possibly disabled) + Cancel, NO Complete ──
   Widget _buildUpcomingList(
     List<AppointmentModel> sessions,
     AppointmentController controller,
@@ -70,26 +72,50 @@ class TherapistAppointmentsScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         final session = sessions[index];
         final now = DateTime.now();
-        final canStart =
-            session.startedAt == null && now.isAfter(session.date.toDate());
+        // Start is only enabled at or after the session's scheduled time
+        final canStart = now.isAfter(session.date.toDate());
         return RoleBasedSessionCard(
           appointment: session,
           role: 'therapist',
-          onStart: canStart
-              ? () async {
-                  await controller.startSession(session.id);
-                  Get.to(
-                    () => ChatScreen(sessionId: session.id, isTherapist: true),
-                  );
-                }
-              : null,
-          onComplete: () => controller.completeAppointment(session.id),
+          // Always pass onStart; isStartDisabled controls the opacity
+          onStart: () async {
+            await controller.startSession(session.id);
+            Get.to(() => ChatScreen(sessionId: session.id, isTherapist: true));
+          },
+          isStartDisabled: !canStart,
           onCancel: () => controller.cancelAppointment(session.id),
+          // No onComplete here — Complete only appears in Ongoing tab
         );
       },
     );
   }
 
+  // ── 3. ONGOING TAB: Show Complete button ──────────────────────────────────
+  Widget _buildOngoingList(
+    List<AppointmentModel> sessions,
+    AppointmentController controller,
+  ) {
+    if (sessions.isEmpty) {
+      return _buildEmptyState('No sessions are currently ongoing.');
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.spacingMedium),
+      itemCount: sessions.length,
+      itemBuilder: (context, index) {
+        final session = sessions[index];
+        return RoleBasedSessionCard(
+          appointment: session,
+          role: 'therapist',
+          onTap: () => Get.to(
+            () => ChatScreen(sessionId: session.id, isTherapist: true),
+          ),
+          onComplete: () => controller.completeAppointment(session.id),
+        );
+      },
+    );
+  }
+
+  // ── 4. COMPLETED TAB ──────────────────────────────────────────────────────
   Widget _buildCompletedList(List<AppointmentModel> sessions) {
     if (sessions.isEmpty) return _buildEmptyState('No completed sessions yet.');
     return ListView.builder(
@@ -104,6 +130,7 @@ class TherapistAppointmentsScreen extends StatelessWidget {
     );
   }
 
+  // ── 5. CANCELLED TAB ──────────────────────────────────────────────────────
   Widget _buildCancelledList(List<AppointmentModel> sessions) {
     if (sessions.isEmpty) return _buildEmptyState('No cancelled sessions.');
     return ListView.builder(
@@ -126,7 +153,7 @@ class TherapistAppointmentsScreen extends StatelessWidget {
     final controller = Get.find<AppointmentController>();
 
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: const TherapistAppBar(title: 'Appointments Dashboard'),
@@ -144,6 +171,7 @@ class TherapistAppointmentsScreen extends StatelessWidget {
                 tabs: const [
                   Tab(text: 'Requests'),
                   Tab(text: 'Upcoming'),
+                  Tab(text: 'Ongoing'),
                   Tab(text: 'Completed'),
                   Tab(text: 'Cancelled'),
                 ],
@@ -159,6 +187,10 @@ class TherapistAppointmentsScreen extends StatelessWidget {
                     ),
                     _buildUpcomingList(
                       controller.therapistUpcomingAppointments.toList(),
+                      controller,
+                    ),
+                    _buildOngoingList(
+                      controller.therapistActiveSessions.toList(),
                       controller,
                     ),
                     _buildCompletedList(

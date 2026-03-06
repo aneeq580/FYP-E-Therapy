@@ -9,11 +9,9 @@ import '../../controllers/appointment_controller.dart';
 import '../../models/appointment_model.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 
-/// My Sessions Screen - Patient view with 4 status tabs.
+/// My Sessions Screen - Patient view with 5 status tabs.
 class MySessionsScreen extends StatelessWidget {
   const MySessionsScreen({super.key});
-
-  // These are handled by the new RoleBasedSessionCard now!
 
   Widget _buildEmptyState(String message) {
     return Center(
@@ -39,53 +37,111 @@ class MySessionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSessionList(
-    List<AppointmentModel> sessions,
-    String filterStatus,
-  ) {
-    // Upcoming tab should match 'approved', 'upcoming' and 'active' statuses from firestore
-    final bool isUpcomingTab = filterStatus.toLowerCase() == 'approved';
-
-    final items = sessions.where((s) {
-      final status = s.status.toLowerCase();
-      if (isUpcomingTab) {
-        // treat started/active as part of upcoming so patient can tap through
-        return status == 'approved' ||
-            status == 'upcoming' ||
-            status == 'active';
-      }
-      return status == filterStatus.toLowerCase();
-    }).toList();
-
+  // ── 1. PENDING TAB ────────────────────────────────────────────────────────
+  Widget _buildPendingList(List<AppointmentModel> sessions) {
+    final items = sessions
+        .where((s) => s.status.toLowerCase() == 'pending')
+        .toList();
     if (items.isEmpty) {
       return _buildEmptyState(
-        'No sessions here yet.\nNew bookings will appear in this tab.',
+        'No pending requests.\nBooked sessions waiting for therapist approval appear here.',
       );
     }
-
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: AppSizes.spacingMedium,
         bottom: AppSizes.spacingLarge,
       ),
       itemCount: items.length,
+      itemBuilder: (context, index) =>
+          RoleBasedSessionCard(appointment: items[index], role: 'patient'),
+    );
+  }
+
+  // ── 2. UPCOMING TAB (approved/accepted sessions) ──────────────────────────
+  Widget _buildUpcomingList(List<AppointmentModel> sessions) {
+    final items = sessions.where((s) {
+      final status = s.status.toLowerCase();
+      return status == 'approved' || status == 'upcoming';
+    }).toList();
+
+    if (items.isEmpty) {
+      return _buildEmptyState(
+        'No upcoming sessions.\nAccepted sessions will appear here.',
+      );
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: AppSizes.spacingMedium,
+        bottom: AppSizes.spacingLarge,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) =>
+          RoleBasedSessionCard(appointment: items[index], role: 'patient'),
+    );
+  }
+
+  // ── 3. ONGOING TAB (started/active sessions) ──────────────────────────────
+  Widget _buildOngoingList(List<AppointmentModel> ongoingSessions) {
+    if (ongoingSessions.isEmpty) {
+      return _buildEmptyState(
+        'No ongoing sessions right now.\nActive sessions will appear here.',
+      );
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: AppSizes.spacingMedium,
+        bottom: AppSizes.spacingLarge,
+      ),
+      itemCount: ongoingSessions.length,
       itemBuilder: (context, index) {
-        final session = items[index];
+        final session = ongoingSessions[index];
         return RoleBasedSessionCard(
           appointment: session,
           role: 'patient',
-          onTap: () {
-            if (session.status.toLowerCase() == 'started' ||
-                session.status.toLowerCase() == 'active') {
-              Get.to(
-                () => ChatScreen(sessionId: session.id, isTherapist: false),
-              );
-            } else {
-              // regular detail view or nothing
-            }
-          },
+          onTap: () => Get.to(
+            () => ChatScreen(sessionId: session.id, isTherapist: false),
+          ),
         );
       },
+    );
+  }
+
+  // ── 4. COMPLETED TAB ──────────────────────────────────────────────────────
+  Widget _buildCompletedList(List<AppointmentModel> sessions) {
+    final items = sessions
+        .where((s) => s.status.toLowerCase() == 'completed')
+        .toList();
+    if (items.isEmpty) {
+      return _buildEmptyState('No completed sessions yet.');
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: AppSizes.spacingMedium,
+        bottom: AppSizes.spacingLarge,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) =>
+          RoleBasedSessionCard(appointment: items[index], role: 'patient'),
+    );
+  }
+
+  // ── 5. CANCELLED TAB ──────────────────────────────────────────────────────
+  Widget _buildCancelledList(List<AppointmentModel> sessions) {
+    final items = sessions
+        .where((s) => s.status.toLowerCase() == 'cancelled')
+        .toList();
+    if (items.isEmpty) {
+      return _buildEmptyState('No cancelled sessions.');
+    }
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: AppSizes.spacingMedium,
+        bottom: AppSizes.spacingLarge,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) =>
+          RoleBasedSessionCard(appointment: items[index], role: 'patient'),
     );
   }
 
@@ -95,8 +151,9 @@ class MySessionsScreen extends StatelessWidget {
       Get.put(AppointmentController());
     }
     final controller = Get.find<AppointmentController>();
+
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: const PatientAppBar(title: 'My Sessions'),
@@ -114,6 +171,7 @@ class MySessionsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: TabBar(
+                  isScrollable: true,
                   labelColor: AppColors.textOnPrimary,
                   unselectedLabelColor: AppColors.textSecondary,
                   indicator: BoxDecoration(
@@ -131,6 +189,7 @@ class MySessionsScreen extends StatelessWidget {
                   tabs: const [
                     Tab(text: 'Pending'),
                     Tab(text: 'Upcoming'),
+                    Tab(text: 'Ongoing'),
                     Tab(text: 'Completed'),
                     Tab(text: 'Cancelled'),
                   ],
@@ -140,13 +199,16 @@ class MySessionsScreen extends StatelessWidget {
             const SizedBox(height: AppSizes.spacingMedium),
             Expanded(
               child: Obx(() {
-                final sessions = controller.patientAppointments.toList();
+                final allSessions = controller.patientAppointments.toList();
+                final ongoingSessions = controller.patientOngoingSessions
+                    .toList();
                 return TabBarView(
                   children: [
-                    _buildSessionList(sessions, 'pending'),
-                    _buildSessionList(sessions, 'approved'),
-                    _buildSessionList(sessions, 'completed'),
-                    _buildSessionList(sessions, 'cancelled'),
+                    _buildPendingList(allSessions),
+                    _buildUpcomingList(allSessions),
+                    _buildOngoingList(ongoingSessions),
+                    _buildCompletedList(allSessions),
+                    _buildCancelledList(allSessions),
                   ],
                 );
               }),

@@ -36,6 +36,7 @@ class AppColors {
   static const Color success = primary;
   static const Color warning = secondary;
   static const Color error = Color(0xFFE74C3C);
+  static const Color ended = Color(0xFF4CAF50);
 
   // Grid Item Colors
   static const Color gridItemBackground = card;

@@ -24,7 +24,7 @@ class SessionsListScreen extends StatelessWidget {
     // choose the right observable list
     final sessionsObs = isTherapist
         ? controller.therapistActiveSessions
-        : controller.patientActiveSessions;
+        : controller.patientOngoingSessions;
 
     return Scaffold(
       appBar: AppBar(
