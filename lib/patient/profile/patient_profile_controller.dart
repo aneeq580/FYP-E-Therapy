@@ -74,6 +74,8 @@ class PatientProfileController extends GetxController {
       final joinedField = data['joinedAt'] ?? data['createdAt'];
       if (joinedField is Timestamp) {
         joinedAt.value = joinedField.toDate();
+      } else if (joinedField is String) {
+        joinedAt.value = DateTime.tryParse(joinedField);
       } else {
         joinedAt.value = null;
       }

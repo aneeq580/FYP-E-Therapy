@@ -15,6 +15,7 @@ import 'package:fyp_therapy/core/constants/styles.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import '../../core/widgets/therapist_app_bar.dart';
 import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
+import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import '../../controllers/appointment_controller.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
@@ -176,9 +177,26 @@ class TherapistHomeScreen extends StatelessWidget {
                       "${session.date.toDate().hour > 12 ? session.date.toDate().hour - 12 : session.date.toDate().hour}:${session.date.toDate().minute.toString().padLeft(2, '0')} ${session.date.toDate().hour >= 12 ? 'PM' : 'AM'}";
 
                   return TherapistTodaySessionCard(
-                    patientName: session.patientName,
+                    appointment: session,
                     time: timeString,
                     sessionType: "${session.duration} min Session",
+                    onStart: () async {
+                      await apptCtrl.startSession(session.id);
+                      Get.to(
+                        () => ChatScreen(
+                          sessionId: session.id,
+                          isTherapist: true,
+                        ),
+                      );
+                    },
+                    onChat: () {
+                      Get.to(
+                        () => ChatScreen(
+                          sessionId: session.id,
+                          isTherapist: true,
+                        ),
+                      );
+                    },
                   );
                 },
               );

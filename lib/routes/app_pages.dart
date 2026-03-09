@@ -10,7 +10,12 @@ import 'package:fyp_therapy/patient/screens/my_sessions_screen.dart';
 import 'package:fyp_therapy/patient/screens/mood_tracker_screen.dart';
 import 'package:fyp_therapy/patient/screens/resources_screen.dart';
 import 'package:fyp_therapy/patient/screens/emergency_screen.dart';
-import 'package:fyp_therapy/patient/screens/settings_screen.dart';
+import 'package:fyp_therapy/patient/settings/screens/settings_main_screen.dart';
+import 'package:fyp_therapy/patient/settings/screens/notifications_screen.dart';
+import 'package:fyp_therapy/patient/settings/screens/privacy_security_screen.dart';
+import 'package:fyp_therapy/patient/settings/screens/dark_mode_screen.dart';
+import 'package:fyp_therapy/patient/settings/screens/language_screen.dart';
+import 'package:fyp_therapy/patient/settings/screens/help_support_screen.dart';
 import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/sessions_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
@@ -26,7 +31,6 @@ import 'app_routes.dart';
 import 'package:fyp_therapy/bindings/auth_binding.dart';
 import 'package:fyp_therapy/bindings/book_session_binding.dart';
 import 'package:fyp_therapy/bindings/mood_tracker_binding.dart';
-import 'package:fyp_therapy/bindings/settings_binding.dart';
 
 /// Central GetX page configuration.
 class AppPages {
@@ -110,8 +114,27 @@ class AppPages {
     GetPage(name: AppRoutes.emergency, page: () => const EmergencyScreen()),
     GetPage(
       name: AppRoutes.patientSettings,
-      page: () => const SettingsScreen(),
-      binding: SettingsBinding(),
+      page: () => const SettingsMainScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.patientSettingsNotifications,
+      page: () => const NotificationsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.patientSettingsPrivacy,
+      page: () => const PrivacySecurityScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.patientSettingsDarkMode,
+      page: () => const DarkModeScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.patientSettingsLanguage,
+      page: () => const LanguageScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.patientSettingsHelp,
+      page: () => const HelpSupportScreen(),
     ),
     GetPage(
       name: AppRoutes.patientProfile,

@@ -20,18 +20,26 @@ class TherapistSelectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSelected = selectedTherapist != null;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacingMedium),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isSelected
+            ? AppColors.secondary.withOpacity(0.05)
+            : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.textLight.withOpacity(0.15),
-          width: 1,
+          color: isSelected
+              ? AppColors.secondary
+              : AppColors.textLight.withOpacity(0.15),
+          width: isSelected ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: isSelected
+                ? AppColors.secondary.withOpacity(0.12)
+                : Colors.black.withOpacity(0.06),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

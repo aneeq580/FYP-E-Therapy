@@ -3,13 +3,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'package:fyp_therapy/patient/profile/patient_profile_controller.dart';
+import 'package:fyp_therapy/controllers/patient_activity_controller.dart';
+import 'package:fyp_therapy/services/mood_service.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import 'profile_header.dart';
-import 'activity_card.dart';
+import 'widgets/therapy_activity_card.dart';
+import '../settings/widgets/settings_card.dart';
 import 'settings_tile.dart';
+import '../../core/widgets/logout_confirmation_dialog.dart';
+import 'widgets/avatar_selection_modal.dart';
 
 class PatientProfileScreen extends StatelessWidget {
   const PatientProfileScreen({super.key});
@@ -18,12 +23,20 @@ class PatientProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Ensure controller is available for this screen.
     final controller = Get.put(PatientProfileController());
+    Get.put(MoodService());
+    Get.put(PatientActivityController());
 
     // check if this screen was opened immediately after signup and
     // requires the user to complete their profile.  the sign-up flow
     // passes an argument `requireCompletion: true` when navigating here.
     final args = Get.arguments as Map<String, dynamic>?;
     final requireCompletion = args != null && args['requireCompletion'] == true;
+    final initialName = (args != null && args['initialName'] != null)
+        ? args['initialName'] as String
+        : '';
+    final initialEmail = (args != null && args['initialEmail'] != null)
+        ? args['initialEmail'] as String
+        : '';
 
     // if profile completion is forced we show the edit dialog as soon
     // as the profile data has finished loading.  using a post-frame callback ensures
@@ -39,6 +52,8 @@ class PatientProfileScreen extends StatelessWidget {
             context,
             controller,
             requireCompletion: requireCompletion,
+            initialName: initialName,
+            initialEmail: initialEmail,
           );
         });
       } else {
@@ -52,6 +67,8 @@ class PatientProfileScreen extends StatelessWidget {
                   context,
                   controller,
                   requireCompletion: requireCompletion,
+                  initialName: initialName,
+                  initialEmail: initialEmail,
                 );
               }
             });
@@ -73,6 +90,26 @@ class PatientProfileScreen extends StatelessWidget {
                 profileImageUrl: controller.profileImageUrl.value.isEmpty
                     ? null
                     : controller.profileImageUrl.value,
+                gender: controller.gender.value,
+                onAvatarTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    isScrollControlled: true,
+                    builder: (context) => AvatarSelectionModal(
+                      gender: controller.gender.value,
+                      onSelect: (url) {
+                        controller.saveProfileEdits(
+                          newFullName: controller.fullName.value,
+                          newEmail: controller.email.value,
+                          newAge: controller.age.value,
+                          newGender: controller.gender.value,
+                          newProfileImageUrl: url,
+                        );
+                      },
+                    ),
+                  );
+                },
                 onEditTap: () => _showEditProfileDialog(
                   context,
                   controller,
@@ -148,140 +185,45 @@ class PatientProfileScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(
                 horizontal: AppSizes.spacingMedium,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: AppSizes.spacingMedium,
-                      bottom: AppSizes.spacingMedium,
-                    ),
-                    child: Text(
-                      'Therapy Activity',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ActivityCard(
-                          icon: FontAwesomeIcons.calendarCheck,
-                          title: 'Sessions',
-                          value: '12',
-                          subtitle: 'Completed',
-                          color: AppColors.iconMySessions,
-                          backgroundColor: AppColors.iconBgMySessions,
-                        ),
-                      ),
-                      const SizedBox(width: AppSizes.spacingMedium),
-                      Expanded(
-                        child: ActivityCard(
-                          icon: FontAwesomeIcons.clock,
-                          title: 'Upcoming',
-                          value: '2',
-                          subtitle: 'This week',
-                          color: AppColors.iconBookSession,
-                          backgroundColor: AppColors.iconBgBookSession,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: AppSizes.spacingMedium),
-                  ActivityCard(
-                    icon: FontAwesomeIcons.faceSmile,
-                    title: 'Mood Check-ins',
-                    value: '45',
-                    subtitle: 'Total entries',
-                    color: AppColors.iconMoodTracker,
-                    backgroundColor: AppColors.iconBgMoodTracker,
-                    isFullWidth: true,
-                  ),
-                ],
-              ),
+              child: const TherapyActivityCard(),
             ),
 
             const SizedBox(height: AppSizes.spacingLarge),
 
-            // Settings
+            // Settings Menu
             Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: AppSizes.spacingMedium,
               ),
-              decoration: BoxDecoration(
-                color: AppColors.backgroundLight,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.textPrimary.withOpacity(0.05),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(AppSizes.spacingMedium),
-                    child: Text(
-                      'Settings',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                  const Divider(height: 1),
+              child: SettingsCard(
+                title: 'Settings',
+                tiles: [
                   SettingsTile(
                     icon: FontAwesomeIcons.bell,
                     title: 'Notifications',
-                    onTap: () {},
+                    onTap: () =>
+                        Get.toNamed(AppRoutes.patientSettingsNotifications),
                   ),
-                  const Divider(height: 1, indent: 50),
                   SettingsTile(
                     icon: FontAwesomeIcons.lock,
                     title: 'Privacy & Security',
-                    onTap: () {},
+                    onTap: () => Get.toNamed(AppRoutes.patientSettingsPrivacy),
                   ),
-                  const Divider(height: 1, indent: 50),
-                  ListTile(
-                    leading: FaIcon(
-                      FontAwesomeIcons.moon,
-                      color: AppColors.primary,
-                    ),
-                    title: Text(
-                      'Dark Mode',
-                      style: AppTextStyles.bodyText.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: false,
-                      onChanged: (v) {},
-                      thumbColor: WidgetStateProperty.all(AppColors.primary),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: AppSizes.spacingMedium,
-                      vertical: 4,
-                    ),
+                  SettingsTile(
+                    icon: FontAwesomeIcons.moon,
+                    title: 'Dark Mode',
+                    onTap: () => Get.toNamed(AppRoutes.patientSettingsDarkMode),
                   ),
-                  const Divider(height: 1, indent: 50),
                   SettingsTile(
                     icon: FontAwesomeIcons.language,
                     title: 'Language',
                     subtitle: 'English',
-                    onTap: () {},
+                    onTap: () => Get.toNamed(AppRoutes.patientSettingsLanguage),
                   ),
-                  const Divider(height: 1, indent: 50),
                   SettingsTile(
                     icon: FontAwesomeIcons.circleQuestion,
                     title: 'Help & Support',
-                    onTap: () {},
+                    onTap: () => Get.toNamed(AppRoutes.patientSettingsHelp),
                   ),
                 ],
               ),
@@ -307,7 +249,15 @@ class PatientProfileScreen extends StatelessWidget {
                     width: double.infinity,
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        Get.find<AuthController>().handleLogout();
+                        showDialog(
+                          context: context,
+                          builder: (context) => LogoutConfirmationDialog(
+                            onConfirm: () {
+                              Get.find<AuthController>().handleLogout();
+                              Get.offAllNamed(AppRoutes.roleSelection);
+                            },
+                          ),
+                        );
                       },
                       icon: const FaIcon(FontAwesomeIcons.rightFromBracket),
                       label: const Text(
@@ -366,11 +316,19 @@ class PatientProfileScreen extends StatelessWidget {
     BuildContext context,
     PatientProfileController controller, {
     bool requireCompletion = false,
+    String initialName = '',
+    String initialEmail = '',
   }) {
     final nameController = TextEditingController(
-      text: controller.fullName.value,
+      text: controller.fullName.value.isNotEmpty
+          ? controller.fullName.value
+          : initialName,
     );
-    final emailController = TextEditingController(text: controller.email.value);
+    final emailController = TextEditingController(
+      text: controller.email.value.isNotEmpty
+          ? controller.email.value
+          : initialEmail,
+    );
     final ageController = TextEditingController(
       text: controller.age.value != null ? '${controller.age.value}' : '',
     );
@@ -443,11 +401,13 @@ class PatientProfileScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Joined date: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontSize: 14,
+                          Obx(
+                            () => Text(
+                              'Joined date: ${controller.formattedJoinedDate}',
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                           Icon(

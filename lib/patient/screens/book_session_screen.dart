@@ -352,16 +352,9 @@ class BookSessionScreen extends GetView<BookSessionController> {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: isComplete
-                    ? [AppColors.secondary, AppColors.primary]
-                    : [
-                        AppColors.textLight.withOpacity(0.15),
-                        AppColors.textLight.withOpacity(0.1),
-                      ],
-              ),
+              color: isComplete
+                  ? AppColors.primary
+                  : AppColors.textLight.withOpacity(0.15),
               shape: BoxShape.circle,
             ),
             child: Center(

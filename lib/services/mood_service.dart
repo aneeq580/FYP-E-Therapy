@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/mood_entry.dart';
 
@@ -66,5 +67,20 @@ class MoodService extends GetxService {
               .map((doc) => MoodEntry.fromMap(doc.data(), doc.id))
               .toList(),
         );
+  }
+
+  // ── Patient Activity Stats ────────────────────────────────────────────────
+
+  /// Live all-time count of mood check-ins for the given patient.
+  Stream<int> getMoodCheckInCount(String patientId) {
+    return _firestore
+        .collection('users')
+        .doc(patientId)
+        .collection('moods')
+        .snapshots()
+        .handleError((e) {
+          debugPrint('getMoodCheckInCount error: $e');
+        })
+        .map((snapshot) => snapshot.docs.length);
   }
 }

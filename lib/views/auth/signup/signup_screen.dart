@@ -39,7 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+            colors: [Color(0xFF23BBB7), Color(0xFF23627C)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -127,9 +127,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           return;
                         }
 
-                        authController.updateFullName(
-                          fullNameController.text,
-                        );
+                        authController.updateFullName(fullNameController.text);
                         authController.updateCredentials(
                           email: emailController.text,
                           password: passwordController.text,

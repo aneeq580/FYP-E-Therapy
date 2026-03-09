@@ -5,9 +5,27 @@ import 'package:fyp_therapy/controllers/auth_controller.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../../core/widgets/patient_app_bar.dart';
+import '../../controllers/patient_activity_controller.dart';
+import '../widgets/therapy_activity_card.dart';
 
-class PatientProfileScreen extends StatelessWidget {
+class PatientProfileScreen extends StatefulWidget {
   const PatientProfileScreen({super.key});
+
+  @override
+  State<PatientProfileScreen> createState() => _PatientProfileScreenState();
+}
+
+class _PatientProfileScreenState extends State<PatientProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Register PatientActivityController if not yet in the GetX registry.
+    // Using Get.put (not lazyPut) so it is immediately available for TherapyActivityCard.
+    if (!Get.isRegistered<PatientActivityController>()) {
+      Get.put(PatientActivityController(), permanent: false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +44,8 @@ class PatientProfileScreen extends StatelessWidget {
 
             const SizedBox(height: AppSizes.spacingLarge),
 
-            // 3) Therapy Activity Section
-            _buildTherapyActivitySection(),
+            // 3) Therapy Activity Section (real-time)
+            const TherapyActivityCard(),
 
             const SizedBox(height: AppSizes.spacingLarge),
 
@@ -69,11 +87,7 @@ class PatientProfileScreen extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [AppColors.primary, AppColors.primaryLight],
-          ),
+          color: AppColors.primary,
         ),
         child: Center(
           child: Text(
@@ -313,130 +327,8 @@ class PatientProfileScreen extends StatelessWidget {
     );
   }
 
-  // Therapy Activity Section Widget
-  Widget _buildTherapyActivitySection() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacingMedium),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Section Title
-          Padding(
-            padding: const EdgeInsets.only(
-              left: AppSizes.spacingMedium,
-              bottom: AppSizes.spacingMedium,
-            ),
-            child: Text(
-              'Therapy Activity',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ),
-
-          // Activity Cards Row
-          Row(
-            children: [
-              Expanded(
-                child: _buildActivityCard(
-                  icon: FontAwesomeIcons.calendarCheck,
-                  title: 'Sessions',
-                  value: '12',
-                  subtitle: 'Completed',
-                  color: AppColors.iconMySessions,
-                  backgroundColor: AppColors.iconBgMySessions,
-                ),
-              ),
-              const SizedBox(width: AppSizes.spacingMedium),
-              Expanded(
-                child: _buildActivityCard(
-                  icon: FontAwesomeIcons.clock,
-                  title: 'Upcoming',
-                  value: '2',
-                  subtitle: 'This week',
-                  color: AppColors.iconBookSession,
-                  backgroundColor: AppColors.iconBgBookSession,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: AppSizes.spacingMedium),
-
-          // Mood Check-ins Card
-          _buildActivityCard(
-            icon: FontAwesomeIcons.faceSmile,
-            title: 'Mood Check-ins',
-            value: '45',
-            subtitle: 'Total entries',
-            color: AppColors.iconMoodTracker,
-            backgroundColor: AppColors.iconBgMoodTracker,
-            isFullWidth: true,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Activity Card Widget
-  Widget _buildActivityCard({
-    required IconData icon,
-    required String title,
-    required String value,
-    required String subtitle,
-    required Color color,
-    required Color backgroundColor,
-    bool isFullWidth = false,
-  }) {
-    return Container(
-      width: isFullWidth ? double.infinity : null,
-      padding: const EdgeInsets.all(AppSizes.spacingMedium),
-      decoration: BoxDecoration(
-        color: AppColors.backgroundLight,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: FaIcon(icon, size: 20, color: color),
-          ),
-          const SizedBox(height: AppSizes.spacingSmall),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500),
-          ),
-          Text(
-            subtitle,
-            style: AppTextStyles.bodyTextSecondary.copyWith(fontSize: 12),
-          ),
-        ],
-      ),
-    );
-  }
+  // ── Removed: _buildTherapyActivitySection() and _buildActivityCard() ──────
+  // These have been replaced by TherapyActivityCard + ActivityItem widgets.
 
   // Settings Section Widget
   Widget _buildSettingsSection() {

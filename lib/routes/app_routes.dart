@@ -15,6 +15,12 @@ class AppRoutes {
   static const String resources = '/resources';
   static const String emergency = '/emergency';
   static const String patientSettings = '/patientSettings';
+  static const String patientSettingsNotifications =
+      '/patientSettings/notifications';
+  static const String patientSettingsPrivacy = '/patientSettings/privacy';
+  static const String patientSettingsDarkMode = '/patientSettings/darkMode';
+  static const String patientSettingsLanguage = '/patientSettings/language';
+  static const String patientSettingsHelp = '/patientSettings/help';
   static const String patientProfile = '/patientProfile';
 
   // Therapist routes

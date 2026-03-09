@@ -175,11 +175,7 @@ class MySessionsScreen extends StatelessWidget {
                   labelColor: AppColors.textOnPrimary,
                   unselectedLabelColor: AppColors.textSecondary,
                   indicator: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [AppColors.primary, AppColors.secondary],
-                    ),
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   labelStyle: const TextStyle(

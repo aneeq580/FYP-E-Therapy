@@ -61,8 +61,16 @@ class DateTimeSelectionCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(AppSizes.spacingMedium),
                   decoration: BoxDecoration(
-                    color: AppColors.backgroundLight,
+                    color: selectedDate != null
+                        ? AppColors.secondary.withOpacity(0.06)
+                        : AppColors.backgroundLight,
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: selectedDate != null
+                          ? AppColors.secondary
+                          : Colors.transparent,
+                      width: 1.5,
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -120,8 +128,16 @@ class DateTimeSelectionCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(AppSizes.spacingMedium),
                   decoration: BoxDecoration(
-                    color: AppColors.backgroundLight,
+                    color: selectedTime != null
+                        ? AppColors.secondary.withOpacity(0.06)
+                        : AppColors.backgroundLight,
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: selectedTime != null
+                          ? AppColors.secondary
+                          : Colors.transparent,
+                      width: 1.5,
+                    ),
                   ),
                   child: Row(
                     children: [

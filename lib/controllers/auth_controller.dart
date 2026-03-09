@@ -158,7 +158,11 @@ class AuthController extends GetxController {
         // to the profile screen with a flag.
         Get.offAllNamed(
           AppRoutes.patientProfile,
-          arguments: {'requireCompletion': true},
+          arguments: {
+            'requireCompletion': true,
+            'initialName': fullName.value,
+            'initialEmail': currentEmail,
+          },
         );
       }
 

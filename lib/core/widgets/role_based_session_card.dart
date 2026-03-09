@@ -20,6 +20,9 @@ class RoleBasedSessionCard extends StatelessWidget {
   // When true, the Start button renders at reduced opacity (session time not yet reached)
   final bool isStartDisabled;
 
+  // Patient Only Action
+  final VoidCallback? onJoin; // triggered when patient clicks "Join Chat"
+
   const RoleBasedSessionCard({
     super.key,
     required this.appointment,
@@ -31,6 +34,7 @@ class RoleBasedSessionCard extends StatelessWidget {
     this.onCancel,
     this.onStart,
     this.isStartDisabled = false,
+    this.onJoin,
   });
 
   String _formatDate() {
@@ -43,38 +47,45 @@ class RoleBasedSessionCard extends StatelessWidget {
     return DateFormat('h:mm a').format(dt);
   }
 
-  // Common status color base
   Color _getStatusColor(String status, bool isPatient) {
     switch (status.toLowerCase()) {
       case 'pending':
-        return AppColors.warning; // orange
+        return AppColors.warning;
       case 'approved':
       case 'upcoming':
-        return Colors.yellow.shade700; // yellow
+        return Colors.yellow.shade700;
+      case 'ongoing':
+      case 'active':
+      case 'started':
+        return AppColors.iconBookSession; // Deep Blue for better contrast
       case 'completed':
         return isPatient
-            ? const Color(0xFF4CAF50)
-            : const Color(
-                0xFF6246EA,
-              ); // Green for patient, Purple for therapist
+            ? const Color(0xFF2E7D32)
+            : AppColors
+                  .iconBookSession; // Darker theme-consistent green or secondary
       case 'cancelled':
-        return AppColors.error; // red
+        return AppColors.error;
       default:
         return AppColors.textSecondary;
     }
+  }
+
+  bool get _isSessionActive {
+    final s = appointment.status.toLowerCase();
+    return s == 'ongoing' || s == 'active' || s == 'started';
   }
 
   @override
   Widget build(BuildContext context) {
     final isPatient = role.toLowerCase() == 'patient';
 
-    // Core Role Colors
+    // Core Role Colors — Patient uses Turquoise theme
     final primaryAccent = isPatient
-        ? const Color(0xFF4CAF50)
-        : const Color(0xFF6246EA); // Purple for therapist
+        ? AppColors.primary
+        : const Color(0xFF6246EA);
     final bgColor = isPatient
-        ? const Color(0xFFE8F5E9)
-        : const Color(0xFFF3E5F5); // Light purple for therapist
+        ? AppColors.backgroundLight
+        : const Color(0xFFF3E5F5);
 
     final statusColor = _getStatusColor(appointment.status, isPatient);
     final statusBgColor = statusColor.withOpacity(0.1);
@@ -82,6 +93,10 @@ class RoleBasedSessionCard extends StatelessWidget {
         ? 'Upcoming'
         : appointment.status.toLowerCase() == 'completed'
         ? 'Session Ended'
+        : (appointment.status.toLowerCase() == 'ongoing' ||
+              appointment.status.toLowerCase() == 'started' ||
+              appointment.status.toLowerCase() == 'active')
+        ? 'Ongoing'
         : appointment.status[0].toUpperCase() + appointment.status.substring(1);
 
     final String displayName = isPatient
@@ -97,7 +112,12 @@ class RoleBasedSessionCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: primaryAccent.withOpacity(0.5), width: 1),
+        side: BorderSide(
+          color: _isSessionActive && isPatient
+              ? AppColors.primary
+              : primaryAccent.withOpacity(0.3),
+          width: _isSessionActive && isPatient ? 2 : 1,
+        ),
       ),
       child: InkWell(
         onTap: onTap,
@@ -207,7 +227,50 @@ class RoleBasedSessionCard extends StatelessWidget {
                 ],
               ),
 
-              // Therapist Action Buttons Section
+              // ── Patient Join Chat Button ──────────────────────────────
+              if (isPatient && onJoin != null) ...[
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _isSessionActive ? onJoin : null,
+                    icon: FaIcon(
+                      FontAwesomeIcons.commentDots,
+                      size: 16,
+                      color: _isSessionActive
+                          ? Colors.white
+                          : AppColors.textSecondary,
+                    ),
+                    label: Text(
+                      _isSessionActive ? 'Join Chat' : 'Waiting for therapist…',
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _isSessionActive
+                          ? AppColors.primary
+                          : AppColors.backgroundLight,
+                      foregroundColor: _isSessionActive
+                          ? Colors.white
+                          : AppColors.textSecondary,
+                      disabledBackgroundColor: AppColors.backgroundLight,
+                      disabledForegroundColor: AppColors.textSecondary,
+                      elevation: _isSessionActive ? 2 : 0,
+                      shadowColor: AppColors.primary.withOpacity(0.3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: _isSessionActive
+                              ? AppColors.primary
+                              : AppColors.textLight.withOpacity(0.3),
+                          width: 1.5,
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                  ),
+                ),
+              ],
+
+              // ── Therapist Action Buttons Section ─────────────────────
               if (!isPatient &&
                   (onAccept != null ||
                       onReject != null ||

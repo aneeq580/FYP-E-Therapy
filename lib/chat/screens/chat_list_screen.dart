@@ -334,13 +334,14 @@ class _ChatTile extends StatelessWidget {
                                       vertical: 2,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFE3F2FD),
+                                      color: AppColors.iconBookSession
+                                          .withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: const Text(
                                       'Ongoing',
                                       style: TextStyle(
-                                        color: Color(0xFF1976D2),
+                                        color: AppColors.iconBgBookSession,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 10,
                                       ),
@@ -421,13 +422,13 @@ class _GradientAvatar extends StatelessWidget {
 
   List<Color> _gradientColors() {
     const palettes = [
-      [Color(0xFF168E6A), Color(0xFF2DA07F)],
-      [Color(0xFF00BCD4), Color(0xFF0097A7)],
-      [Color(0xFF9C27B0), Color(0xFF7B1FA2)],
-      [Color(0xFF3F51B5), Color(0xFF303F9F)],
-      [Color(0xFFE91E63), Color(0xFFC2185B)],
-      [Color(0xFFF39C12), Color(0xFFE67E22)],
-      [Color(0xFF00897B), Color(0xFF00695C)],
+      [Color(0xFF23BBB7), Color(0xFF1A8E8B)], // Turquoise
+      [Color(0xFF23627C), Color(0xFF194A5D)], // Deep Blue
+      [Color(0xFF5DD0CD), Color(0xFF3A8BA8)], // Light Turquoise → Mid Blue
+      [Color(0xFF3F51B5), Color(0xFF303F9F)], // Indigo
+      [Color(0xFFE91E63), Color(0xFFC2185B)], // Pink
+      [Color(0xFFF0A500), Color(0xFFE67E22)], // Amber
+      [Color(0xFF3A8BA8), Color(0xFF23627C)], // Mid Blue → Deep Blue
     ];
     if (name.isEmpty) return palettes[0];
     final idx = name.codeUnitAt(0) % palettes.length;

@@ -156,4 +156,33 @@ class AppointmentService extends GetxService {
       });
     });
   }
+
+  // ── Patient Activity Stats ────────────────────────────────────────────────
+
+  /// Live count of completed sessions for the given patient.
+  Stream<int> getPatientCompletedSessionCount(String patientId) {
+    return _firestore
+        .collection('appointments')
+        .where('patientId', isEqualTo: patientId)
+        .where('status', isEqualTo: 'completed')
+        .snapshots()
+        .handleError((e) {
+          debugPrint('getPatientCompletedSessionCount error: $e');
+        })
+        .map((snapshot) => snapshot.docs.length);
+  }
+
+  /// Live count of upcoming (accepted) sessions for the given patient.
+  /// Matches the existing status values used by the therapist accept flow.
+  Stream<int> getPatientUpcomingSessionCount(String patientId) {
+    return _firestore
+        .collection('appointments')
+        .where('patientId', isEqualTo: patientId)
+        .where('status', isEqualTo: 'accepted')
+        .snapshots()
+        .handleError((e) {
+          debugPrint('getPatientUpcomingSessionCount error: $e');
+        })
+        .map((snapshot) => snapshot.docs.length);
+  }
 }

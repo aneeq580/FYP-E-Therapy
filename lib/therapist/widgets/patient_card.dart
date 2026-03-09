@@ -123,7 +123,7 @@ class PatientAvatar extends StatelessWidget {
   final double fontSize;
 
   static const List<List<Color>> _palettes = [
-    [Color(0xFF168E6A), Color(0xFF2DA07F)], // primary green
+    [Color(0xFF23BBB7), Color(0xFF1A8E8B)], // primary turquoise
     [Color(0xFF00BCD4), Color(0xFF0097A7)], // cyan
     [Color(0xFF9C27B0), Color(0xFF7B1FA2)], // purple
     [Color(0xFF3F51B5), Color(0xFF303F9F)], // indigo
