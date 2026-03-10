@@ -160,11 +160,9 @@ class MySessionsScreen extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: AppSizes.spacingMedium),
+            const SizedBox(height: AppSizes.spacingSmall),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSizes.spacingMedium,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.spacingSmall),
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.backgroundLight,
@@ -172,11 +170,19 @@ class MySessionsScreen extends StatelessWidget {
                 ),
                 child: TabBar(
                   isScrollable: true,
+                  tabAlignment: TabAlignment.start,
+                  padding: EdgeInsets.zero,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelPadding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 3,
+                  ),
                   labelColor: AppColors.textOnPrimary,
                   unselectedLabelColor: AppColors.textSecondary,
+                  dividerColor: Colors.transparent,
                   indicator: BoxDecoration(
                     color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   labelStyle: const TextStyle(
                     fontSize: 12,

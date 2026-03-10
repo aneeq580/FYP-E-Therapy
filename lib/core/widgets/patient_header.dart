@@ -7,6 +7,8 @@ class PatientHeader extends StatelessWidget {
   final String? subtitle;
   final String? profileImageUrl;
   final VoidCallback? onProfileTap;
+  final Function(String emoji)? onMoodSelected;
+  final String? selectedEmoji;
 
   const PatientHeader({
     super.key,
@@ -14,6 +16,8 @@ class PatientHeader extends StatelessWidget {
     this.subtitle,
     this.profileImageUrl,
     this.onProfileTap,
+    this.onMoodSelected,
+    this.selectedEmoji,
   });
 
   String _getGreeting() {
@@ -67,16 +71,17 @@ class PatientHeader extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 12),
 
-          // Quick Mood Check-in (Recommended – bohot engaging banata hai)
+          // Quick Mood Check-in
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildMoodButton("😊", "Happy", Colors.greenAccent),
-              _buildMoodButton("😐", "Okay", Colors.amber),
-              _buildMoodButton("😟", "Anxious", Colors.orange),
-              _buildMoodButton("😔", "Sad", Colors.blueGrey),
+              _buildMoodButton("😄", "Great"),
+              _buildMoodButton("😊", "Happy"),
+              _buildMoodButton("😐", "Okay"),
+              _buildMoodButton("🙂", "Good"),
+              _buildMoodButton("😢", "Sad"),
             ],
           ),
           const SizedBox(height: 5),
@@ -119,32 +124,53 @@ class PatientHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildMoodButton(String emoji, String label, Color color) {
+  Widget _buildMoodButton(String emoji, String label) {
+    final isSelected = selectedEmoji == emoji;
     return GestureDetector(
       onTap: () {
-        // TODO: Save mood to local/Firestore + show snackbar "Mood logged!"
-        print("Mood selected: $label");
+        if (onMoodSelected != null) {
+          onMoodSelected!(emoji);
+        }
       },
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.25),
-              shape: BoxShape.circle,
+      child: AnimatedScale(
+        scale: isSelected ? 1.2 : 1.0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutBack,
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? Colors.white
+                    : Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ]
+                    : [],
+              ),
+              child: Text(emoji, style: const TextStyle(fontSize: 20)),
             ),
-            child: Text(emoji, style: const TextStyle(fontSize: 20)),
-          ),
-          // const SizedBox(height: 3),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 11,
+                color: isSelected
+                    ? Colors.white
+                    : Colors.white.withOpacity(0.7),
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

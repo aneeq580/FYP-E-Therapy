@@ -8,7 +8,7 @@ import '../../core/widgets/therapist_card.dart';
 import '../../services/therapist_service.dart';
 
 /// Therapists Screen - Therapist discovery and listing
-class TherapistListScreen extends StatelessWidget {
+class TherapistListScreen extends StatefulWidget {
   const TherapistListScreen({
     super.key,
     this.selectedTherapist,
@@ -21,6 +21,24 @@ class TherapistListScreen extends StatelessWidget {
   final DateTime? selectedDate;
   final TimeOfDay? selectedTime;
   final bool isSelectionMode;
+
+  @override
+  State<TherapistListScreen> createState() => _TherapistListScreenState();
+}
+
+class _TherapistListScreenState extends State<TherapistListScreen> {
+  final RxString _query = ''.obs;
+  final TextEditingController _searchCtrl = TextEditingController();
+  final FocusNode _searchFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    _searchFocus.dispose();
+    super.dispose();
+  }
+
+  void _dismissKeyboard() => _searchFocus.unfocus();
 
   void _handleViewProfile(String therapistName) {
     Get.snackbar(
@@ -40,63 +58,215 @@ class TherapistListScreen extends StatelessWidget {
     }
     final therapistService = Get.find<TherapistService>();
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: const PatientAppBar(title: 'Therapists'),
-      body: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: therapistService.getTherapistsStream(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error loading therapists: ${snapshot.error}'),
-            );
-          }
-
-          final therapists = snapshot.data ?? [];
-
-          if (therapists.isEmpty) {
-            return const Center(child: Text('No therapists available yet.'));
-          }
-
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSizes.spacingMedium,
+    return PopScope(
+      canPop: !_searchFocus.hasFocus,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _dismissKeyboard();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: const PatientAppBar(title: 'Therapists'),
+        body: Column(
+          children: [
+            _SearchBar(
+              controller: _searchCtrl,
+              focusNode: _searchFocus,
+              query: _query,
             ),
-            itemCount: therapists.length,
-            itemBuilder: (context, index) {
-              final therapist = therapists[index];
-              return InkWell(
-                onTap: () {
-                  if (isSelectionMode) {
-                    Get.back(result: therapist);
-                  } else {
-                    _handleViewProfile(
-                      therapist['fullName'] as String? ?? 'Therapist',
+            Expanded(
+              child: StreamBuilder<List<Map<String, dynamic>>>(
+                stream: therapistService.getTherapistsStream(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Error loading therapists: ${snapshot.error}',
+                      ),
                     );
                   }
+
+                  final therapists = snapshot.data ?? [];
+
+                  if (therapists.isEmpty && _query.value.isEmpty) {
+                    return const Center(
+                      child: Text('No therapists available yet.'),
+                    );
+                  }
+
+                  return Obx(() {
+                    final q = _query.value.trim().toLowerCase();
+                    final filtered = q.isEmpty
+                        ? therapists
+                        : therapists.where((t) {
+                            final name = (t['fullName'] as String? ?? '')
+                                .toLowerCase();
+                            final spec = (t['specialty'] as String? ?? '')
+                                .toLowerCase();
+                            return name.contains(q) || spec.contains(q);
+                          }).toList();
+
+                    if (filtered.isEmpty) {
+                      return _EmptyState(hasQuery: q.isNotEmpty);
+                    }
+
+                    return ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSizes.spacingMedium,
+                      ),
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) {
+                        final therapist = filtered[index];
+                        return InkWell(
+                          onTap: () {
+                            if (widget.isSelectionMode) {
+                              Get.back(result: therapist);
+                            } else {
+                              _handleViewProfile(
+                                therapist['fullName'] as String? ?? 'Therapist',
+                              );
+                            }
+                          },
+                          child: TherapistCard(
+                            name:
+                                therapist['fullName'] as String? ??
+                                therapist['name'] as String? ??
+                                'Therapist',
+                            specialty:
+                                therapist['specialty'] as String? ??
+                                'General Therapist',
+                            rating:
+                                (therapist['rating'] as num?)?.toDouble() ??
+                                5.0,
+                            photoUrl:
+                                therapist['profileImageUrl'] as String? ??
+                                therapist['photoUrl'] as String?,
+                            onViewProfile: () => _handleViewProfile(
+                              therapist['fullName'] as String? ?? 'Therapist',
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  });
                 },
-                child: TherapistCard(
-                  name:
-                      therapist['fullName'] as String? ??
-                      therapist['name'] as String? ??
-                      'Therapist',
-                  specialty:
-                      therapist['specialty'] as String? ?? 'General Therapist',
-                  rating: (therapist['rating'] as num?)?.toDouble() ?? 5.0,
-                  photoUrl:
-                      therapist['profileImageUrl'] as String? ??
-                      therapist['photoUrl'] as String?,
-                  onViewProfile: () => _handleViewProfile(
-                    therapist['fullName'] as String? ?? 'Therapist',
-                  ),
-                ),
-              );
-            },
-          );
-        },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchBar extends StatelessWidget {
+  const _SearchBar({
+    required this.controller,
+    required this.focusNode,
+    required this.query,
+  });
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final RxString query;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.primary,
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        onChanged: (v) => query.value = v,
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        cursorColor: Colors.white,
+        decoration: InputDecoration(
+          hintText: 'Search by name or specialty…',
+          hintStyle: TextStyle(
+            color: Colors.white.withOpacity(0.65),
+            fontSize: 14,
+          ),
+          prefixIcon: const Icon(
+            Icons.search_rounded,
+            color: Colors.white70,
+            size: 20,
+          ),
+          suffixIcon: Obx(
+            () => query.value.isNotEmpty
+                ? GestureDetector(
+                    onTap: () {
+                      controller.clear();
+                      query.value = '';
+                    },
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: Colors.white70,
+                      size: 18,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+          filled: true,
+          fillColor: Colors.white.withOpacity(0.15),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({required this.hasQuery});
+
+  final bool hasQuery;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSizes.spacingLarge),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.person_search_rounded,
+                size: 36,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              hasQuery ? 'No therapists found' : 'No therapists available',
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              hasQuery
+                  ? 'Try a different name or specialty.'
+                  : 'Check back later for available therapists.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.bodyTextSecondary,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -12,6 +12,8 @@ import '../../core/widgets/role_based_session_card.dart';
 import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import '../../controllers/appointment_controller.dart';
+import '../../controllers/mood_tracker_controller.dart';
+import '../../services/mood_service.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
@@ -22,6 +24,13 @@ class PatientHomeScreen extends StatelessWidget {
       PatientProfileController(),
       permanent: true,
     );
+
+    // Ensure MoodService is available before MoodTrackerController
+    if (!Get.isRegistered<MoodService>()) {
+      Get.put(MoodService(), permanent: true);
+    }
+
+    final moodController = Get.put(MoodTrackerController(), permanent: true);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -41,6 +50,20 @@ class PatientHomeScreen extends StatelessWidget {
                     : profileController.profileImageUrl.value,
                 onProfileTap: () {
                   Get.toNamed(AppRoutes.patientProfile);
+                },
+                selectedEmoji: moodController.selectedMood.value,
+                onMoodSelected: (emoji) {
+                  moodController.setMood(emoji);
+                  Get.snackbar(
+                    'Mood Logged',
+                    'Your mood has been saved successfully! 💙',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: AppColors.primary.withOpacity(0.8),
+                    colorText: Colors.white,
+                    margin: const EdgeInsets.all(16),
+                    borderRadius: 12,
+                    duration: const Duration(seconds: 2),
+                  );
                 },
               ),
             ),
