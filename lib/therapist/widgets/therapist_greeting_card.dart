@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_therapy/core/constants/colors.dart';
 import 'therapist_stats_chip.dart';
 
 class TherapistGreetingCard extends StatelessWidget {
@@ -24,14 +25,12 @@ class TherapistGreetingCard extends StatelessWidget {
       height: 210,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           colors: [
-            // ignore: deprecated_member_use
-            Color(0xFF7F5AF0).withOpacity(0.9),
-            // ignore: deprecated_member_use
-            Color(0xFF6246EA).withOpacity(0.9), // gentle green/purple mix
+            AppColors.therapistPrimary,
+            AppColors.therapistSecondary,
           ],
         ),
       ),

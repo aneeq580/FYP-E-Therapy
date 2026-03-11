@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_therapy/core/constants/colors.dart';
+import 'package:fyp_therapy/core/widgets/therapist_app_bar.dart';
 
 class AvailabilityScreen extends StatelessWidget {
   const AvailabilityScreen({super.key});
@@ -7,7 +9,8 @@ class AvailabilityScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Manage Availability")),
+      backgroundColor: AppColors.therapistBackground,
+      appBar: const TherapistAppBar(title: "Manage Availability"),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

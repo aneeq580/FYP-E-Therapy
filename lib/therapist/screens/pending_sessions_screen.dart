@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../core/constants/colors.dart';
 import '../../models/appointment_model.dart';
 import '../../controllers/appointment_controller.dart';
+import '../../core/widgets/therapist_app_bar.dart';
 import 'package:intl/intl.dart';
 
 class PendingSessionsScreen extends StatelessWidget {
@@ -30,13 +31,8 @@ class PendingSessionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Pending Session Requests'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      backgroundColor: AppColors.therapistBackground,
+      appBar: const TherapistAppBar(title: 'Pending Session Requests'),
       body: Obx(() {
         final pending = _appointmentController.therapistPendingAppointments;
 
@@ -88,7 +84,7 @@ class PendingSessionsScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(
-                  color: AppColors.primary.withOpacity(0.15),
+                  color: AppColors.therapistPrimary.withOpacity(0.15),
                   width: 1,
                 ),
               ),
@@ -101,11 +97,11 @@ class PendingSessionsScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 22,
-                          backgroundColor: AppColors.primary.withOpacity(0.08),
+                          backgroundColor: AppColors.therapistPrimary.withOpacity(0.08),
                           child: const FaIcon(
                             FontAwesomeIcons.user,
                             size: 18,
-                            color: AppColors.primary,
+                            color: AppColors.therapistPrimary,
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -179,7 +175,7 @@ class PendingSessionsScreen extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: AppColors.therapistPrimary,
                               foregroundColor: AppColors.textOnPrimary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),

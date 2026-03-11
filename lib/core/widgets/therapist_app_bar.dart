@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/colors.dart';
 
 class TherapistAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -12,13 +13,13 @@ class TherapistAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       flexibleSpace: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              const Color(0xFF7F5AF0).withOpacity(0.7),
-              const Color(0xFF6246EA).withOpacity(1),
+              AppColors.therapistPrimary,
+              AppColors.therapistSecondary,
             ],
           ),
         ),

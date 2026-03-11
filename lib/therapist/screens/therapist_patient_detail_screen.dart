@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:fyp_therapy/core/widgets/therapist_app_bar.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,11 +33,9 @@ class _TherapistPatientDetailScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(patientName ?? 'Patient'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
+      backgroundColor: AppColors.therapistBackground,
+      appBar: TherapistAppBar(
+        title: patientName ?? 'Patient',
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -57,7 +56,7 @@ class _TherapistPatientDetailScreenState
                 children: [
                   CircleAvatar(
                     radius: 32,
-                    backgroundColor: AppColors.primaryLight,
+                    backgroundColor: AppColors.therapistPrimaryLight,
                     child: Text(
                       (patientName != null && patientName!.isNotEmpty)
                           ? patientName![0].toUpperCase()

@@ -60,7 +60,7 @@ class _TherapistPatientsScreenState extends State<TherapistPatientsScreen> {
         if (!didPop) _searchFocus.unfocus();
       },
       child: Scaffold(
-        backgroundColor: AppColors.backgroundLight,
+        backgroundColor: AppColors.therapistBackground,
         appBar: const TherapistAppBar(title: 'My Patients'),
         body: Column(
           children: [
@@ -145,7 +145,7 @@ class _PatientsSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary,
+      color: AppColors.therapistPrimary,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
       child: TextField(
         controller: controller,
@@ -214,10 +214,10 @@ class _EmptyState extends StatelessWidget {
               width: 90,
               height: 90,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.08),
+                color: AppColors.therapistPrimary.withOpacity(0.08),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 40, color: AppColors.primary),
+              child: Icon(icon, size: 40, color: AppColors.therapistPrimary),
             ),
             const SizedBox(height: 20),
             Text(

@@ -26,6 +26,7 @@ import 'package:fyp_therapy/therapist/screens/pending_sessions_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_profile_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_patients_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_patient_detail_screen.dart';
+import 'package:fyp_therapy/therapist/bindings/therapist_profile_binding.dart';
 
 import 'app_routes.dart';
 import 'package:fyp_therapy/bindings/auth_binding.dart';
@@ -157,6 +158,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.therapistProfile,
       page: () => const TherapistProfileScreen(),
+      binding: TherapistProfileBinding(),
     ),
     // therapist patient routes
     GetPage(

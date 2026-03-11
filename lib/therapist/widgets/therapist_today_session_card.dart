@@ -32,7 +32,7 @@ class TherapistTodaySessionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Therapist accent color (Purple)
-    const therapistAccent = Color(0xFF6246EA);
+    const therapistAccent = AppColors.therapistPrimary;
 
     return Container(
       padding: const EdgeInsets.all(16),

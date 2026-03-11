@@ -123,7 +123,7 @@ class PatientAvatar extends StatelessWidget {
   final double fontSize;
 
   static const List<List<Color>> _palettes = [
-    [Color(0xFF23BBB7), Color(0xFF1A8E8B)], // primary turquoise
+    [AppColors.therapistPrimary, AppColors.therapistSecondary], // primary purple
     [Color(0xFF00BCD4), Color(0xFF0097A7)], // cyan
     [Color(0xFF9C27B0), Color(0xFF7B1FA2)], // purple
     [Color(0xFF3F51B5), Color(0xFF303F9F)], // indigo
@@ -194,7 +194,7 @@ class SessionCountChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       decoration: BoxDecoration(
-        color: AppColors.iconBgChat,
+        color: AppColors.therapistPrimary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -203,7 +203,7 @@ class SessionCountChip extends StatelessWidget {
           const Icon(
             Icons.event_note_rounded,
             size: 12,
-            color: AppColors.iconChat,
+            color: AppColors.therapistPrimary,
           ),
           const SizedBox(width: 4),
           Text(
@@ -211,7 +211,7 @@ class SessionCountChip extends StatelessWidget {
             style: const TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: AppColors.iconChat,
+              color: AppColors.therapistPrimary,
             ),
           ),
         ],
@@ -236,15 +236,19 @@ class PatientStatusChip extends StatelessWidget {
     final (label, bg, fg) = switch (status) {
       'completed' => (
         'Session Ended',
-        const Color(0xFFE8F5E9),
-        AppColors.primary,
+        const Color(0xFFF3E5F5), // Light purple background
+        AppColors.therapistPrimary,
       ),
       'approved' || 'upcoming' => (
         'Active',
         const Color(0xFFE3F2FD),
         const Color(0xFF1976D2),
       ),
-      'started' => ('In Session', const Color(0xFFFFF8E1), AppColors.secondary),
+      'started' => (
+        'In Session',
+        const Color(0xFFFFF8E1),
+        AppColors.therapistSecondary,
+      ),
       _ => ('Pending', AppColors.backgroundLight, AppColors.textSecondary),
     };
 
@@ -280,14 +284,14 @@ class PatientStatsBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.primaryLight],
+          colors: [AppColors.therapistPrimary, AppColors.therapistSecondary],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.25),
+            color: AppColors.therapistPrimary.withOpacity(0.25),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

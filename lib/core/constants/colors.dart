@@ -6,6 +6,12 @@ class AppColors {
   // Secondary: #23627C  (Deep Blue)
   // Background: #FFFFFF / #F0FAFD (Light Cyan tint)
   // Text:      #1A2D3A  (Dark navy-grey for readability)
+  
+  // Therapist Theme:
+  // Primary:   #7F5AF0  (Vibrant Purple)
+  // Secondary: #6246EA  (Deep Purple)
+  // Background: #F9F5FF (Lavender Tint)
+  // Surface:    #FFFFFF
 
   // Primary Colors
   static const Color primary = Color(0xFF23BBB7);
@@ -62,4 +68,13 @@ class AppColors {
   static const Color iconBgEmergency = Color(0xFFFCE4EC); // Light Pink
   static const Color iconBgSettings = Color(0xFFECEFF1); // Light Blue Grey
   static const Color iconBgChat = Color(0xFFE0F7FA); // Light Cyan
+
+  // Therapist-specific Colors
+  static const Color therapistPrimary = Color(0xFF7F5AF0);
+  static const Color therapistSecondary = Color(0xFF6246EA);
+  static const Color therapistPrimaryLight = Color(0xFF9B87F5);
+  static const Color therapistBackground = Color(0xFFF9F5FF);
+  static const Color therapistSurface = Colors.white;
+  static const Color therapistTextPrimary = Color(0xFF1B1B1E);
+  static const Color therapistTextSecondary = Color(0xFF7B7B8F);
 }

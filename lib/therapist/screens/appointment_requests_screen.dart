@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_therapy/core/widgets/therapist_app_bar.dart';
 import '../../core/constants/colors.dart';
 import 'package:get/get.dart';
 import '../../routes/app_routes.dart';
@@ -30,13 +31,8 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Appointment Requests'),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
-        elevation: 0,
-      ),
+      backgroundColor: AppColors.therapistBackground,
+      appBar: const TherapistAppBar(title: 'Appointment Requests'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -47,7 +43,7 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
                 FaIcon(
                   FontAwesomeIcons.calendar,
                   size: 36,
-                  color: AppColors.primary,
+                  color: AppColors.therapistPrimary,
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -67,14 +63,14 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.12),
+                      color: AppColors.therapistPrimary.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       '$pendingCount pending',
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.primary,
+                        color: AppColors.therapistPrimary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -95,7 +91,7 @@ class _AppointmentRequestsScreenState extends State<AppointmentRequestsScreen> {
                   Get.toNamed(AppRoutes.pendingSessions);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: AppColors.therapistPrimary,
                   foregroundColor: AppColors.textOnPrimary,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,

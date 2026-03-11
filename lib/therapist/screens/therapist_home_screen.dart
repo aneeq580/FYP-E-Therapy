@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_therapy/core/constants/colors.dart';
 import 'package:fyp_therapy/patient/screens/settings_screen.dart';
 import 'package:fyp_therapy/therapist/screens/availability_screen.dart';
-import 'package:fyp_therapy/therapist/screens/profile_screen.dart';
 import '../widgets/therapist_greeting_card.dart';
 import '../widgets/therapist_today_session_card.dart';
 import '../widgets/quick_action_tile.dart';
@@ -24,6 +23,7 @@ class TherapistHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.therapistBackground,
       appBar: TherapistAppBar(
         title: "Dashboard",
         actions: [
@@ -39,7 +39,7 @@ class TherapistHomeScreen extends StatelessWidget {
               if (value == 'availability') {
                 Get.to(() => const AvailabilityScreen());
               } else if (value == 'profile') {
-                Get.to(() => const ProfileScreen());
+                Get.toNamed(AppRoutes.therapistProfile);
               } else if (value == 'settings') {
                 Get.to(() => const SettingsScreen());
               } else if (value == 'logout') {
