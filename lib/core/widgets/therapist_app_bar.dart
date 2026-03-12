@@ -13,16 +13,7 @@ class TherapistAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              AppColors.therapistPrimary,
-              AppColors.therapistSecondary,
-            ],
-          ),
-        ),
+        decoration: const BoxDecoration(color: AppColors.therapistSecondary),
       ),
       title: Text(
         title,

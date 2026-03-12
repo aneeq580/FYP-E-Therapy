@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,63 @@ import '../models/appointment_model.dart';
 
 class AppointmentService extends GetxService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Timer? _expirationTimer;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _startExpirationTimer();
+  }
+
+  @override
+  void onClose() {
+    _expirationTimer?.cancel();
+    super.onClose();
+  }
+
+  void _startExpirationTimer() {
+    // Check every minute
+    _expirationTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      checkAndExpireSessions();
+    });
+    // Initial check on start
+    checkAndExpireSessions();
+  }
+
+  /// Automatically expire sessions that have reached their end time
+  Future<void> checkAndExpireSessions() async {
+    final now = Timestamp.now();
+    try {
+      // Query for sessions that could expire: pending, approved, upcoming, or accepted
+      final snapshot = await _firestore
+          .collection('appointments')
+          .where('status', whereIn: ['pending', 'approved', 'upcoming', 'accepted']).get();
+
+      final batch = _firestore.batch();
+      int expiredCount = 0;
+
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final endTime = data['endTime'] as Timestamp?;
+
+        if (endTime != null && endTime.compareTo(now) <= 0) {
+          batch.update(doc.reference, {
+            'status': 'cancelled',
+            'isActive': false,
+          });
+          expiredCount++;
+        }
+      }
+
+      if (expiredCount > 0) {
+        await batch.commit();
+        debugPrint('AppointmentService: Expired $expiredCount sessions.');
+      }
+    } catch (e) {
+      debugPrint('AppointmentService: Error expiring sessions: $e');
+    }
+  }
+
 
   Future<void> createAppointment(AppointmentModel appointment) async {
     // ensure endTime is sent correctly; assume caller calculates it

@@ -145,7 +145,7 @@ class _PatientsSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.therapistPrimary,
+      color: AppColors.therapistSecondary,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
       child: TextField(
         controller: controller,
@@ -214,10 +214,10 @@ class _EmptyState extends StatelessWidget {
               width: 90,
               height: 90,
               decoration: BoxDecoration(
-                color: AppColors.therapistPrimary.withOpacity(0.08),
+                color: AppColors.therapistPrimary,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 40, color: AppColors.therapistPrimary),
+              child: Icon(icon, size: 40, color: AppColors.therapistSecondary),
             ),
             const SizedBox(height: 20),
             Text(

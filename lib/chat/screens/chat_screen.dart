@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../controllers/chat_controller.dart';
 import '../controllers/session_controller.dart';
 import '../../controllers/appointment_controller.dart';
+import '../../core/constants/colors.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
@@ -41,6 +42,9 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:
+            isTherapist ? AppColors.therapistPrimary : AppColors.primary,
+        foregroundColor: Colors.white,
         title: Obx(() {
           final name = sessionCtrl.partnerName;
           if (name.isEmpty) return const Text('Chat');
@@ -81,10 +85,16 @@ class ChatScreen extends StatelessWidget {
             if (!sessionCtrl.chatEnabled) {
               return Container(
                 width: double.infinity,
-                color: Colors.grey.shade200,
+                color: (isTherapist ? AppColors.therapistPrimary : AppColors.primary).withOpacity(0.1),
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: const Center(
-                  child: Text('Waiting for therapist to start...'),
+                child: Center(
+                  child: Text(
+                    'Waiting for therapist to start...',
+                    style: TextStyle(
+                      color: isTherapist ? AppColors.therapistPrimary : AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               );
             }
@@ -99,9 +109,17 @@ class ChatScreen extends StatelessWidget {
                 .padLeft(2, '0');
             return Container(
               width: double.infinity,
-              color: Colors.grey.shade200,
+              color: (isTherapist ? AppColors.therapistPrimary : AppColors.primary).withOpacity(0.1),
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Center(child: Text('Remaining: $minutes:$seconds')),
+              child: Center(
+                child: Text(
+                  'Remaining: $minutes:$seconds',
+                  style: TextStyle(
+                    color: isTherapist ? AppColors.therapistPrimary : AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             );
           }),
           // action button row (Complete / Leave).  Compare to the old
@@ -121,7 +139,12 @@ class ChatScreen extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.therapistPrimary,
+                    foregroundColor: Colors.white,
                     minimumSize: const Size.fromHeight(40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   onPressed: () {
                     // therapist may finish early
@@ -140,7 +163,12 @@ class ChatScreen extends StatelessWidget {
                 ),
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.primary,
+                    side: const BorderSide(color: AppColors.primary),
                     minimumSize: const Size.fromHeight(40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   onPressed: () async {
                     // leaving also ends the session on both sides
@@ -162,14 +190,38 @@ class ChatScreen extends StatelessWidget {
                 onSend: (ChatMessage msg) {
                   chatCtrl.sendMessage(msg.text);
                 },
+                messageOptions: MessageOptions(
+                  currentUserContainerColor: isTherapist
+                      ? AppColors.therapistPrimary
+                      : AppColors.primary,
+                  currentUserTextColor: Colors.white,
+                  containerColor: Colors.grey.shade200,
+                  textColor: Colors.black,
+                ),
                 inputOptions: InputOptions(
-                  inputDecoration: const InputDecoration(
+                  inputDecoration: InputDecoration(
                     hintText: 'Type a message',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  ),
+                  sendButtonBuilder: (onSend) => IconButton(
+                    icon: Icon(
+                      Icons.send_rounded,
+                      color: isTherapist
+                          ? AppColors.therapistPrimary
+                          : AppColors.primary,
+                    ),
+                    onPressed: onSend,
                   ),
                   // dash_chat_2 uses `inputDisabled` rather than `enabled`
-                  inputDisabled:
-                      !(sessionCtrl.chatEnabled &&
-                          sessionCtrl.remaining.value > Duration.zero),
+                  inputDisabled: !(sessionCtrl.chatEnabled &&
+                      sessionCtrl.remaining.value > Duration.zero),
                 ),
               );
             }),

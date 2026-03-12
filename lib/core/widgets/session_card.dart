@@ -25,7 +25,7 @@ class SessionCard extends StatelessWidget {
       case 'pending':
         return AppColors.warning; // orange
       case 'upcoming':
-        return Colors.yellow.shade700; // yellow
+        return AppColors.therapistPrimary; // yellow
       case 'completed':
         return AppColors.success; // green
       case 'cancelled':
@@ -40,7 +40,7 @@ class SessionCard extends StatelessWidget {
       case 'pending':
         return AppColors.warning.withOpacity(0.1);
       case 'upcoming':
-        return Colors.yellow.shade700.withOpacity(0.1);
+        return AppColors.therapistPrimary.withOpacity(0.1);
       case 'completed':
         return AppColors.success.withOpacity(0.1);
       case 'cancelled':

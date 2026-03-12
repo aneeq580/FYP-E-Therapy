@@ -67,6 +67,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
               controller: _searchCtrl,
               focusNode: _searchFocus,
               query: _query,
+              isTherapist: widget.isTherapist,
             ),
             // ── Chat list ─────────────────────────────────────────────────
             Expanded(
@@ -113,6 +114,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       chatRoomId: session.chatRoomId!,
                       partnerName: partnerName,
                       status: session.status,
+                      isTherapist: widget.isTherapist,
                       onTap: () => Get.to(
                         () => ChatScreen(
                           sessionId: session.id,
@@ -133,7 +135,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: AppColors.primary,
+      backgroundColor: widget.isTherapist
+          ? AppColors.therapistSecondary
+          : AppColors.primary,
       foregroundColor: Colors.white,
       title: const Text(
         'Messages',
@@ -164,16 +168,17 @@ class _SearchBar extends StatelessWidget {
     required this.controller,
     required this.focusNode,
     required this.query,
+    required this.isTherapist,
   });
 
   final TextEditingController controller;
   final FocusNode focusNode;
   final RxString query;
-
+  final bool isTherapist;
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.primary,
+      color: isTherapist ? AppColors.therapistSecondary : AppColors.primary,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
       child: TextField(
         controller: controller,
@@ -230,12 +235,14 @@ class _ChatTile extends StatelessWidget {
     required this.chatRoomId,
     required this.partnerName,
     required this.status,
+    required this.isTherapist,
     required this.onTap,
   });
 
   final String chatRoomId;
   final String partnerName;
   final String status;
+  final bool isTherapist;
   final VoidCallback onTap;
 
   @override
@@ -341,7 +348,7 @@ class _ChatTile extends StatelessWidget {
                                     child: const Text(
                                       'Ongoing',
                                       style: TextStyle(
-                                        color: AppColors.iconBgBookSession,
+                                        color: AppColors.iconBookSession,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 10,
                                       ),
@@ -357,7 +364,9 @@ class _ChatTile extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 11,
                               color: hasUnread
-                                  ? AppColors.primary
+                                  ? (isTherapist
+                                      ? AppColors.therapistPrimary
+                                      : AppColors.primary)
                                   : AppColors.textSecondary,
                               fontWeight: hasUnread
                                   ? FontWeight.w600
@@ -390,8 +399,10 @@ class _ChatTile extends StatelessWidget {
                               margin: const EdgeInsets.only(left: 8),
                               width: 8,
                               height: 8,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primary,
+                              decoration: BoxDecoration(
+                                color: isTherapist
+                                    ? AppColors.therapistPrimary
+                                    : AppColors.primary,
                                 shape: BoxShape.circle,
                               ),
                             ),
