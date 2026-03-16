@@ -22,12 +22,16 @@ class AppRoutes {
   static const String patientSettingsLanguage = '/patientSettings/language';
   static const String patientSettingsHelp = '/patientSettings/help';
   static const String patientProfile = '/patientProfile';
+  static const String patientReports = '/patientReports';
 
   // Therapist routes
   static const String therapistHome = '/therapistHome';
   static const String appointmentRequests = '/appointmentRequests';
   static const String pendingSessions = '/pendingSessions';
   static const String therapistProfile = '/therapistProfile';
+  static const String editTherapistProfile = '/editTherapistProfile';
+  static const String therapistReports = '/therapistReports';
+  static const String createReport = '/createReport';
 
   // patients list & detail
   static const String therapistPatients = '/therapistPatients';

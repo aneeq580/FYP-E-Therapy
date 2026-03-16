@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:fyp_therapy/routes/app_routes.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 import '../controllers/therapist_profile_controller.dart';
@@ -82,7 +83,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
       }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.snackbar('Coming Soon', 'Edit Profile functionality is under development.');
+          Get.toNamed(AppRoutes.editTherapistProfile);
         },
         label: const Text('Edit Profile'),
         icon: const FaIcon(FontAwesomeIcons.penToSquare, size: 18),

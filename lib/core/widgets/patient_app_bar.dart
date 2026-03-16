@@ -45,7 +45,9 @@ class PatientAppBar extends StatelessWidget implements PreferredSizeWidget {
                       FontAwesomeIcons.bell,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.patientReports);
+                    },
                   ),
                   IconButton(
                     icon: const FaIcon(

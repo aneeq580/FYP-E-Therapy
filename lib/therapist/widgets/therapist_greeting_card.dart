@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:fyp_therapy/core/constants/colors.dart';
+import '../controllers/therapist_profile_controller.dart';
+import '../../controllers/appointment_controller.dart';
 import 'therapist_stats_chip.dart';
 
 class TherapistGreetingCard extends StatelessWidget {
-  const TherapistGreetingCard({super.key});
+  TherapistGreetingCard({super.key});
+
+  final controller = Get.find<TherapistProfileController>();
 
   String getGreeting() {
     final hour = DateTime.now().hour;
@@ -21,6 +26,12 @@ class TherapistGreetingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ensure AppointmentController is available before using it in Obx
+    if (!Get.isRegistered<AppointmentController>()) {
+      Get.put(AppointmentController());
+    }
+    final apptCtrl = Get.find<AppointmentController>();
+
     return Container(
       height: 210,
       decoration: BoxDecoration(
@@ -53,12 +64,16 @@ class TherapistGreetingCard extends StatelessWidget {
                   style: const TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  "Dr. Ahmed",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Obx(
+                  () => Text(
+                    controller.fullName.value.isNotEmpty
+                        ? controller.fullName.value
+                        : "Therapist",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -67,13 +82,34 @@ class TherapistGreetingCard extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
                 const SizedBox(height: 20),
-                const Row(
-                  children: [
-                    TherapistStatsChip(title: "3", subtitle: "Sessions"),
-                    SizedBox(width: 8),
-                    TherapistStatsChip(title: "24", subtitle: "Patients"),
-                  ],
-                ),
+                Obx(() {
+                  final allAppointments = [
+                    ...apptCtrl.therapistActiveSessions,
+                    ...apptCtrl.therapistUpcomingAppointments,
+                    ...apptCtrl.therapistCompletedAppointments,
+                  ];
+
+                  int sessionsCount = allAppointments.length;
+                  final uniquePatients = <String>{};
+                  for (var appt in allAppointments) {
+                    uniquePatients.add(appt.patientId);
+                  }
+                  int patientsCount = uniquePatients.length;
+
+                  return Row(
+                    children: [
+                      TherapistStatsChip(
+                        title: sessionsCount.toString(),
+                        subtitle: "Sessions",
+                      ),
+                      const SizedBox(width: 8),
+                      TherapistStatsChip(
+                        title: patientsCount.toString(),
+                        subtitle: "Patients",
+                      ),
+                    ],
+                  );
+                }),
               ],
             ),
           ),
@@ -93,3 +129,4 @@ class TherapistGreetingCard extends StatelessWidget {
     );
   }
 }
+

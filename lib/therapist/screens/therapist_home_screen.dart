@@ -113,7 +113,9 @@ class TherapistHomeScreen extends StatelessWidget {
                   iconBackgroundColor: AppColors.iconMoodTracker.withOpacity(
                     0.3,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(AppRoutes.therapistReports);
+                  },
                 ),
               ],
             ),

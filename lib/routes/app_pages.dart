@@ -20,6 +20,8 @@ import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/sessions_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import 'package:fyp_therapy/patient/profile/patient_profile_screen.dart';
+import 'package:fyp_therapy/patient/screens/patient_reports_screen.dart';
+
 import 'package:fyp_therapy/therapist/screens/therapist_home_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_appointments_screen.dart';
 import 'package:fyp_therapy/therapist/screens/pending_sessions_screen.dart';
@@ -27,7 +29,10 @@ import 'package:fyp_therapy/therapist/screens/therapist_profile_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_patients_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_patient_detail_screen.dart';
 import 'package:fyp_therapy/therapist/bindings/therapist_profile_binding.dart';
+import 'package:fyp_therapy/therapist/screens/therapist_reports_screen.dart';
+import 'package:fyp_therapy/therapist/screens/create_report_screen.dart';
 
+import 'package:fyp_therapy/therapist/screens/edit_therapist_profile_screen.dart';
 import 'app_routes.dart';
 import 'package:fyp_therapy/bindings/auth_binding.dart';
 import 'package:fyp_therapy/bindings/book_session_binding.dart';
@@ -141,11 +146,16 @@ class AppPages {
       name: AppRoutes.patientProfile,
       page: () => const PatientProfileScreen(),
     ),
+    GetPage(
+      name: AppRoutes.patientReports,
+      page: () => const PatientReportsScreen(),
+    ),
 
     // Therapist
     GetPage(
       name: AppRoutes.therapistHome,
       page: () => const TherapistHomeScreen(),
+      binding: TherapistProfileBinding(),
     ),
     GetPage(
       name: AppRoutes.appointmentRequests,
@@ -160,6 +170,11 @@ class AppPages {
       page: () => const TherapistProfileScreen(),
       binding: TherapistProfileBinding(),
     ),
+    GetPage(
+      name: AppRoutes.editTherapistProfile,
+      page: () => const EditTherapistProfileScreen(),
+      binding: TherapistProfileBinding(),
+    ),
     // therapist patient routes
     GetPage(
       name: AppRoutes.therapistPatients,
@@ -168,6 +183,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.therapistPatientDetail,
       page: () => const TherapistPatientDetailScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.therapistReports,
+      page: () => const TherapistReportsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.createReport,
+      page: () => const CreateReportScreen(),
     ),
   ];
 }
