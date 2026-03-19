@@ -66,13 +66,13 @@ class ChatScreen extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE8F5E9),
+                      color: AppColors.success.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Text(
                       'Session Ended',
                       style: TextStyle(
-                        color: Color(0xFF4CAF50),
+                        color: AppColors.success,
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                       ),

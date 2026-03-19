@@ -123,13 +123,13 @@ class PatientAvatar extends StatelessWidget {
   final double fontSize;
 
   static const List<List<Color>> _palettes = [
-    [AppColors.therapistPrimary, AppColors.therapistSecondary], // primary purple
-    [Color(0xFF00BCD4), Color(0xFF0097A7)], // cyan
-    [Color(0xFF9C27B0), Color(0xFF7B1FA2)], // purple
-    [Color(0xFF3F51B5), Color(0xFF303F9F)], // indigo
-    [Color(0xFFE91E63), Color(0xFFC2185B)], // pink
-    [Color(0xFFF39C12), Color(0xFFE67E22)], // orange
-    [Color(0xFF00897B), Color(0xFF00695C)], // teal
+    [AppColors.therapistPrimary, AppColors.therapistSecondary], // Maroon
+    [AppColors.primary, AppColors.primaryLight], // Red
+    [AppColors.secondary, Color(0xFF607D8B)], // Blue Grey
+    [Color(0xFF8D6E63), Color(0xFF5D4037)], // Brown (Warm contrast)
+    [Color(0xFF78909C), Color(0xFF455A64)], // Slate
+    [Color(0xFFB71C1C), Color(0xFF880E4F)], // Deep Red/Wine
+    [Color(0xFF546E7A), Color(0xFF263238)], // Dark Grey
   ];
 
   List<Color> get _colors {

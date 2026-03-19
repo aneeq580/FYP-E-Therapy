@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../core/constants/colors.dart';
 
 class TherapistPopupMenu extends StatelessWidget {
   final Function(String) onSelected;
@@ -14,7 +15,7 @@ class TherapistPopupMenu extends StatelessWidget {
       elevation: 8,
       icon: CircleAvatar(
         radius: 16,
-        backgroundColor: const Color(0xFF7F5AF0),
+        backgroundColor: AppColors.therapistPrimary,
         child: FaIcon(FontAwesomeIcons.bars, size: 18, color: Colors.white),
       ),
       onSelected: onSelected,

@@ -32,6 +32,7 @@ class AppRoutes {
   static const String editTherapistProfile = '/editTherapistProfile';
   static const String therapistReports = '/therapistReports';
   static const String createReport = '/createReport';
+  static const String therapistVerification = '/therapistVerification';
 
   // patients list & detail
   static const String therapistPatients = '/therapistPatients';

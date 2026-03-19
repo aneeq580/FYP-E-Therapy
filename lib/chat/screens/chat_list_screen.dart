@@ -433,13 +433,13 @@ class _GradientAvatar extends StatelessWidget {
 
   List<Color> _gradientColors() {
     const palettes = [
-      [Color(0xFF23BBB7), Color(0xFF1A8E8B)], // Turquoise
-      [Color(0xFF23627C), Color(0xFF194A5D)], // Deep Blue
-      [Color(0xFF5DD0CD), Color(0xFF3A8BA8)], // Light Turquoise → Mid Blue
-      [Color(0xFF3F51B5), Color(0xFF303F9F)], // Indigo
-      [Color(0xFFE91E63), Color(0xFFC2185B)], // Pink
-      [Color(0xFFF0A500), Color(0xFFE67E22)], // Amber
-      [Color(0xFF3A8BA8), Color(0xFF23627C)], // Mid Blue → Deep Blue
+      [AppColors.primary, AppColors.primaryDark], // Dark Red
+      [AppColors.secondary, AppColors.secondaryDark], // Blue Grey
+      [AppColors.primaryLight, AppColors.secondary], // Red → Grey
+      [Color(0xFFB71C1C), Color(0xFF7F0000)], // Deep Burgundy
+      [Color(0xFF455A64), Color(0xFF263238)], // Slate Grey
+      [Color(0xFF37474F), Color(0xFF212121)], // Charcoal
+      [AppColors.secondaryLight, AppColors.secondary], // Light Grey → Mid Grey
     ];
     if (name.isEmpty) return palettes[0];
     final idx = name.codeUnitAt(0) % palettes.length;

@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'core/constants/colors.dart';
 import 'services/auth_service.dart';
+import 'services/therapist_service.dart';
+import 'services/storage_service.dart';
 import 'routes/app_routes.dart';
 import 'routes/app_pages.dart';
 
@@ -16,6 +18,8 @@ Future<void> main() async {
 
   Get.put(AuthService(), permanent: true);
   Get.put(AppointmentService(), permanent: true);
+  Get.put(TherapistService(), permanent: true);
+  Get.put(StorageService(), permanent: true);
   // Ensure AuthController is available app-wide for screens that call Get.find<AuthController>()
   Get.put(AuthController(), permanent: true);
 

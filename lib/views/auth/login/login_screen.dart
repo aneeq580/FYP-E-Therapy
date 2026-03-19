@@ -5,6 +5,7 @@ import 'package:fyp_therapy/controllers/auth_controller.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/views/auth/login/custom_text_field.dart';
 import 'package:fyp_therapy/core/widgets/primary_button.dart';
+import '../../../core/constants/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   final String role;
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF23BBB7), Color(0xFF23627C)],
+            colors: [AppColors.primary, AppColors.backgroundLight],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

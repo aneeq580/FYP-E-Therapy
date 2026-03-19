@@ -27,7 +27,7 @@ class SettingsMainScreen extends StatelessWidget {
                   icon: FontAwesomeIcons.bell,
                   title: 'Notifications',
                   onTap: () =>
-                      Get.toNamed(AppRoutes.patientReports),
+                      Get.toNamed(AppRoutes.patientSettingsNotifications),
                 ),
                 SettingsTile(
                   icon: FontAwesomeIcons.lock,

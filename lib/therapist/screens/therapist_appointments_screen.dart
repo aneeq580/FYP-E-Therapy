@@ -161,14 +161,14 @@ class TherapistAppointmentsScreen extends StatelessWidget {
           children: [
             Container(
               color: AppColors.background,
-              child: TabBar(
+              child: const TabBar(
                 isScrollable: true,
                 padding: EdgeInsets.zero,
-                labelColor: const Color(0xFF6246EA),
+                labelColor: AppColors.therapistPrimary,
                 unselectedLabelColor: AppColors.textSecondary,
-                indicatorColor: const Color(0xFF6246EA),
+                indicatorColor: AppColors.therapistPrimary,
                 indicatorWeight: 3,
-                tabs: const [
+                tabs: [
                   Tab(text: 'Requests'),
                   Tab(text: 'Upcoming'),
                   Tab(text: 'Ongoing'),

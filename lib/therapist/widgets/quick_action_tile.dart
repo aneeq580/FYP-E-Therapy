@@ -31,7 +31,7 @@ class QuickActionTile extends StatelessWidget {
         const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF292D32),
+          color: AppColors.textPrimary,
         );
 
     return InkWell(

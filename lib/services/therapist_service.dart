@@ -18,4 +18,22 @@ class TherapistService extends GetxService {
           }).toList();
         });
   }
+
+  /// Updates the verification status of a therapist.
+  Future<void> updateVerificationStatus({
+    required String uid,
+    required String status,
+    String? degreeUrl,
+  }) async {
+    await _firestore.collection('users').doc(uid).update({
+      'verificationStatus': status,
+      if (degreeUrl != null) 'degreeUrl': degreeUrl,
+    });
+  }
+
+  /// Fetch a single therapist profile.
+  Future<Map<String, dynamic>?> getTherapistProfile(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    return doc.data();
+  }
 }

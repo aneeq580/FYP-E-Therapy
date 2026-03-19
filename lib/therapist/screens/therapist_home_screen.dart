@@ -28,12 +28,11 @@ class TherapistHomeScreen extends StatelessWidget {
         title: "Dashboard",
         actions: [
           IconButton(
-            icon: FaIcon(FontAwesomeIcons.bell, color: Colors.white),
+            icon: const FaIcon(FontAwesomeIcons.bell, color: Colors.white),
             onPressed: () {
               // notifications screen
             },
           ),
-
           TherapistPopupMenu(
             onSelected: (value) {
               if (value == 'availability') {
@@ -43,12 +42,10 @@ class TherapistHomeScreen extends StatelessWidget {
               } else if (value == 'settings') {
                 Get.to(() => const SettingsScreen());
               } else if (value == 'logout') {
-                final authController = Get.find<AuthController>();
-                authController.handleLogout();
+                _showLogoutConfirmation();
               }
             },
           ),
-
           const SizedBox(width: 12),
         ],
       ),
@@ -60,7 +57,7 @@ class TherapistHomeScreen extends StatelessWidget {
             /// 🔹 Greeting Card
             TherapistGreetingCard(),
 
-            SizedBox(height: 22),
+            const SizedBox(height: 22),
 
             /// 🔹 Quick Actions (Reused)
             GridView.count(
@@ -82,7 +79,6 @@ class TherapistHomeScreen extends StatelessWidget {
                     Get.toNamed(AppRoutes.appointmentRequests);
                   },
                 ),
-
                 QuickActionTile(
                   icon: FontAwesomeIcons.users,
                   label: 'My Patients',
@@ -103,7 +99,7 @@ class TherapistHomeScreen extends StatelessWidget {
                     if (!Get.isRegistered<AppointmentController>()) {
                       Get.put(AppointmentController());
                     }
-                    Get.to(() => ChatListScreen(isTherapist: true));
+                    Get.to(() => const ChatListScreen(isTherapist: true));
                   },
                 ),
                 QuickActionTile(
@@ -157,7 +153,7 @@ class TherapistHomeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.grey.shade200),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "No sessions scheduled for today.",
                       style: AppTextStyles.bodyTextSecondary,
@@ -175,8 +171,13 @@ class TherapistHomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final session = todaysSessions[index];
                   // Format time (e.g., "10:00 AM")
+                  final dt = session.date.toDate();
                   final timeString =
-                      "${session.date.toDate().hour > 12 ? session.date.toDate().hour - 12 : session.date.toDate().hour}:${session.date.toDate().minute.toString().padLeft(2, '0')} ${session.date.toDate().hour >= 12 ? 'PM' : 'AM'}";
+                      "${dt.hour > 12
+                          ? dt.hour - 12
+                          : dt.hour == 0
+                          ? 12
+                          : dt.hour}:${dt.minute.toString().padLeft(2, '0')} ${dt.hour >= 12 ? 'PM' : 'AM'}";
 
                   return TherapistTodaySessionCard(
                     appointment: session,
@@ -204,6 +205,106 @@ class TherapistHomeScreen extends StatelessWidget {
               );
             }),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showLogoutConfirmation() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.therapistPrimary.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const FaIcon(
+                  FontAwesomeIcons.rightFromBracket,
+                  color: AppColors.therapistPrimary,
+                  size: 30,
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                "Logout Confirmation",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.therapistTextPrimary,
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "Are you sure you want to logout? You will need to login again to access your dashboard.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.therapistTextSecondary,
+                ),
+              ),
+              const SizedBox(height: 32),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Get.back(),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        side: const BorderSide(
+                          color: AppColors.therapistPrimary,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: AppColors.therapistPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                        Get.find<AuthController>().handleLogout();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        backgroundColor: AppColors.therapistPrimary,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        "Logout",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

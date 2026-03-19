@@ -4,14 +4,21 @@ import '../constants/colors.dart';
 class TherapistAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
+  final bool showBackButton;
 
-  const TherapistAppBar({super.key, required this.title, this.actions});
+  const TherapistAppBar({
+    super.key,
+    required this.title,
+    this.actions,
+    this.showBackButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      automaticallyImplyLeading: showBackButton,
       flexibleSpace: Container(
         decoration: const BoxDecoration(color: AppColors.therapistSecondary),
       ),

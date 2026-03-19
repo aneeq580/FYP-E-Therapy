@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:fyp_therapy/views/auth/login/custom_text_field.dart';
 import 'package:fyp_therapy/core/widgets/primary_button.dart';
+import '../../../core/constants/colors.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -54,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF23BBB7), Color(0xFF23627C)],
+            colors: [AppColors.primary, AppColors.backgroundLight],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

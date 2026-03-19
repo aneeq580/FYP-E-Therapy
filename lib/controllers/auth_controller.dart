@@ -1,19 +1,26 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/services/auth_service.dart';
+import 'package:fyp_therapy/services/storage_service.dart';
 
 /// Controller responsible for auth flow & UI state on top of [AuthService].
 class AuthController extends GetxController {
-  AuthController() : _authService = Get.find<AuthService>();
+  AuthController()
+      : _authService = Get.find<AuthService>(),
+        _storageService = Get.find<StorageService>();
 
   final AuthService _authService;
+  final StorageService _storageService;
 
   final email = ''.obs;
   final password = ''.obs;
   final role = ''.obs; // 'patient' or 'therapist'
   final fullName = ''.obs;
+  final phone = ''.obs;
+  final degreeDocumentUrl = ''.obs;
 
   /// Global loading flag used by Login / Signup buttons.
   final isLoading = false.obs;
@@ -31,8 +38,12 @@ class AuthController extends GetxController {
     this.role.value = role.toLowerCase();
   }
 
-  void updateFullName(String value) {
-    fullName.value = value.trim();
+  void updatePersonalDetails({required String firstName, required String lastName, required String phoneNum, String? degreePath}) {
+    fullName.value = '${firstName.trim()} ${lastName.trim()}'.trim();
+    phone.value = phoneNum.trim();
+    if (degreePath != null) {
+      degreeDocumentUrl.value = degreePath.trim();
+    }
   }
 
   Future<void> handleLogin() async {
@@ -133,12 +144,25 @@ class AuthController extends GetxController {
 
       print('User created: ${user.uid}'); // debug
 
+      String? uploadedUrl;
+      if (currentRole == 'therapist' && degreeDocumentUrl.value.isNotEmpty) {
+        print('Uploading degree document for ${user.uid}...');
+        uploadedUrl = await _storageService.uploadDegree(
+          therapistId: user.uid,
+          file: File(degreeDocumentUrl.value),
+          filename: 'initial_degree_${DateTime.now().millisecondsSinceEpoch}',
+        );
+        print('Degree uploaded: $uploadedUrl');
+      }
+
       // Firestore write with initial profile info.
       await _authService.createUserRecord(
         uid: user.uid,
         email: currentEmail,
         role: currentRole.toLowerCase(),
         fullName: fullName.value.isNotEmpty ? fullName.value : null,
+        phone: phone.value.isNotEmpty ? phone.value : null,
+        degreeDocumentUrl: uploadedUrl ?? degreeDocumentUrl.value,
       );
 
       // Also update FirebaseAuth display name for convenience.

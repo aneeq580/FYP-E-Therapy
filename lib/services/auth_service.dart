@@ -53,6 +53,8 @@ class AuthService extends GetxService {
     required String email,
     required String role,
     String? fullName,
+    String? phone,
+    String? degreeDocumentUrl,
     int? age,
     String? gender,
     String? profileImageUrl,
@@ -63,6 +65,9 @@ class AuthService extends GetxService {
       'email': email,
       'role': role,
       'fullName': fullName ?? '',
+      if (phone != null) 'phone': phone,
+      if (degreeDocumentUrl != null) 'degreeDocumentUrl': degreeDocumentUrl,
+      if (degreeDocumentUrl != null && role == 'therapist') 'verificationStatus': 'pending',
       // Optional fields – mostly populated/updated later.
       if (age != null) 'age': age,
       if (gender != null) 'gender': gender,

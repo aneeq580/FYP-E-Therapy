@@ -53,16 +53,13 @@ class RoleBasedSessionCard extends StatelessWidget {
         return AppColors.warning;
       case 'approved':
       case 'upcoming':
-        return Colors.yellow.shade700;
+        return AppColors.warning;
       case 'ongoing':
       case 'active':
       case 'started':
-        return AppColors.iconBookSession; // Deep Blue for better contrast
+        return isPatient ? AppColors.primary : AppColors.therapistPrimary;
       case 'completed':
-        return isPatient
-            ? const Color(0xFF2E7D32)
-            : AppColors
-                  .iconBookSession; // Darker theme-consistent green or secondary
+        return AppColors.success;
       case 'cancelled':
         return AppColors.error;
       default:
@@ -80,12 +77,13 @@ class RoleBasedSessionCard extends StatelessWidget {
     final isPatient = role.toLowerCase() == 'patient';
 
     // Core Role Colors — Patient uses Turquoise theme
+    // Core Role Colors — Both now use Red theme but with slight semantic differences
     final primaryAccent = isPatient
         ? AppColors.primary
-        : const Color(0xFF6246EA);
+        : AppColors.therapistPrimary;
     final bgColor = isPatient
         ? AppColors.backgroundLight
-        : const Color(0xFFF3E5F5);
+        : AppColors.therapistBackground;
 
     final statusColor = _getStatusColor(appointment.status, isPatient);
     final statusBgColor = statusColor.withOpacity(0.1);
@@ -322,7 +320,7 @@ class RoleBasedSessionCard extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: isStartDisabled ? null : onStart,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
+                                backgroundColor: AppColors.success,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),

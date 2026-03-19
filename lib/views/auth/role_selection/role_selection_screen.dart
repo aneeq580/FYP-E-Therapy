@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/views/auth/role_selection/role_card.dart';
+import '../../../core/constants/colors.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
@@ -18,7 +19,7 @@ class RoleSelectionScreen extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF23BBB7), Color(0xFF23627C)],
+            colors: [AppColors.primary, AppColors.backgroundLight],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

@@ -29,6 +29,8 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
                   children: [
                     _buildStatsRow(),
                     const SizedBox(height: AppSizes.spacingLarge),
+                    _buildVerificationStatusCard(),
+                    const SizedBox(height: AppSizes.spacingLarge),
                     _buildSectionTitle('About Me'),
                     const SizedBox(height: AppSizes.spacingSmall),
                     _buildBio(),
@@ -382,6 +384,80 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildVerificationStatusCard() {
+    final status = controller.profileData['verificationStatus'] ?? 'none';
+    Color color;
+    String text;
+    IconData icon;
+
+    switch (status) {
+      case 'approved':
+        color = Colors.green;
+        text = "Verified Account";
+        icon = FontAwesomeIcons.circleCheck;
+        break;
+      case 'pending':
+        color = Colors.orange;
+        text = "Verification Pending";
+        icon = FontAwesomeIcons.clock;
+        break;
+      case 'rejected':
+        color = Colors.red;
+        text = "Verification Rejected";
+        icon = FontAwesomeIcons.circleExclamation;
+        break;
+      default:
+        color = AppColors.therapistPrimary;
+        text = "Account Not Verified";
+        icon = FontAwesomeIcons.shieldHalved;
+    }
+
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.therapistVerification),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Row(
+          children: [
+            FaIcon(icon, color: color, size: 24),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    status == 'approved'
+                        ? "Your account is verified."
+                        : status == 'pending'
+                            ? "Document is under review."
+                            : "Click here to upload degree certificate.",
+                    style: TextStyle(
+                      color: color.withOpacity(0.8),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right, color: color),
+          ],
+        ),
       ),
     );
   }
