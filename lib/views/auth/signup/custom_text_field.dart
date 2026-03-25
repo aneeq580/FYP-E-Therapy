@@ -7,6 +7,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final TextEditingController controller;
   final Color? borderColor;
+  final TextInputType keyboardType;
 
   const CustomTextField({
     super.key,
@@ -15,6 +16,7 @@ class CustomTextField extends StatefulWidget {
     required this.controller,
     this.isPassword = false,
     this.borderColor,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -32,7 +34,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveBorderColor = widget.borderColor ?? const Color(0xFFB0C4CC); // default light border
+    final effectiveBorderColor =
+        widget.borderColor ?? const Color(0xFFB0C4CC); // default light border
 
     return TextField(
       controller: widget.controller,
@@ -41,10 +44,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         hintText: widget.hint,
         hintStyle: TextStyle(color: effectiveBorderColor),
-        prefixIcon: widget.icon != null 
+        prefixIcon: widget.icon != null
             ? Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: FaIcon(widget.icon, color: effectiveBorderColor, size: 18),
+                child: FaIcon(
+                  widget.icon,
+                  color: effectiveBorderColor,
+                  size: 18,
+                ),
               )
             : null,
         suffixIcon: widget.isPassword

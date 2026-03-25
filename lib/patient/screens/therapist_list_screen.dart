@@ -51,6 +51,24 @@ class _TherapistListScreenState extends State<TherapistListScreen> {
     );
   }
 
+  List<String> _getTags(Map<String, dynamic> therapist) {
+    // Check if 'specialties' list exists
+    if (therapist['specialties'] is List) {
+      return List<String>.from(therapist['specialties']);
+    }
+    // Otherwise split 'specialty' string
+    final spec = therapist['specialty'] as String? ?? '';
+    if (spec.isEmpty) return ['Wellness', 'General'];
+
+    // If it contains commas, split into tags
+    if (spec.contains(',')) {
+      return spec.split(',').map((e) => e.trim()).toList();
+    }
+
+    // Return the specialty and a default tag
+    return [spec, 'Mental Health'];
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!Get.isRegistered<TherapistService>()) {
@@ -130,19 +148,18 @@ class _TherapistListScreenState extends State<TherapistListScreen> {
                             }
                           },
                           child: TherapistCard(
-                            name:
-                                therapist['fullName'] as String? ??
+                            name: therapist['fullName'] as String? ??
                                 therapist['name'] as String? ??
                                 'Therapist',
-                            specialty:
-                                therapist['specialty'] as String? ??
+                            specialty: therapist['specialty'] as String? ??
                                 'General Therapist',
-                            rating:
-                                (therapist['rating'] as num?)?.toDouble() ??
+                            rating: (therapist['rating'] as num?)?.toDouble() ??
                                 5.0,
-                            photoUrl:
-                                therapist['profileImageUrl'] as String? ??
+                            photoUrl: therapist['profileImageUrl'] as String? ??
                                 therapist['photoUrl'] as String?,
+                            experience: (therapist['experience'] as num?)?.toInt() ?? 5,
+                            hourlyRate: (therapist['hourlyRate'] as num?)?.toDouble() ?? 100.0,
+                            tags: _getTags(therapist),
                             onViewProfile: () => _handleViewProfile(
                               therapist['fullName'] as String? ?? 'Therapist',
                             ),

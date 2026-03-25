@@ -44,7 +44,7 @@ class _SignupScreenState extends State<SignupScreen> {
         type: FileType.custom,
         allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'png'],
       );
-      
+
       if (result != null) {
         print("File picked: ${result.files.single.name}");
         setState(() {
@@ -70,15 +70,25 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     final authController = Get.find<AuthController>();
     final isTherapist = widget.role.toLowerCase() == 'therapist';
-    
-    final primaryColor = isTherapist ? AppColors.therapistPrimary : AppColors.primary;
-    final secondaryColor = isTherapist ? AppColors.therapistPrimaryLight : AppColors.primaryLight;
+
+    final primaryColor = isTherapist
+        ? AppColors.therapistPrimary
+        : AppColors.primary;
+    final secondaryColor = isTherapist
+        ? AppColors.therapistPrimaryLight
+        : AppColors.primaryLight;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Sign Up Screen', style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
+        title: const Text(
+          'Sign Up Screen',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
@@ -102,7 +112,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 150,
                 width: double.infinity,
                 child: CustomPaint(
-                  painter: _HeaderPainter(color: primaryColor, lightColor: secondaryColor),
+                  painter: _HeaderPainter(
+                    color: primaryColor,
+                    lightColor: secondaryColor,
+                  ),
                 ),
               ),
 
@@ -151,6 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     const SizedBox(height: 16),
                     CustomTextField(
                       hint: "Phone Number",
+                      keyboardType: TextInputType.phone,
                       controller: phoneController,
                       borderColor: primaryColor.withOpacity(0.5),
                     ),
@@ -176,11 +190,17 @@ class _SignupScreenState extends State<SignupScreen> {
                         onTap: _pickDegreeFile,
                         child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 16,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: primaryColor.withOpacity(0.5), width: 1.5),
+                            border: Border.all(
+                              color: primaryColor.withOpacity(0.5),
+                              width: 1.5,
+                            ),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,13 +209,18 @@ class _SignupScreenState extends State<SignupScreen> {
                                 child: Text(
                                   pickedFileName ?? "Upload Degree Document",
                                   style: TextStyle(
-                                    color: pickedFileName != null ? Colors.black87 : primaryColor.withOpacity(0.5),
+                                    color: pickedFileName != null
+                                        ? Colors.black87
+                                        : primaryColor.withOpacity(0.5),
                                     fontSize: 14,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Icon(Icons.upload_file, color: primaryColor.withOpacity(0.5)),
+                              Icon(
+                                Icons.upload_file,
+                                color: primaryColor.withOpacity(0.5),
+                              ),
                             ],
                           ),
                         ),
@@ -211,12 +236,21 @@ class _SignupScreenState extends State<SignupScreen> {
                       return ElevatedButton(
                         onPressed: () {
                           if (disabled) return;
-                          if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
-                            Get.snackbar('Error', 'Passwords do not match', snackPosition: SnackPosition.BOTTOM);
+                          if (passwordController.text.trim() !=
+                              confirmPasswordController.text.trim()) {
+                            Get.snackbar(
+                              'Error',
+                              'Passwords do not match',
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
                             return;
                           }
                           if (isTherapist && pickedFilePath == null) {
-                            Get.snackbar('Error', 'Please upload your degree document', snackPosition: SnackPosition.BOTTOM);
+                            Get.snackbar(
+                              'Error',
+                              'Please upload your degree document',
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
                             return;
                           }
 
@@ -265,16 +299,32 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
 
                     const SizedBox(height: 20),
-                    
+
                     // Divider
                     Row(
                       children: [
-                        Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+                        Expanded(
+                          child: Divider(
+                            color: Colors.grey.shade300,
+                            thickness: 1,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text("or signup with google", style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+                          child: Text(
+                            "or signup with google",
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
-                        Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+                        Expanded(
+                          child: Divider(
+                            color: Colors.grey.shade300,
+                            thickness: 1,
+                          ),
+                        ),
                       ],
                     ),
 
@@ -309,11 +359,17 @@ class _SignupScreenState extends State<SignupScreen> {
                       children: [
                         Text(
                           "Already have an Account? ",
-                          style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 14,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.offNamed(AppRoutes.login, arguments: widget.role);
+                            Get.offNamed(
+                              AppRoutes.login,
+                              arguments: widget.role,
+                            );
                           },
                           child: Text(
                             "Login",
@@ -326,7 +382,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ],
                     ),
-                    
+
                     const SizedBox(height: 40),
                   ],
                 ),
@@ -351,21 +407,25 @@ class _HeaderPainter extends CustomPainter {
     var squarePaint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
-    
+
     // Fill the background of the top curve
     var paint1 = Paint()
       ..color = lightColor.withOpacity(0.5)
       ..style = PaintingStyle.fill;
-    
+
     var path1 = Path();
     path1.lineTo(0, size.height * 0.75);
     path1.quadraticBezierTo(
-      size.width * 0.25, size.height,
-      size.width * 0.5, size.height * 0.85,
+      size.width * 0.25,
+      size.height,
+      size.width * 0.5,
+      size.height * 0.85,
     );
     path1.quadraticBezierTo(
-      size.width * 0.75, size.height * 0.7,
-      size.width, size.height * 0.9,
+      size.width * 0.75,
+      size.height * 0.7,
+      size.width,
+      size.height * 0.9,
     );
     path1.lineTo(size.width, 0);
     path1.close();
@@ -374,16 +434,20 @@ class _HeaderPainter extends CustomPainter {
     var paint2 = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
-    
+
     var path2 = Path();
     path2.lineTo(0, size.height * 0.65);
     path2.quadraticBezierTo(
-      size.width * 0.25, size.height * 0.85,
-      size.width * 0.5, size.height * 0.75,
+      size.width * 0.25,
+      size.height * 0.85,
+      size.width * 0.5,
+      size.height * 0.75,
     );
     path2.quadraticBezierTo(
-      size.width * 0.75, size.height * 0.65,
-      size.width, size.height * 0.8,
+      size.width * 0.75,
+      size.height * 0.65,
+      size.width,
+      size.height * 0.8,
     );
     path2.lineTo(size.width, 0);
     path2.close();

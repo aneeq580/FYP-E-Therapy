@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants/colors.dart';
-import '../constants/styles.dart';
 
 /// Reusable widget for therapist profile card
 class TherapistCard extends StatelessWidget {
@@ -9,6 +7,9 @@ class TherapistCard extends StatelessWidget {
   final String specialty;
   final double rating;
   final String? photoUrl;
+  final int experience;
+  final double hourlyRate;
+  final List<String> tags;
   final VoidCallback? onViewProfile;
 
   const TherapistCard({
@@ -16,154 +17,211 @@ class TherapistCard extends StatelessWidget {
     required this.name,
     required this.specialty,
     required this.rating,
+    required this.experience,
+    required this.hourlyRate,
+    this.tags = const [],
     this.photoUrl,
     this.onViewProfile,
   });
 
-  Widget _buildRatingStars(double rating) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        if (index < rating.floor()) {
-          return const FaIcon(
-            FontAwesomeIcons.solidStar,
-            color: AppColors.secondary,
-            size: 16,
-          );
-        } else if (index < rating) {
-          return const FaIcon(
-            FontAwesomeIcons.starHalf,
-            color: AppColors.secondary,
-            size: 16,
-          );
-        } else {
-          return FaIcon(
-            FontAwesomeIcons.star,
-            color: AppColors.secondary.withOpacity(0.3),
-            size: 16,
-          );
-        }
-      }),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.symmetric(
-        horizontal: AppSizes.spacingMedium,
-        vertical: AppSizes.spacingSmall,
+        horizontal: 16,
+        vertical: 8,
       ),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: AppColors.accent, width: 2),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSizes.spacingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Therapist Photo
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.iconTherapists.withOpacity(0.1),
-                    border: Border.all(
-                      color: AppColors.iconTherapists.withOpacity(0.2),
-                      width: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Therapist Photo with Status Dot
+              Stack(
+                children: [
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.iconBgTherapists,
                     ),
-                  ),
-                  child: Center(
-                    child: ClipOval(
-                      child: photoUrl != null
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: photoUrl != null && photoUrl!.isNotEmpty
                           ? Image.network(
                               photoUrl!,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return FaIcon(
-                                  FontAwesomeIcons.userDoctor,
-                                  color: AppColors.iconTherapists,
-                                  size: 40,
-                                );
-                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
                             )
-                          : FaIcon(
-                              FontAwesomeIcons.userDoctor,
-                              color: AppColors.iconTherapists,
-                              size: 40,
-                            ),
+                          : const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
                     ),
                   ),
-                ),
-                const SizedBox(width: AppSizes.spacingMedium),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF4CAF50), // Green status dot
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 16),
 
-                // Therapist Info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: AppTextStyles.bodyText.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+              // Info Section
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0F172A), // Dark Navy
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        specialty,
-                        style: AppTextStyles.bodyTextSecondary.copyWith(
-                          fontSize: 14,
-                        ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      specialty,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF64748B), // Muted Blue/Grey
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          _buildRatingStars(rating),
-                          const SizedBox(width: 6),
-                          Text(
-                            rating.toStringAsFixed(1),
-                            style: AppTextStyles.bodyTextSecondary.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(Icons.access_time, size: 16, color: Color(0xFF94A3B8)),
+                        const SizedBox(width: 4),
+                        Text(
+                          "$experience+ yrs",
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Color(0xFF64748B),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: AppSizes.spacingMedium),
-
-            // View Profile Button
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: onViewProfile,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  side: BorderSide(color: AppColors.primary, width: 1.5),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'View Profile',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(width: 16),
+                        const Icon(Icons.star, size: 16, color: Color(0xFFFBBF24)),
+                        const SizedBox(width: 4),
+                        Text(
+                          rating.toStringAsFixed(1),
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Tags Wrap
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ...tags.take(3).map((tag) => _buildTag(tag)),
+              if (tags.length > 3) _buildTag("+${tags.length - 3}"),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Bottom Row: Price & View Button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "\$${hourlyRate.toStringAsFixed(0)}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E293B),
+                      ),
+                    ),
+                    const TextSpan(
+                      text: " /session",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF94A3B8),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: onViewProfile,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0D9488), // Teal color from screenshot
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 0,
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "View",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward_rounded, size: 18),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTag(String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF0FDFA), // Light Teal BG
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Color(0xFF0D9488), // Teal Text
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

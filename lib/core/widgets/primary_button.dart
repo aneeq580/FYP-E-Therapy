@@ -12,7 +12,7 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.height = 58,
+    this.height = 50,
     this.backgroundColor,
     this.textColor,
   });
@@ -27,7 +27,7 @@ class PrimaryButton extends StatelessWidget {
           backgroundColor: backgroundColor ?? AppColors.primaryLight,
           foregroundColor: textColor ?? AppColors.textOnPrimary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(15),
           ),
           elevation: 4,
         ),
