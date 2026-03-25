@@ -26,10 +26,29 @@ class ReportController extends GetxController {
     try {
       isLoading.value = true;
       await _reportService.createReport(report);
-      Get.snackbar('Success', 'Report sent successfully');
+      
+      // Explicitly refresh the reports list
+      final user = _auth.currentUser;
+      if (user != null) {
+        final reports = await _reportService.getTherapistReports(user.uid).first;
+        therapistReports.assignAll(reports);
+      }
+      
+      Get.snackbar(
+        'Success',
+        'Report sent successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      
+      // Small delay to ensure snackbar starts appearing before navigation
+      await Future.delayed(const Duration(milliseconds: 500));
       return true;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to send report: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to send report: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return false;
     } finally {
       isLoading.value = false;

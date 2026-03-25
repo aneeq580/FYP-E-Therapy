@@ -7,15 +7,8 @@ import '../../routes/app_routes.dart';
 import '../controllers/report_controller.dart';
 import 'package:intl/intl.dart';
 
-class TherapistReportsScreen extends StatefulWidget {
+class TherapistReportsScreen extends GetView<ReportController> {
   const TherapistReportsScreen({super.key});
-
-  @override
-  State<TherapistReportsScreen> createState() => _TherapistReportsScreenState();
-}
-
-class _TherapistReportsScreenState extends State<TherapistReportsScreen> {
-  final ReportController _reportCtrl = Get.put(ReportController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +16,7 @@ class _TherapistReportsScreenState extends State<TherapistReportsScreen> {
       backgroundColor: AppColors.therapistBackground,
       appBar: const TherapistAppBar(title: "Session Reports"),
       body: Obx(() {
-        if (_reportCtrl.therapistReports.isEmpty) {
+        if (controller.therapistReports.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +24,7 @@ class _TherapistReportsScreenState extends State<TherapistReportsScreen> {
                 Icon(
                   Icons.assignment_outlined,
                   size: 64,
-                  color: AppColors.therapistPrimary.withOpacity(0.5),
+                  color: AppColors.therapistPrimary.withValues(alpha: 0.5),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -52,10 +45,10 @@ class _TherapistReportsScreenState extends State<TherapistReportsScreen> {
 
         return ListView.separated(
           padding: const EdgeInsets.all(16),
-          itemCount: _reportCtrl.therapistReports.length,
+          itemCount: controller.therapistReports.length,
           separatorBuilder: (context, index) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            final report = _reportCtrl.therapistReports[index];
+            final report = controller.therapistReports[index];
             final dateStr = DateFormat(
               'MMM dd, yyyy - hh:mm a',
             ).format(report.createdAt.toDate());
@@ -67,7 +60,7 @@ class _TherapistReportsScreenState extends State<TherapistReportsScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),

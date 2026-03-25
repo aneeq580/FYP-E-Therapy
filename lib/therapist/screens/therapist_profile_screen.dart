@@ -100,6 +100,10 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
       expandedHeight: 280,
       pinned: true,
       backgroundColor: AppColors.therapistPrimary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () => Get.back(),
+      ),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
@@ -130,7 +134,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
                 Text(
                   controller.specialty.value,
                   style: AppTextStyles.headerSubtitle.copyWith(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -152,7 +156,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
         border: Border.all(color: Colors.white, width: 3),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -201,7 +205,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -241,7 +245,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: 0.03),
               blurRadius: 5,
               offset: const Offset(0, 2),
             ),
@@ -324,7 +328,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.therapistPrimary.withOpacity(0.1),
+              color: AppColors.therapistPrimary.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(8),
             ),
             child: FaIcon(icon, size: 18, color: AppColors.therapistPrimary),

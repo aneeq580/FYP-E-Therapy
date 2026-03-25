@@ -14,10 +14,14 @@ class ReportService {
     return _firestore
         .collection('reports')
         .where('therapistId', isEqualTo: therapistId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) => ReportModel.fromMap(doc.data(), doc.id)).toList();
+      final reports = snapshot.docs
+          .map((doc) => ReportModel.fromMap(doc.data(), doc.id))
+          .toList();
+      // Sort in-memory to avoid requiring composite indexing
+      reports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return reports;
     });
   }
 
@@ -26,10 +30,14 @@ class ReportService {
     return _firestore
         .collection('reports')
         .where('patientId', isEqualTo: patientId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) => ReportModel.fromMap(doc.data(), doc.id)).toList();
+      final reports = snapshot.docs
+          .map((doc) => ReportModel.fromMap(doc.data(), doc.id))
+          .toList();
+      // Sort in-memory to avoid requiring composite indexing
+      reports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return reports;
     });
   }
 }

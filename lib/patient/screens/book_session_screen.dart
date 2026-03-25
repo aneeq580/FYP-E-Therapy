@@ -39,21 +39,20 @@ class BookSessionScreen extends GetView<BookSessionController> {
     );
 
     if (pickedDate != null) {
+      if (!controller.isDayAvailable(pickedDate)) {
+        Get.snackbar(
+          'Unavailable',
+          'The therapist is not available on this day.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.1),
+          colorText: Colors.red,
+        );
+        return;
+      }
       controller.setDate(pickedDate);
     }
   }
 
-  /// Time Picker
-  Future<void> _handleTimeSelection(BuildContext context) async {
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (pickedTime != null) {
-      controller.setTime(pickedTime);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,10 +141,89 @@ class BookSessionScreen extends GetView<BookSessionController> {
               /// Date & Time Selection
               DateTimeSelectionCard(
                 onDateTap: () => _handleDateSelection(context),
-                onTimeTap: () => _handleTimeSelection(context),
+                onTimeTap: () {}, // Not needed anymore as chips are below
                 selectedDate: date,
                 selectedTime: time,
+                hideTime: true, // I'll add this flag to DateTimeSelectionCard or just handle it
               ),
+              
+              const SizedBox(height: 16),
+
+              /// Available Time Slots
+              if (date != null) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Available Times",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Obx(() {
+                        final summary = controller.getWorkingHoursSummary(date);
+                        return Text(
+                          "Therapist is set: $summary",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey.shade600,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        );
+                      }),
+                      const SizedBox(height: 16),
+                      Obx(() {
+                        final slots = controller.getAvailableSlots(date);
+                        if (slots.isEmpty) {
+                          return const Text(
+                            "No available slots for this day.",
+                            style: TextStyle(color: Colors.red, fontSize: 13),
+                          );
+                        }
+                        return Wrap(
+                          spacing: 12,
+                          runSpacing: 12,
+                          children: slots.map((s) {
+                            final isSelected = time?.hour == s.hour && time?.minute == s.minute;
+                            return GestureDetector(
+                              onTap: () => controller.setTime(s),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: isSelected 
+                                      ? AppColors.primary.withOpacity(0.12) 
+                                      : Colors.grey.shade50,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: isSelected 
+                                        ? AppColors.primary 
+                                        : Colors.grey.shade200,
+                                    width: isSelected ? 1.5 : 1,
+                                  ),
+                                ),
+                                child: Text(
+                                  _formatTime(s),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                    color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
 
               const SizedBox(height: 12),
 
@@ -380,5 +458,12 @@ class BookSessionScreen extends GetView<BookSessionController> {
         ],
       ),
     );
+  }
+
+  String _formatTime(TimeOfDay time) {
+    final hour = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.hour >= 12 ? 'PM' : 'AM';
+    return '$hour:$minute $period';
   }
 }

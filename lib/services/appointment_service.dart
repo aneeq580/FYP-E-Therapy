@@ -73,13 +73,17 @@ class AppointmentService extends GetxService {
     return _firestore
         .collection('appointments')
         .where('patientId', isEqualTo: patientId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs
-              .map((doc) => AppointmentModel.fromMap(doc.data(), doc.id))
-              .toList(),
-        );
+      (snapshot) {
+        final appointments = snapshot.docs
+            .map((doc) => AppointmentModel.fromMap(doc.data(), doc.id))
+            .toList();
+        // Sort in-memory to avoid requiring composite indexing
+        appointments.sort((a, b) => (b.createdAt ?? b.date).compareTo(a.createdAt ?? a.date));
+        return appointments;
+      },
+    );
   }
 
   /// Sessions that are currently active for a patient (clean status-based query).

@@ -9,11 +9,10 @@ import '../widgets/quick_action_tile.dart';
 import '../widgets/therapist_popup_menu.dart';
 import 'package:get/get.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
-import 'package:fyp_therapy/core/constants/strings.dart';
 import 'package:fyp_therapy/core/constants/styles.dart';
 import 'package:fyp_therapy/controllers/auth_controller.dart';
-import '../../core/widgets/therapist_app_bar.dart';
 import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
+import '../../core/widgets/therapist_app_bar.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import '../../controllers/appointment_controller.dart';
 
@@ -26,6 +25,7 @@ class TherapistHomeScreen extends StatelessWidget {
       backgroundColor: AppColors.therapistBackground,
       appBar: TherapistAppBar(
         title: "Dashboard",
+        showBackButton: false,
         actions: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.bell, color: Colors.white),
@@ -69,8 +69,20 @@ class TherapistHomeScreen extends StatelessWidget {
               childAspectRatio: 2.5,
               children: [
                 QuickActionTile(
+                  icon: FontAwesomeIcons.comments,
+                  label: 'Chat',
+                  iconColor: AppColors.iconChat,
+                  iconBackgroundColor: AppColors.iconBgChat,
+                  onTap: () {
+                    if (!Get.isRegistered<AppointmentController>()) {
+                      Get.put(AppointmentController());
+                    }
+                    Get.to(() => const ChatListScreen(isTherapist: true));
+                  },
+                ),
+                QuickActionTile(
                   icon: FontAwesomeIcons.clipboardList,
-                  label: 'Appointment Requests',
+                  label: 'Requests',
                   iconColor: AppColors.iconBookSession,
                   iconBackgroundColor: AppColors.iconBookSession.withOpacity(
                     0.3,
@@ -81,25 +93,13 @@ class TherapistHomeScreen extends StatelessWidget {
                 ),
                 QuickActionTile(
                   icon: FontAwesomeIcons.users,
-                  label: 'My Patients',
+                  label: 'Patients',
                   iconColor: AppColors.iconTherapists,
                   iconBackgroundColor: AppColors.iconTherapists.withOpacity(
                     0.3,
                   ),
                   onTap: () {
                     Get.toNamed(AppRoutes.therapistPatients);
-                  },
-                ),
-                QuickActionTile(
-                  icon: FontAwesomeIcons.comments,
-                  label: AppStrings.chat,
-                  iconColor: AppColors.iconChat,
-                  iconBackgroundColor: AppColors.iconBgChat,
-                  onTap: () {
-                    if (!Get.isRegistered<AppointmentController>()) {
-                      Get.put(AppointmentController());
-                    }
-                    Get.to(() => const ChatListScreen(isTherapist: true));
                   },
                 ),
                 QuickActionTile(

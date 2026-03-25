@@ -31,6 +31,7 @@ import 'package:fyp_therapy/therapist/screens/therapist_patient_detail_screen.da
 import 'package:fyp_therapy/therapist/bindings/therapist_profile_binding.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_reports_screen.dart';
 import 'package:fyp_therapy/therapist/screens/create_report_screen.dart';
+import 'package:fyp_therapy/therapist/bindings/report_binding.dart';
 
 import 'package:fyp_therapy/therapist/screens/edit_therapist_profile_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_verification_screen.dart';
@@ -188,10 +189,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.therapistReports,
       page: () => const TherapistReportsScreen(),
+      binding: ReportBinding(),
     ),
     GetPage(
       name: AppRoutes.createReport,
       page: () => const CreateReportScreen(),
+      binding: ReportBinding(),
     ),
     GetPage(
       name: AppRoutes.therapistVerification,

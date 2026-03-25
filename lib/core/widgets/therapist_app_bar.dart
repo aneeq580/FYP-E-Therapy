@@ -10,7 +10,7 @@ class TherapistAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.title,
     this.actions,
-    this.showBackButton = false,
+    this.showBackButton = true,
   });
 
   @override

@@ -9,6 +9,7 @@ class DateTimeSelectionCard extends StatelessWidget {
   final TimeOfDay? selectedTime;
   final VoidCallback? onDateTap;
   final VoidCallback? onTimeTap;
+  final bool hideTime;
 
   const DateTimeSelectionCard({
     super.key,
@@ -16,6 +17,7 @@ class DateTimeSelectionCard extends StatelessWidget {
     this.selectedTime,
     this.onDateTap,
     this.onTimeTap,
+    this.hideTime = false,
   });
 
   @override
@@ -117,72 +119,74 @@ class DateTimeSelectionCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: AppSizes.spacingMedium),
+            if (!hideTime) ...[
+              const SizedBox(height: AppSizes.spacingMedium),
 
-            // Time Selection Row
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: onTimeTap,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  padding: const EdgeInsets.all(AppSizes.spacingMedium),
-                  decoration: BoxDecoration(
-                    color: selectedTime != null
-                        ? AppColors.secondary.withOpacity(0.06)
-                        : AppColors.backgroundLight,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
+              // Time Selection Row
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onTimeTap,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.all(AppSizes.spacingMedium),
+                    decoration: BoxDecoration(
                       color: selectedTime != null
-                          ? AppColors.secondary
-                          : Colors.transparent,
-                      width: 1.5,
+                          ? AppColors.secondary.withOpacity(0.06)
+                          : AppColors.backgroundLight,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: selectedTime != null
+                            ? AppColors.secondary
+                            : Colors.transparent,
+                        width: 1.5,
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.clock,
-                        color: AppColors.secondary,
-                        size: 20,
-                      ),
-                      const SizedBox(width: AppSizes.spacingMedium),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Time',
-                              style: AppTextStyles.bodyTextSecondary.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              selectedTime != null
-                                  ? '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}'
-                                  : 'Select time',
-                              style: AppTextStyles.bodyText.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                color: selectedTime != null
-                                    ? AppColors.textPrimary
-                                    : AppColors.textSecondary,
-                              ),
-                            ),
-                          ],
+                    child: Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.clock,
+                          color: AppColors.secondary,
+                          size: 20,
                         ),
-                      ),
-                      FaIcon(
-                        FontAwesomeIcons.chevronRight,
-                        color: AppColors.textLight,
-                        size: 20,
-                      ),
-                    ],
+                        const SizedBox(width: AppSizes.spacingMedium),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Time',
+                                style: AppTextStyles.bodyTextSecondary.copyWith(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                selectedTime != null
+                                    ? '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}'
+                                    : 'Select time',
+                                style: AppTextStyles.bodyText.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: selectedTime != null
+                                      ? AppColors.textPrimary
+                                      : AppColors.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        FaIcon(
+                          FontAwesomeIcons.chevronRight,
+                          color: AppColors.textLight,
+                          size: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       ),

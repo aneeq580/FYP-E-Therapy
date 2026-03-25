@@ -32,9 +32,16 @@ class _CreateReportScreenState extends State<CreateReportScreen> {
   }
 
   void _submitReport() async {
+    // Unfocus the keyboard to ensure the snackbar is visible
+    FocusScope.of(context).unfocus();
+
     if (!_formKey.currentState!.validate() || _selectedAppointment == null) {
       if (_selectedAppointment == null) {
-        Get.snackbar('Error', 'Please select a session to write a report for.');
+        Get.snackbar(
+          'Error',
+          'Please select a session to write a report for.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
       return;
     }
@@ -53,7 +60,8 @@ class _CreateReportScreenState extends State<CreateReportScreen> {
 
     final success = await _reportCtrl.createReport(newReport);
     if (success) {
-      Get.back(); // Go back to reports list
+      // Clear current screen but give enough time to show snackbar (already handled in controller delay)
+      Get.back(); 
     }
   }
 

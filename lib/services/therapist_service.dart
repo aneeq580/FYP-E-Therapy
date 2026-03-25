@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import '../models/availability_model.dart';
 
 class TherapistService extends GetxService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -35,5 +36,20 @@ class TherapistService extends GetxService {
   Future<Map<String, dynamic>?> getTherapistProfile(String uid) async {
     final doc = await _firestore.collection('users').doc(uid).get();
     return doc.data();
+  }
+
+  /// Update therapist availability
+  Future<void> updateAvailability(String uid, AvailabilityModel availability) async {
+    await _firestore.collection('users').doc(uid).update({
+      'availability': availability.toMap(),
+    });
+  }
+
+  /// Get therapist availability
+  Future<AvailabilityModel?> getAvailability(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    final data = doc.data();
+    if (data == null || data['availability'] == null) return null;
+    return AvailabilityModel.fromMap(data['availability'] as Map<String, dynamic>);
   }
 }
