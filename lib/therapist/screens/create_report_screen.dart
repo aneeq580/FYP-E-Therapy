@@ -22,11 +22,13 @@ class _CreateReportScreenState extends State<CreateReportScreen> {
   final AppointmentController _apptCtrl = Get.find<AppointmentController>();
   
   AppointmentModel? _selectedAppointment;
+  final TextEditingController _titleController = TextEditingController();
   final TextEditingController _summaryController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
+    _titleController.dispose();
     _summaryController.dispose();
     super.dispose();
   }
@@ -54,6 +56,7 @@ class _CreateReportScreenState extends State<CreateReportScreen> {
       patientId: _selectedAppointment!.patientId,
       therapistId: therapistId,
       patientName: _selectedAppointment!.patientName,
+      title: _titleController.text.trim(),
       summary: _summaryController.text.trim(),
       createdAt: Timestamp.now(),
     );
@@ -119,6 +122,40 @@ class _CreateReportScreenState extends State<CreateReportScreen> {
                     },
                   ),
                 ),
+              ),
+
+              const SizedBox(height: 24),
+              const Text(
+                "Report Title",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 8),
+              
+              TextFormField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  hintText: "Enter a brief title for this report",
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Title cannot be empty";
+                  }
+                  return null;
+                },
               ),
 
               const SizedBox(height: 24),

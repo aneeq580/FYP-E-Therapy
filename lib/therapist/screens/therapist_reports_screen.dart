@@ -53,52 +53,147 @@ class TherapistReportsScreen extends GetView<ReportController> {
               'MMM dd, yyyy - hh:mm a',
             ).format(report.createdAt.toDate());
 
-            return Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        report.patientName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+            return InkWell(
+              onTap: () {
+                Get.bottomSheet(
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              report.patientName,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              dateStr,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Text(
-                        dateStr,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textSecondary,
+                        const SizedBox(height: 12),
+                        Text(
+                          report.title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.therapistPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Divider(height: 24),
-                  Text(
-                    report.summary,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textPrimary,
-                      height: 1.5,
+                        const Divider(height: 32),
+                        const Text(
+                          "Session Summary",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Flexible(
+                          child: SingleChildScrollView(
+                            child: Text(
+                              report.summary,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: AppColors.textPrimary,
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.therapistPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () => Get.back(),
+                            child: const Text("Close", style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                  isScrollControlled: true,
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          report.patientName,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          dateStr,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(height: 24),
+                    Text(
+                      report.title,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      "Tap to view summary",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.therapistPrimary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },

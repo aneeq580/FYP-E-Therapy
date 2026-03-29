@@ -6,6 +6,7 @@ class ReportModel {
   final String patientId;
   final String therapistId;
   final String patientName;
+  final String title;
   final String summary;
   final Timestamp createdAt;
 
@@ -15,6 +16,7 @@ class ReportModel {
     required this.patientId,
     required this.therapistId,
     required this.patientName,
+    required this.title,
     required this.summary,
     required this.createdAt,
   });
@@ -26,6 +28,7 @@ class ReportModel {
       patientId: data['patientId'] ?? '',
       therapistId: data['therapistId'] ?? '',
       patientName: data['patientName'] ?? 'Unknown Patient',
+      title: data['title'] ?? 'Session Report',
       summary: data['summary'] ?? '',
       createdAt: data['createdAt'] as Timestamp? ?? Timestamp.now(),
     );
@@ -37,6 +40,7 @@ class ReportModel {
       'patientId': patientId,
       'therapistId': therapistId,
       'patientName': patientName,
+      'title': title,
       'summary': summary,
       'createdAt': createdAt,
     };
