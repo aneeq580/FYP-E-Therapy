@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:fyp_therapy/controllers/appointment_controller.dart';
+import 'package:fyp_therapy/patient/profile/widgets/profile_avatar_widget.dart';
+import 'package:fyp_therapy/patient/profile/widgets/avatar_selection_modal.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
@@ -11,6 +14,10 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<AppointmentController>()) {
+      Get.put(AppointmentController());
+    }
+    
     return Scaffold(
       backgroundColor: AppColors.therapistBackground,
       body: Obx(() {
@@ -148,55 +155,25 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
   }
 
   Widget _buildProfileImage() {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 3),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: ClipOval(
-        child: controller.profileImageUrl.value.isNotEmpty
-            ? Image.network(
-                controller.profileImageUrl.value,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _buildInitialsAvatar(),
-              )
-            : _buildInitialsAvatar(),
-      ),
+    return ProfileAvatarWidget(
+      profileImageUrl: controller.profileImageUrl.value,
+      displayName: controller.fullName.value,
+      gender: 'Male', // Defaulting as gender doesn't seem to be saved directly in Therapist profile currently.
+      onAvatarTap: () => _showAvatarModal(),
+      onEditTap: () => _showAvatarModal(),
     );
   }
 
-  Widget _buildInitialsAvatar() {
-    final name = controller.fullName.value;
-    String initials = '';
-    if (name.isNotEmpty) {
-      final parts = name.split(' ');
-      if (parts.length > 1) {
-        initials = (parts[0][0] + parts[1][0]).toUpperCase();
-      } else {
-        initials = parts[0][0].toUpperCase();
-      }
-    }
-
-    return Container(
-      color: AppColors.therapistSecondary,
-      child: Center(
-        child: Text(
-          initials,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+  void _showAvatarModal() {
+    showModalBottomSheet(
+      context: Get.context!,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => AvatarSelectionModal(
+        gender: 'Prefer not to say', // Let them see all options or provide a generic one
+        onSelect: (url) {
+          controller.updateProfileImage(url);
+        },
       ),
     );
   }
@@ -226,9 +203,14 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
   }
 
   Widget _buildStatsRow() {
+    final appointmentController = Get.find<AppointmentController>();
     return Row(
       children: [
-        _buildStatItem('Sessions', '120+', FontAwesomeIcons.calendarCheck),
+        Obx(() => _buildStatItem(
+              'Sessions',
+              appointmentController.therapistCompletedAppointments.length.toString(),
+              FontAwesomeIcons.calendarCheck,
+            )),
         _buildStatItem('Experience', '${controller.experience.value}Y', FontAwesomeIcons.clock),
         _buildStatItem('Rating', controller.rating.value.toStringAsFixed(1), FontAwesomeIcons.star),
       ],

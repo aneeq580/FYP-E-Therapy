@@ -45,7 +45,7 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
               ),
               const SizedBox(height: 4),
               const Text(
-                "Timezone: Europe/Lisbon",
+                "Timezone: Asia/Karachi (PKT)",
                 style: TextStyle(color: Colors.blueAccent, fontSize: 13),
               ),
               const SizedBox(height: 20),
@@ -179,6 +179,12 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                 final picked = await showTimePicker(
                   context: context,
                   initialTime: controller.stringToTime(slot.start),
+                  builder: (context, child) {
+                    return MediaQuery(
+                      data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                      child: child!,
+                    );
+                  },
                 );
                 if (picked != null) {
                   controller.updateSlotTime(day, index, start: controller.timeToString(picked));
@@ -198,6 +204,12 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                 final picked = await showTimePicker(
                   context: context,
                   initialTime: controller.stringToTime(slot.end),
+                  builder: (context, child) {
+                    return MediaQuery(
+                      data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                      child: child!,
+                    );
+                  },
                 );
                 if (picked != null) {
                   controller.updateSlotTime(day, index, end: controller.timeToString(picked));
@@ -223,6 +235,15 @@ class _TimeDisplay extends StatelessWidget {
 
   const _TimeDisplay({required this.label, required this.time, required this.onTap});
 
+  String get _formattedTime {
+    final parts = time.split(':');
+    final h = int.parse(parts[0]);
+    final m = parts[1];
+    final hour = h == 0 ? 12 : (h > 12 ? h - 12 : h);
+    final period = h >= 12 ? 'PM' : 'AM';
+    return '$hour:$m $period';
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -246,7 +267,7 @@ class _TimeDisplay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  time,
+                  _formattedTime,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const Icon(Icons.access_time, size: 16, color: AppColors.therapistPrimary),

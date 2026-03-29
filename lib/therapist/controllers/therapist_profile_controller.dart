@@ -12,6 +12,7 @@ class TherapistProfileController extends GetxController {
   // Observable fields for UI display
   final RxString fullName = ''.obs;
   final RxString specialty = ''.obs;
+  final RxList<String> specialtiesList = <String>[].obs;
   final RxString bio = ''.obs;
   final RxString phone = ''.obs;
   final RxDouble rating = 0.0.obs;
@@ -75,6 +76,8 @@ class TherapistProfileController extends GetxController {
   void _populateFields(Map<String, dynamic> data) {
     fullName.value = data['fullName'] ?? '';
     specialty.value = data['specialty'] ?? 'General Therapist';
+    specialtiesList.value = specialty.value.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+    if (specialtiesList.isEmpty) specialtiesList.add('General Therapist');
     bio.value = data['bio'] ?? '';
     phone.value = data['phone'] ?? '';
     rating.value = (data['rating'] as num?)?.toDouble() ?? 5.0;
@@ -101,7 +104,7 @@ class TherapistProfileController extends GetxController {
     try {
       final updatedData = {
         'fullName': nameController.text.trim(),
-        'specialty': specialtyController.text.trim(),
+        'specialty': specialtiesList.join(', '),
         'bio': bioController.text.trim(),
         'phone': phoneController.text.trim(),
         'experience': int.tryParse(experienceController.text) ?? 0,
@@ -127,6 +130,22 @@ class TherapistProfileController extends GetxController {
       Get.snackbar('Success', 'Profile updated successfully');
     } catch (e) {
       Get.snackbar('Error', 'Failed to update profile: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateProfileImage(String url) async {
+    final user = _authService.currentUser.value;
+    if (user == null) return;
+    
+    isLoading.value = true;
+    try {
+      await _authService.updateUserProfile(user.uid, {'profileImageUrl': url});
+      profileImageUrl.value = url;
+      Get.snackbar('Success', 'Profile picture updated successfully');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to update profile picture: $e');
     } finally {
       isLoading.value = false;
     }

@@ -110,11 +110,7 @@ class PatientProfileScreen extends StatelessWidget {
                     ),
                   );
                 },
-                onEditTap: () => _showEditProfileDialog(
-                  context,
-                  controller,
-                  requireCompletion: requireCompletion,
-                ),
+                onEditTap: () => Get.toNamed(AppRoutes.editPatientProfile),
               ),
             ),
 

@@ -22,6 +22,7 @@ class AppRoutes {
   static const String patientSettingsLanguage = '/patientSettings/language';
   static const String patientSettingsHelp = '/patientSettings/help';
   static const String patientProfile = '/patientProfile';
+  static const String editPatientProfile = '/editPatientProfile';
   static const String patientReports = '/patientReports';
 
   // Therapist routes

@@ -21,6 +21,7 @@ import 'package:fyp_therapy/chat/screens/sessions_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import 'package:fyp_therapy/patient/profile/patient_profile_screen.dart';
 import 'package:fyp_therapy/patient/screens/patient_reports_screen.dart';
+import 'package:fyp_therapy/patient/screens/edit_patient_profile_screen.dart';
 
 import 'package:fyp_therapy/therapist/screens/therapist_home_screen.dart';
 import 'package:fyp_therapy/therapist/screens/therapist_appointments_screen.dart';
@@ -147,6 +148,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.patientProfile,
       page: () => const PatientProfileScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.editPatientProfile,
+      page: () => const EditPatientProfileScreen(),
     ),
     GetPage(
       name: AppRoutes.patientReports,

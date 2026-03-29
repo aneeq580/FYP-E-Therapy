@@ -240,7 +240,7 @@ class AppointmentService extends GetxService {
     return _firestore
         .collection('appointments')
         .where('patientId', isEqualTo: patientId)
-        .where('status', isEqualTo: 'accepted')
+        .where('status', whereIn: ['approved', 'upcoming'])
         .snapshots()
         .handleError((e) {
           debugPrint('getPatientUpcomingSessionCount error: $e');

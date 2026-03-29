@@ -67,20 +67,34 @@ class TherapistSelectionCard extends StatelessWidget {
                     ),
                   ),
                   child: ClipOval(
-                    child: profileImageUrl != null
-                        ? Image.network(
-                            profileImageUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Center(
-                                child: FaIcon(
-                                  FontAwesomeIcons.userDoctor,
-                                  color: AppColors.iconTherapists,
-                                  size: 28,
-                                ),
-                              );
-                            },
-                          )
+                    child: profileImageUrl != null && profileImageUrl!.isNotEmpty
+                        ? (profileImageUrl!.startsWith('assets/')
+                            ? Image.asset(
+                                profileImageUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.userDoctor,
+                                      color: AppColors.iconTherapists,
+                                      size: 28,
+                                    ),
+                                  );
+                                },
+                              )
+                            : Image.network(
+                                profileImageUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.userDoctor,
+                                      color: AppColors.iconTherapists,
+                                      size: 28,
+                                    ),
+                                  );
+                                },
+                              ))
                         : Center(
                             child: FaIcon(
                               FontAwesomeIcons.userDoctor,

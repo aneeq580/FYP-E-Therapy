@@ -14,6 +14,8 @@ import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import '../../controllers/appointment_controller.dart';
 import '../../controllers/mood_tracker_controller.dart';
 import '../../services/mood_service.dart';
+import '../../models/resource_model.dart';
+import 'resource_list_screen.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
@@ -64,8 +66,19 @@ class PatientHomeScreen extends StatelessWidget {
                     borderRadius: 12,
                     duration: const Duration(seconds: 2),
                   );
-                },
-              ),
+                  },
+                  onQuickBreatheTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ResourceListScreen(
+                          title: 'Breathing Exercises',
+                          category: ResourceCategory.breathing,
+                        ),
+                      ),
+                    );
+                  },
+                ),
             ),
 
             const SizedBox(height: 10),

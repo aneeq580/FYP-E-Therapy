@@ -31,24 +31,37 @@ class BookSessionScreen extends GetView<BookSessionController> {
 
   /// Date Picker
   Future<void> _handleDateSelection(BuildContext context) async {
+    if (controller.therapistAvailability.value != null && 
+        controller.therapistAvailability.value!.weeklyAvailability.isEmpty) {
+      Get.snackbar(
+        'Unavailable',
+        'This therapist has not set any working hours.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+      return;
+    }
+
+    DateTime initial = controller.selectedDate.value ?? DateTime.now();
+    // Ensure initial is selectable (search up to 7 days ahead)
+    while (!controller.isDayAvailable(initial)) {
+      initial = initial.add(const Duration(days: 1));
+      if (initial.difference(DateTime.now()).inDays > 8) {
+        initial = DateTime.now();
+        break;
+      }
+    }
+
     final pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: initial,
       firstDate: DateTime.now(),
-      lastDate: DateTime(2030),
+      lastDate: DateTime.now().add(const Duration(days: 60)),
+      selectableDayPredicate: (DateTime day) => controller.isDayAvailable(day),
     );
 
     if (pickedDate != null) {
-      if (!controller.isDayAvailable(pickedDate)) {
-        Get.snackbar(
-          'Unavailable',
-          'The therapist is not available on this day.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.withOpacity(0.1),
-          colorText: Colors.red,
-        );
-        return;
-      }
       controller.setDate(pickedDate);
     }
   }

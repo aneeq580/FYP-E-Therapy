@@ -9,6 +9,7 @@ class PatientHeader extends StatelessWidget {
   final VoidCallback? onProfileTap;
   final Function(String emoji)? onMoodSelected;
   final String? selectedEmoji;
+  final VoidCallback? onQuickBreatheTap;
 
   const PatientHeader({
     super.key,
@@ -18,6 +19,7 @@ class PatientHeader extends StatelessWidget {
     this.onProfileTap,
     this.onMoodSelected,
     this.selectedEmoji,
+    this.onQuickBreatheTap,
   });
 
   String _getGreeting() {
@@ -114,9 +116,7 @@ class PatientHeader extends StatelessWidget {
                   vertical: 5,
                 ),
               ),
-              onPressed: () {
-                // Navigate to breathing exercise screen
-              },
+              onPressed: onQuickBreatheTap,
             ),
           ),
         ],

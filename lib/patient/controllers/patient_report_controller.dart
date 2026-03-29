@@ -4,7 +4,7 @@ import '../../models/report_model.dart';
 import '../../services/report_service.dart';
 
 class PatientReportController extends GetxController {
-  final ReportService _reportService = Get.find<ReportService>();
+  final ReportService _reportService = Get.put(ReportService());
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   RxList<ReportModel> patientReports = <ReportModel>[].obs;

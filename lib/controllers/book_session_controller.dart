@@ -15,6 +15,14 @@ class BookSessionController extends GetxController {
 
   final therapistAvailability = Rxn<AvailabilityModel>();
 
+  @override
+  void onInit() {
+    super.onInit();
+    if (Get.arguments != null && Get.arguments is Map<String, dynamic>) {
+      setTherapist(Get.arguments as Map<String, dynamic>);
+    }
+  }
+
   bool get isBookingValid =>
       selectedTherapistData.value != null &&
       selectedDate.value != null &&
@@ -24,9 +32,25 @@ class BookSessionController extends GetxController {
 
   Future<void> setTherapist(Map<String, dynamic> therapist) async {
     selectedTherapistData.value = therapist;
+    selectedDate.value = null;
+    selectedTime.value = null; // Clear previous selections
+
     final uid = therapist['uid'] as String?;
     if (uid != null) {
       therapistAvailability.value = await _therapistService.getAvailability(uid);
+      
+      // Auto-select the first available date so slots are visible immediately
+      if (therapistAvailability.value != null && 
+          therapistAvailability.value!.weeklyAvailability.isNotEmpty) {
+        DateTime current = DateTime.now();
+        for (int i = 0; i < 7; i++) {
+          if (isDayAvailable(current)) {
+            setDate(current);
+            break;
+          }
+          current = current.add(const Duration(days: 1));
+        }
+      }
     } else {
       therapistAvailability.value = null;
     }

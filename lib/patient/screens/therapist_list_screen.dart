@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'therapist_profile_view.dart';
 import '../../core/constants/colors.dart';
 import '../../core/widgets/patient_app_bar.dart';
 import '../../core/constants/styles.dart';
@@ -40,15 +42,8 @@ class _TherapistListScreenState extends State<TherapistListScreen> {
 
   void _dismissKeyboard() => _searchFocus.unfocus();
 
-  void _handleViewProfile(String therapistName) {
-    Get.snackbar(
-      'Coming Soon',
-      'Profile view for $therapistName is currently under development.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppColors.background,
-      colorText: AppColors.textPrimary,
-      margin: const EdgeInsets.all(AppSizes.spacingMedium),
-    );
+  void _handleViewProfile(Map<String, dynamic> therapist) {
+    Get.to(() => TherapistProfileView(therapist: therapist));
   }
 
   List<String> _getTags(Map<String, dynamic> therapist) {
@@ -142,9 +137,7 @@ class _TherapistListScreenState extends State<TherapistListScreen> {
                             if (widget.isSelectionMode) {
                               Get.back(result: therapist);
                             } else {
-                              _handleViewProfile(
-                                therapist['fullName'] as String? ?? 'Therapist',
-                              );
+                              _handleViewProfile(therapist);
                             }
                           },
                           child: TherapistCard(
@@ -160,9 +153,7 @@ class _TherapistListScreenState extends State<TherapistListScreen> {
                             experience: (therapist['experience'] as num?)?.toInt() ?? 5,
                             hourlyRate: (therapist['hourlyRate'] as num?)?.toDouble() ?? 100.0,
                             tags: _getTags(therapist),
-                            onViewProfile: () => _handleViewProfile(
-                              therapist['fullName'] as String? ?? 'Therapist',
-                            ),
+                            onViewProfile: () => _handleViewProfile(therapist),
                           ),
                         );
                       },
@@ -206,10 +197,13 @@ class _SearchBar extends StatelessWidget {
             color: Colors.white.withOpacity(0.65),
             fontSize: 14,
           ),
-          prefixIcon: const Icon(
-            Icons.search_rounded,
-            color: Colors.white70,
-            size: 20,
+          prefixIcon: const Center(
+            widthFactor: 1.0,
+            child: FaIcon(
+              FontAwesomeIcons.magnifyingGlass,
+              color: Colors.white70,
+              size: 16,
+            ),
           ),
           suffixIcon: Obx(
             () => query.value.isNotEmpty
@@ -218,10 +212,10 @@ class _SearchBar extends StatelessWidget {
                       controller.clear();
                       query.value = '';
                     },
-                    child: const Icon(
-                      Icons.close_rounded,
+                    child: const FaIcon(
+                      FontAwesomeIcons.circleXmark,
                       color: Colors.white70,
-                      size: 18,
+                      size: 16,
                     ),
                   )
                 : const SizedBox.shrink(),
@@ -259,9 +253,9 @@ class _EmptyState extends StatelessWidget {
                 color: AppColors.primary.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
-                Icons.person_search_rounded,
-                size: 36,
+              child: const FaIcon(
+                FontAwesomeIcons.userDoctor,
+                size: 32,
                 color: AppColors.primary,
               ),
             ),

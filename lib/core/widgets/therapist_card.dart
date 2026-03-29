@@ -62,12 +62,19 @@ class TherapistCard extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: photoUrl != null && photoUrl!.isNotEmpty
-                          ? Image.network(
-                              photoUrl!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
-                            )
+                          ? (photoUrl!.startsWith('assets/')
+                              ? Image.asset(
+                                  photoUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
+                                )
+                              : Image.network(
+                                  photoUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
+                                ))
                           : const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
                     ),
                   ),

@@ -48,14 +48,10 @@ class EditTherapistProfileScreen extends GetView<TherapistProfileController> {
                 keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: AppSizes.spacingLarge),
-              
+
               _buildSectionTitle('Professional Details'),
               const SizedBox(height: AppSizes.spacingSmall),
-              _buildTextField(
-                controller: controller.specialtyController,
-                label: 'Specialty',
-                icon: Icons.medical_services,
-              ),
+              _buildSpecialtiesSection(context),
               const SizedBox(height: AppSizes.spacingMedium),
               _buildTextField(
                 controller: controller.educationController,
@@ -85,7 +81,7 @@ class EditTherapistProfileScreen extends GetView<TherapistProfileController> {
                 ],
               ),
               const SizedBox(height: AppSizes.spacingLarge),
-              
+
               _buildSectionTitle('About Me'),
               const SizedBox(height: AppSizes.spacingSmall),
               _buildTextField(
@@ -95,7 +91,7 @@ class EditTherapistProfileScreen extends GetView<TherapistProfileController> {
                 maxLines: 5,
               ),
               const SizedBox(height: AppSizes.spacingLarge * 2),
-              
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -166,6 +162,113 @@ class EditTherapistProfileScreen extends GetView<TherapistProfileController> {
           fillColor: Colors.white,
         ),
       ),
+    );
+  }
+
+  Widget _buildSpecialtiesSection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSizes.spacingMedium),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.medical_services,
+                color: AppColors.therapistPrimary,
+              ),
+              const SizedBox(width: AppSizes.spacingSmall),
+              const Text(
+                'Specialties',
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSizes.spacingMedium),
+          Obx(
+            () => Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ...controller.specialtiesList.map(
+                  (spec) => Chip(
+                    label: Text(spec),
+                    backgroundColor: AppColors.therapistPrimary.withOpacity(
+                      0.1,
+                    ),
+                    deleteIconColor: AppColors.therapistPrimary,
+                    onDeleted: () {
+                      controller.specialtiesList.remove(spec);
+                    },
+                  ),
+                ),
+                ActionChip(
+                  avatar: const Icon(
+                    Icons.add,
+                    size: 16,
+                    color: AppColors.therapistPrimary,
+                  ),
+                  label: const Text(
+                    'Add Specialty',
+                    style: TextStyle(color: AppColors.therapistPrimary),
+                  ),
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: AppColors.therapistPrimary),
+                  onPressed: () {
+                    _showAddSpecialtyDialog(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddSpecialtyDialog(BuildContext context) {
+    final TextEditingController textController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add Specialty'),
+          content: TextField(
+            controller: textController,
+            decoration: const InputDecoration(
+              hintText: 'e.g., Clinical Psychology',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final text = textController.text.trim();
+                if (text.isNotEmpty &&
+                    !controller.specialtiesList.contains(text)) {
+                  controller.specialtiesList.add(text);
+                }
+                Navigator.pop(context);
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
