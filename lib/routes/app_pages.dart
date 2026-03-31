@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:fyp_therapy/views/auth/role_selection/role_selection_screen.dart';
+import 'package:fyp_therapy/views/splash/splash_screen.dart';
 import 'package:fyp_therapy/views/auth/login/login_screen.dart';
 import 'package:fyp_therapy/views/auth/signup/signup_screen.dart';
 import 'package:fyp_therapy/views/auth/forgot_password/forgot_password_screen.dart';
@@ -44,6 +45,11 @@ import 'package:fyp_therapy/bindings/mood_tracker_binding.dart';
 /// Central GetX page configuration.
 class AppPages {
   static final routes = <GetPage>[
+    // Splash
+    GetPage(
+      name: AppRoutes.splash,
+      page: () => const SplashScreen(),
+    ),
     // Auth
     GetPage(
       name: AppRoutes.roleSelection,

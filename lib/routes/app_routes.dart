@@ -1,5 +1,6 @@
 /// Central place for all route names used in the app.
 class AppRoutes {
+  static const String splash = '/splash';
   // Auth routes
   static const String roleSelection = '/roleSelection';
   static const String login = '/login';

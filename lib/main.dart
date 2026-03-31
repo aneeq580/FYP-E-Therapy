@@ -1,6 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fyp_therapy/firebase_options.dart';
 import 'package:fyp_therapy/services/appointment_service.dart';
 import 'package:get/get.dart';
@@ -16,38 +15,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // Initialize essential services
   Get.put(AuthService(), permanent: true);
   Get.put(AppointmentService(), permanent: true);
   Get.put(TherapistService(), permanent: true);
   Get.put(StorageService(), permanent: true);
-  // Ensure AuthController is available app-wide for screens that call Get.find<AuthController>()
   Get.put(AuthController(), permanent: true);
 
-  // Decide initial route based on Firebase auth persistence.
-  final User? user = FirebaseAuth.instance.currentUser;
-  String initialRoute = AppRoutes.roleSelection;
-
-  if (user != null) {
-    try {
-      final authService = Get.find<AuthService>();
-      final role = await authService.fetchUserRole(user.uid);
-      if (role == 'therapist') {
-        initialRoute = AppRoutes.therapistHome;
-      } else {
-        initialRoute = AppRoutes.patientHome;
-      }
-    } catch (e) {
-      initialRoute = AppRoutes.patientHome; // Fallback
-    }
-  }
-
-  runApp(MyApp(initialRoute: initialRoute));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String initialRoute;
-
-  const MyApp({super.key, required this.initialRoute});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +40,7 @@ class MyApp extends StatelessWidget {
           seedColor: AppColors.primary,
           primary: AppColors.primary,
           secondary: AppColors.secondary,
-          background: AppColors.background,
+          surface: AppColors.background,
           brightness: Brightness.light,
         ),
         appBarTheme: const AppBarTheme(
@@ -79,7 +58,7 @@ class MyApp extends StatelessWidget {
           displayColor: AppColors.textPrimary,
         ),
       ),
-      initialRoute: initialRoute,
+      initialRoute: AppRoutes.splash,
       getPages: AppPages.routes,
     );
   }
