@@ -9,6 +9,7 @@ class AppStrings {
   static const String mySessions = 'My Sessions';
   static const String moodTracker = 'Mood Tracker';
   static const String resources = 'Resources';
+  static const String keepNotes = 'Keep Notes';
   static const String emergency = 'Emergency';
   static const String settings = 'Settings';
   static const String chat = 'Chat';

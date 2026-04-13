@@ -66,19 +66,19 @@ class PatientHomeScreen extends StatelessWidget {
                     borderRadius: 12,
                     duration: const Duration(seconds: 2),
                   );
-                  },
-                  onQuickBreatheTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResourceListScreen(
-                          title: 'Breathing Exercises',
-                          category: ResourceCategory.breathing,
-                        ),
+                },
+                onQuickBreatheTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ResourceListScreen(
+                        title: 'Breathing Exercises',
+                        category: ResourceCategory.breathing,
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
+              ),
             ),
 
             const SizedBox(height: 10),
@@ -140,11 +140,11 @@ class PatientHomeScreen extends StatelessWidget {
                   onTap: () => Get.toNamed(AppRoutes.resources),
                 ),
                 QuickActionTile(
-                  icon: AppIcons.emergency,
-                  label: AppStrings.emergency,
+                  icon: AppIcons.keepNotes,
+                  label: AppStrings.keepNotes,
                   iconColor: AppColors.iconEmergency,
                   iconBackgroundColor: AppColors.iconBgEmergency,
-                  onTap: () => Get.toNamed(AppRoutes.emergency),
+                  onTap: () => Get.toNamed(AppRoutes.keepNotes),
                 ),
                 QuickActionTile(
                   icon: AppIcons.settings,

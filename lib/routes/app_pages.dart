@@ -10,7 +10,7 @@ import 'package:fyp_therapy/patient/screens/book_session_screen.dart';
 import 'package:fyp_therapy/patient/screens/my_sessions_screen.dart';
 import 'package:fyp_therapy/patient/screens/mood_tracker_screen.dart';
 import 'package:fyp_therapy/patient/screens/resources_screen.dart';
-import 'package:fyp_therapy/patient/screens/emergency_screen.dart';
+import 'package:fyp_therapy/patient/screens/keep_notes_screen.dart';
 import 'package:fyp_therapy/patient/settings/screens/settings_main_screen.dart';
 import 'package:fyp_therapy/patient/settings/screens/notifications_screen.dart';
 import 'package:fyp_therapy/patient/settings/screens/privacy_security_screen.dart';
@@ -46,10 +46,7 @@ import 'package:fyp_therapy/bindings/mood_tracker_binding.dart';
 class AppPages {
   static final routes = <GetPage>[
     // Splash
-    GetPage(
-      name: AppRoutes.splash,
-      page: () => const SplashScreen(),
-    ),
+    GetPage(name: AppRoutes.splash, page: () => const SplashScreen()),
     // Auth
     GetPage(
       name: AppRoutes.roleSelection,
@@ -126,7 +123,7 @@ class AppPages {
       binding: MoodTrackerBinding(),
     ),
     GetPage(name: AppRoutes.resources, page: () => const ResourcesScreen()),
-    GetPage(name: AppRoutes.emergency, page: () => const EmergencyScreen()),
+    GetPage(name: AppRoutes.keepNotes, page: () => const KeepNotesScreen()),
     GetPage(
       name: AppRoutes.patientSettings,
       page: () => const SettingsMainScreen(),

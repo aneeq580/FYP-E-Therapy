@@ -14,7 +14,7 @@ class AppRoutes {
   static const String mySessions = '/mySessions';
   static const String moodTracker = '/moodTracker';
   static const String resources = '/resources';
-  static const String emergency = '/emergency';
+  static const String keepNotes = '/keepNotes';
   static const String patientSettings = '/patientSettings';
   static const String patientSettingsNotifications =
       '/patientSettings/notifications';
