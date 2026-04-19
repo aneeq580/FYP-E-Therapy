@@ -110,67 +110,95 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          // ── Animated galaxy background ──
-          AnimatedBuilder(
-            animation: _blobController,
-            builder: (_, __) => CustomPaint(
-              painter: _BackgroundPainter(_blobController.value),
-              size: size,
+    return Obx(() {
+      if (!controller.showOnboarding.value) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: Center(
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: 1.0),
+              duration: const Duration(milliseconds: 1000),
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: Transform.scale(
+                    scale: 0.8 + (0.2 * value),
+                    child: child,
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 220,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
+        );
+      }
 
-          // ── Pages ──
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
-            itemCount: _pages.length,
-            itemBuilder: (context, index) {
-              return _buildPage(_pages[index], index);
-            },
-          ),
+      return Scaffold(
+        body: Stack(
+          children: [
+            // ── Animated galaxy background ──
+            AnimatedBuilder(
+              animation: _blobController,
+              builder: (_, __) => CustomPaint(
+                painter: _BackgroundPainter(_blobController.value),
+                size: size,
+              ),
+            ),
 
-          // ── Skip button (top-right) ──
-          if (_currentPage < _pages.length - 1)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 16,
-              right: 24,
-              child: GestureDetector(
-                onTap: controller.navigate,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.2),
+            // ── Pages ──
+            PageView.builder(
+              controller: _pageController,
+              onPageChanged: _onPageChanged,
+              itemCount: _pages.length,
+              itemBuilder: (context, index) {
+                return _buildPage(_pages[index], index);
+              },
+            ),
+
+            // ── Skip button (top-right) ──
+            if (_currentPage < _pages.length - 1)
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                right: 24,
+                child: GestureDetector(
+                  onTap: controller.navigate,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                  ),
-                  child: Text(
-                    'Skip',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.85),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white.withOpacity(0.2)),
+                    ),
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.85),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
 
-          // ── Bottom Controls ──
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: _buildBottomControls(context),
-          ),
-        ],
-      ),
-    );
+            // ── Bottom Controls ──
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: _buildBottomControls(context),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildPage(_OnboardingPage page, int index) {
@@ -218,7 +246,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     return Container(
       padding: EdgeInsets.fromLTRB(
-          32, 20, 32, MediaQuery.of(context).padding.bottom + 32),
+        32,
+        20,
+        32,
+        MediaQuery.of(context).padding.bottom + 32,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -252,10 +284,7 @@ class _SplashScreenState extends State<SplashScreen>
               height: 58,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    accentColor,
-                    accentColor.withOpacity(0.7),
-                  ],
+                  colors: [accentColor, accentColor.withOpacity(0.7)],
                 ),
                 borderRadius: BorderRadius.circular(29),
                 boxShadow: [
@@ -279,8 +308,11 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Icons.arrow_forward_rounded,
-                      color: Colors.white, size: 20),
+                  const Icon(
+                    Icons.arrow_forward_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -320,17 +352,19 @@ class _AnimatedIllustrationWrapperState
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 900));
-    _fadeScale = CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut);
-    _pulse = Tween<double>(begin: 0.97, end: 1.03).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
     );
+    _fadeScale = CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut);
+    _pulse = Tween<double>(
+      begin: 0.97,
+      end: 1.03,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
     _ctrl.forward();
     // Pulse loop
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (mounted) {
-        _ctrl.repeat(reverse: true,
-            period: const Duration(milliseconds: 2000));
+        _ctrl.repeat(reverse: true, period: const Duration(milliseconds: 2000));
       }
     });
   }
@@ -417,10 +451,14 @@ class _PageTextContentState extends State<_PageTextContent>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 600));
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
-    _slide = Tween(begin: const Offset(0, 0.2), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
+    _slide = Tween(
+      begin: const Offset(0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
     Future.delayed(const Duration(milliseconds: 200), () {
       if (mounted) _ctrl.forward();
     });
@@ -550,9 +588,15 @@ class _TherapistPainter extends CustomPainter {
 
     // Arms
     canvas.drawLine(
-        Offset(w * 0.2, h * 0.52), Offset(w * 0.08, h * 0.62), strokePaint);
+      Offset(w * 0.2, h * 0.52),
+      Offset(w * 0.08, h * 0.62),
+      strokePaint,
+    );
     canvas.drawLine(
-        Offset(w * 0.44, h * 0.52), Offset(w * 0.58, h * 0.50), strokePaint);
+      Offset(w * 0.44, h * 0.52),
+      Offset(w * 0.58, h * 0.50),
+      strokePaint,
+    );
 
     // ── Person (right, therapist) ──
     strokePaint.color = const Color(0xFF818CF8);
@@ -569,9 +613,15 @@ class _TherapistPainter extends CustomPainter {
     canvas.drawPath(body2Path, strokePaint);
 
     canvas.drawLine(
-        Offset(w * 0.6, h * 0.52), Offset(w * 0.47, h * 0.50), strokePaint);
+      Offset(w * 0.6, h * 0.52),
+      Offset(w * 0.47, h * 0.50),
+      strokePaint,
+    );
     canvas.drawLine(
-        Offset(w * 0.84, h * 0.52), Offset(w * 0.96, h * 0.62), strokePaint);
+      Offset(w * 0.84, h * 0.52),
+      Offset(w * 0.96, h * 0.62),
+      strokePaint,
+    );
 
     // ── Connecting heart in middle ──
     final heartPaint = Paint()
@@ -591,30 +641,63 @@ class _TherapistPainter extends CustomPainter {
       ..strokeWidth = 1.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
-    canvas.drawLine(Offset(w * 0.58, h * 0.50),
-        Offset(w * 0.5 + 12, h * 0.50), linePaint);
-    canvas.drawLine(Offset(w * 0.42, h * 0.50),
-        Offset(w * 0.5 - 12, h * 0.50), linePaint);
+    canvas.drawLine(
+      Offset(w * 0.58, h * 0.50),
+      Offset(w * 0.5 + 12, h * 0.50),
+      linePaint,
+    );
+    canvas.drawLine(
+      Offset(w * 0.42, h * 0.50),
+      Offset(w * 0.5 - 12, h * 0.50),
+      linePaint,
+    );
 
     // ── Chat bubbles ──
-    _drawBubble(canvas, Offset(w * 0.15, h * 0.12), w * 0.22, h * 0.12,
-        const Color(0xFF34D399));
-    _drawBubble(canvas, Offset(w * 0.63, h * 0.06), w * 0.28, h * 0.12,
-        const Color(0xFF818CF8));
+    _drawBubble(
+      canvas,
+      Offset(w * 0.15, h * 0.12),
+      w * 0.22,
+      h * 0.12,
+      const Color(0xFF34D399),
+    );
+    _drawBubble(
+      canvas,
+      Offset(w * 0.63, h * 0.06),
+      w * 0.28,
+      h * 0.12,
+      const Color(0xFF818CF8),
+    );
   }
 
   void _drawHeart(Canvas canvas, Offset center, double size, Paint paint) {
     final path = Path();
     path.moveTo(center.dx, center.dy + size * 0.35);
-    path.cubicTo(center.dx - size, center.dy - size * 0.3, center.dx - size,
-        center.dy - size * 0.8, center.dx, center.dy - size * 0.3);
-    path.cubicTo(center.dx + size, center.dy - size * 0.8, center.dx + size,
-        center.dy - size * 0.3, center.dx, center.dy + size * 0.35);
+    path.cubicTo(
+      center.dx - size,
+      center.dy - size * 0.3,
+      center.dx - size,
+      center.dy - size * 0.8,
+      center.dx,
+      center.dy - size * 0.3,
+    );
+    path.cubicTo(
+      center.dx + size,
+      center.dy - size * 0.8,
+      center.dx + size,
+      center.dy - size * 0.3,
+      center.dx,
+      center.dy + size * 0.35,
+    );
     canvas.drawPath(path, paint);
   }
 
   void _drawBubble(
-      Canvas canvas, Offset pos, double bw, double bh, Color color) {
+    Canvas canvas,
+    Offset pos,
+    double bw,
+    double bh,
+    Color color,
+  ) {
     final paint = Paint()
       ..color = color.withOpacity(0.2)
       ..style = PaintingStyle.fill;
@@ -623,8 +706,9 @@ class _TherapistPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     final rect = RRect.fromRectAndRadius(
-        Rect.fromCenter(center: pos, width: bw, height: bh),
-        const Radius.circular(10));
+      Rect.fromCenter(center: pos, width: bw, height: bh),
+      const Radius.circular(10),
+    );
     canvas.drawRRect(rect, paint);
     canvas.drawRRect(rect, borderPaint);
     // Lines inside bubble
@@ -632,10 +716,16 @@ class _TherapistPainter extends CustomPainter {
       ..color = color.withOpacity(0.6)
       ..strokeWidth = 1.5
       ..strokeCap = StrokeCap.round;
-    canvas.drawLine(Offset(pos.dx - bw * 0.3, pos.dy - 2),
-        Offset(pos.dx + bw * 0.3, pos.dy - 2), lp);
-    canvas.drawLine(Offset(pos.dx - bw * 0.2, pos.dy + 4),
-        Offset(pos.dx + bw * 0.2, pos.dy + 4), lp);
+    canvas.drawLine(
+      Offset(pos.dx - bw * 0.3, pos.dy - 2),
+      Offset(pos.dx + bw * 0.3, pos.dy - 2),
+      lp,
+    );
+    canvas.drawLine(
+      Offset(pos.dx - bw * 0.2, pos.dy + 4),
+      Offset(pos.dx + bw * 0.2, pos.dy + 4),
+      lp,
+    );
   }
 
   @override
@@ -650,10 +740,7 @@ class _HealingIllustration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(180, 180),
-      painter: _HealingPainter(),
-    );
+    return CustomPaint(size: const Size(180, 180), painter: _HealingPainter());
   }
 }
 
@@ -681,10 +768,11 @@ class _HealingPainter extends CustomPainter {
       stroke.color = accentAmber.withOpacity(0.6 - i * 0.03);
       stroke.strokeWidth = i.isEven ? 2 : 1.5;
       canvas.drawLine(
-        Offset(center.dx + cos(angle) * rStart,
-            center.dy + sin(angle) * rStart),
         Offset(
-            center.dx + cos(angle) * rEnd, center.dy + sin(angle) * rEnd),
+          center.dx + cos(angle) * rStart,
+          center.dy + sin(angle) * rStart,
+        ),
+        Offset(center.dx + cos(angle) * rEnd, center.dy + sin(angle) * rEnd),
         stroke,
       );
     }
@@ -739,16 +827,25 @@ class _HealingPainter extends CustomPainter {
     for (int i = 0; i < sparklePositions.length; i++) {
       final sp = sparklePositions[i];
       final r = 3.0 + (i % 2) * 2.0;
-      fill.color = [accentPurple, accentAmber, accentPink][i % 3]
-          .withOpacity(0.8);
+      fill.color = [
+        accentPurple,
+        accentAmber,
+        accentPink,
+      ][i % 3].withOpacity(0.8);
       canvas.drawCircle(sp, r, fill);
       // Cross sparkle lines
       stroke.color = fill.color;
       stroke.strokeWidth = 1;
       canvas.drawLine(
-          Offset(sp.dx, sp.dy - r * 2), Offset(sp.dx, sp.dy + r * 2), stroke);
+        Offset(sp.dx, sp.dy - r * 2),
+        Offset(sp.dx, sp.dy + r * 2),
+        stroke,
+      );
       canvas.drawLine(
-          Offset(sp.dx - r * 2, sp.dy), Offset(sp.dx + r * 2, sp.dy), stroke);
+        Offset(sp.dx - r * 2, sp.dy),
+        Offset(sp.dx + r * 2, sp.dy),
+        stroke,
+      );
     }
 
     // ── Bottom wave ──
@@ -796,8 +893,10 @@ class _BackgroundPainter extends CustomPainter {
     // Blob 1 — blue
     glow.color = const Color(0xFF1D4ED8).withOpacity(0.35);
     canvas.drawCircle(
-      Offset(size.width * 0.15 + sin(t * 2 * pi) * 40,
-          size.height * 0.25 + cos(t * 2 * pi) * 40),
+      Offset(
+        size.width * 0.15 + sin(t * 2 * pi) * 40,
+        size.height * 0.25 + cos(t * 2 * pi) * 40,
+      ),
       180,
       glow,
     );
@@ -805,8 +904,10 @@ class _BackgroundPainter extends CustomPainter {
     // Blob 2 — purple
     glow.color = const Color(0xFF7C3AED).withOpacity(0.28);
     canvas.drawCircle(
-      Offset(size.width * 0.85 + cos(t * 2 * pi) * 50,
-          size.height * 0.65 + sin(t * 2 * pi) * 50),
+      Offset(
+        size.width * 0.85 + cos(t * 2 * pi) * 50,
+        size.height * 0.65 + sin(t * 2 * pi) * 50,
+      ),
       220,
       glow,
     );
@@ -814,8 +915,10 @@ class _BackgroundPainter extends CustomPainter {
     // Blob 3 — pink
     glow.color = const Color(0xFFDB2777).withOpacity(0.15);
     canvas.drawCircle(
-      Offset(size.width * 0.5 + sin(t * 2 * pi + 1.5) * 70,
-          size.height * 0.8 + cos(t * 2 * pi + 1.5) * 40),
+      Offset(
+        size.width * 0.5 + sin(t * 2 * pi + 1.5) * 70,
+        size.height * 0.8 + cos(t * 2 * pi + 1.5) * 40,
+      ),
       160,
       glow,
     );
@@ -823,8 +926,10 @@ class _BackgroundPainter extends CustomPainter {
     // Blob 4 — teal (subtle, top)
     glow.color = const Color(0xFF0D9488).withOpacity(0.12);
     canvas.drawCircle(
-      Offset(size.width * 0.7 + cos(t * 2 * pi + 0.8) * 30,
-          size.height * 0.1 + sin(t * 2 * pi + 0.8) * 30),
+      Offset(
+        size.width * 0.7 + cos(t * 2 * pi + 0.8) * 30,
+        size.height * 0.1 + sin(t * 2 * pi + 0.8) * 30,
+      ),
       130,
       glow,
     );

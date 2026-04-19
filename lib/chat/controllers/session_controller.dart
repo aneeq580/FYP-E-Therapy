@@ -89,9 +89,9 @@ class SessionController extends GetxController {
   void _startTimerIfNeeded() {
     if (_timer != null) return;
     if (startedAt.value == null || durationMinutes.value == null) return;
-    final end = startedAt.value!.add(Duration(minutes: durationMinutes.value!));
 
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      final end = startedAt.value!.add(Duration(minutes: durationMinutes.value!));
       final diff = end.difference(DateTime.now());
       if (diff <= Duration.zero) {
         remaining.value = Duration.zero;
@@ -114,6 +114,15 @@ class SessionController extends GetxController {
       'endedAt': FieldValue.serverTimestamp(),
       'isActive': false,
     });
+  }
+
+  /// Extend session duration by 5 minutes.
+  Future<void> extendSession() async {
+    if (durationMinutes.value != null) {
+      await _docRef.update({
+        'duration': FieldValue.increment(5),
+      });
+    }
   }
 
   /// Called by therapist when "Start Session" button is pressed.

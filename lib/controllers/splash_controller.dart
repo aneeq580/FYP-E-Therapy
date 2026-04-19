@@ -8,6 +8,8 @@ class SplashController extends GetxController {
   // Pre-fetched destination route — populated in background while user reads onboarding
   String? _destinationRoute;
 
+  final RxBool showOnboarding = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -16,29 +18,35 @@ class SplashController extends GetxController {
 
   Future<void> _prefetchDestination() async {
     final storageService = Get.find<StorageService>();
+    final stopwatch = Stopwatch()..start();
+    
     final hasSeenOnboarding = await storageService.hasSeenOnboarding();
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
       _destinationRoute = AppRoutes.roleSelection;
-      if (hasSeenOnboarding) {
-        Get.offAllNamed(_destinationRoute!);
+    } else {
+      try {
+        final authService = Get.find<AuthService>();
+        final role = await authService.fetchUserRole(user.uid);
+        _destinationRoute = (role == 'therapist')
+            ? AppRoutes.therapistHome
+            : AppRoutes.patientHome;
+      } catch (_) {
+        _destinationRoute = AppRoutes.roleSelection;
       }
-      return;
     }
 
-    try {
-      final authService = Get.find<AuthService>();
-      final role = await authService.fetchUserRole(user.uid);
-      _destinationRoute = (role == 'therapist')
-          ? AppRoutes.therapistHome
-          : AppRoutes.patientHome;
-    } catch (_) {
-      _destinationRoute = AppRoutes.roleSelection;
+    // Ensure splash screen lasts at least 2 seconds
+    final elapsed = stopwatch.elapsedMilliseconds;
+    if (elapsed < 2000) {
+      await Future.delayed(Duration(milliseconds: 2000 - elapsed));
     }
 
     if (hasSeenOnboarding) {
       Get.offAllNamed(_destinationRoute!);
+    } else {
+      showOnboarding.value = true;
     }
   }
 

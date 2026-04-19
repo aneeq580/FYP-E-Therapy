@@ -7,6 +7,7 @@ import '../controllers/chat_controller.dart';
 import '../controllers/session_controller.dart';
 import '../../controllers/appointment_controller.dart';
 import '../../core/constants/colors.dart';
+import '../../patient/widgets/rating_dialog.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
@@ -111,14 +112,32 @@ class ChatScreen extends StatelessWidget {
               width: double.infinity,
               color: (isTherapist ? AppColors.therapistPrimary : AppColors.primary).withOpacity(0.1),
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Center(
-                child: Text(
-                  'Remaining: $minutes:$seconds',
-                  style: TextStyle(
-                    color: isTherapist ? AppColors.therapistPrimary : AppColors.primary,
-                    fontWeight: FontWeight.bold,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Remaining: $minutes:$seconds',
+                    style: TextStyle(
+                      color: isTherapist ? AppColors.therapistPrimary : AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                  if (rem.inSeconds <= 300 && rem.inSeconds > 0) ...[
+                    const SizedBox(height: 6),
+                    ElevatedButton.icon(
+                      onPressed: () => sessionCtrl.extendSession(),
+                      icon: const Icon(Icons.add_alarm, size: 16),
+                      label: const Text('Extend +5 mins'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isTherapist ? AppColors.therapistPrimary : AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                  ],
+                ],
               ),
             );
           }),
@@ -175,7 +194,11 @@ class ChatScreen extends StatelessWidget {
                     await Get.find<AppointmentController>().completeAppointment(
                       sessionId,
                     );
-                    Get.back();
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => RatingDialog(therapistId: sessionCtrl.therapistId.value),
+                    );
                   },
                   child: const Text('Leave Session'),
                 ),

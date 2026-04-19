@@ -163,6 +163,7 @@ class AuthController extends GetxController {
         fullName: fullName.value.isNotEmpty ? fullName.value : null,
         phone: phone.value.isNotEmpty ? phone.value : null,
         degreeDocumentUrl: uploadedUrl ?? degreeDocumentUrl.value,
+        joinedAt: DateTime.now(),
       );
 
       // Also update FirebaseAuth display name for convenience.

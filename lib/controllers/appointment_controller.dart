@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/appointment_model.dart';
@@ -117,8 +118,6 @@ class AppointmentController extends GetxController {
 
   Future<void> cancelAppointment(String appointmentId, {String? reason}) async {
     try {
-      // Note: If you want to save 'reason', you can modify updateAppointmentStatus to accept a Map of fields
-      // For now, just updating the status
       await _appointmentService.updateAppointmentStatus(
         appointmentId,
         'cancelled',
@@ -126,6 +125,40 @@ class AppointmentController extends GetxController {
       Get.snackbar('Success', 'Session cancelled successfully.');
     } catch (e) {
       Get.snackbar('Error', 'Failed to cancel session: $e');
+    }
+  }
+
+  Future<void> rateTherapist(String therapistId, double rating) async {
+    try {
+      final db = FirebaseFirestore.instance;
+      final docRef = db.collection('users').doc(therapistId);
+      
+      await db.runTransaction((transaction) async {
+        final snapshot = await transaction.get(docRef);
+        final data = snapshot.data();
+        if (data == null) return;
+
+        final double currentRating = (data['rating'] as num?)?.toDouble() ?? 5.0;
+        final int ratingCount = (data['ratingCount'] as num?)?.toInt() ?? 0;
+        
+        final double newRating = ((currentRating * ratingCount) + rating) / (ratingCount + 1);
+        
+        transaction.update(docRef, {
+          'rating': newRating,
+          'ratingCount': ratingCount + 1,
+        });
+      });
+
+      // Maintain a log of reviews
+      await docRef.collection('reviews').add({
+        'rating': rating,
+        'patientId': _auth.currentUser?.uid,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      
+      Get.snackbar('Success', 'Thank you for your feedback!');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to submit rating: $e');
     }
   }
 }
