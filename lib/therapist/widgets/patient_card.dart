@@ -194,7 +194,7 @@ class SessionCountChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       decoration: BoxDecoration(
-        color: AppColors.therapistPrimary.withOpacity(0.1),
+        color: const Color(0xFFE0F2F1), // Light teal background
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -203,7 +203,7 @@ class SessionCountChip extends StatelessWidget {
           const Icon(
             Icons.event_note_rounded,
             size: 12,
-            color: AppColors.therapistPrimary,
+            color: Color(0xFF00695C), // Dark teal
           ),
           const SizedBox(width: 4),
           Text(
@@ -211,7 +211,7 @@ class SessionCountChip extends StatelessWidget {
             style: const TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: AppColors.therapistPrimary,
+              color: Color(0xFF00695C), // Dark teal
             ),
           ),
         ],
@@ -236,20 +236,24 @@ class PatientStatusChip extends StatelessWidget {
     final (label, bg, fg) = switch (status) {
       'completed' => (
         'Session Ended',
-        const Color(0xFFF3E5F5), // Light purple background
-        AppColors.therapistPrimary,
+        const Color(0xFFE8F5E8), // Light green background
+        const Color(0xFF2E7D32), // Dark green text
       ),
       'approved' || 'upcoming' => (
         'Active',
-        const Color(0xFFE3F2FD),
-        const Color(0xFF1976D2),
+        const Color(0xFFE3F2FD), // Light blue background
+        const Color(0xFF1565C0), // Dark blue text
       ),
       'started' => (
         'In Session',
-        const Color(0xFFFFF8E1),
-        AppColors.therapistSecondary,
+        const Color(0xFFFFF3E0), // Light orange background
+        const Color(0xFFEF6C00), // Dark orange text
       ),
-      _ => ('Pending', AppColors.backgroundLight, AppColors.textSecondary),
+      _ => (
+        'Pending',
+        const Color(0xFFF5F5F5),
+        const Color(0xFF616161),
+      ), // Light grey
     };
 
     return Container(

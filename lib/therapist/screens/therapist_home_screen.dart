@@ -15,6 +15,7 @@ import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
 import '../../core/widgets/therapist_app_bar.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
 import '../../controllers/appointment_controller.dart';
+import '../../controllers/settings_controller.dart';
 
 class TherapistHomeScreen extends StatelessWidget {
   const TherapistHomeScreen({super.key});
@@ -40,6 +41,10 @@ class TherapistHomeScreen extends StatelessWidget {
               } else if (value == 'profile') {
                 Get.toNamed(AppRoutes.therapistProfile);
               } else if (value == 'settings') {
+                // Initialize SettingsController if not already registered
+                if (!Get.isRegistered<SettingsController>()) {
+                  Get.put(SettingsController());
+                }
                 Get.to(() => const SettingsScreen());
               } else if (value == 'logout') {
                 _showLogoutConfirmation();
