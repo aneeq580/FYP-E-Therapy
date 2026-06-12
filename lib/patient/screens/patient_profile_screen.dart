@@ -404,7 +404,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
               onChanged: (value) {
                 // UI only, no functionality
               },
-              activeColor: AppColors.iconMoodTracker,
+              activeThumbColor: AppColors.iconMoodTracker,
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSizes.spacingMedium,

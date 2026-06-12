@@ -233,7 +233,7 @@ class TherapistProfileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FaIcon(FontAwesomeIcons.calendarCheck, size: 18),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Text(
                 'Book Appointment',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

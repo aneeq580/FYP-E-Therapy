@@ -133,7 +133,7 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                 Switch(
                   value: isEnabled,
                   onChanged: (_) => controller.toggleDay(day),
-                  activeColor: AppColors.therapistPrimary,
+                  activeThumbColor: AppColors.therapistPrimary,
                 ),
               ],
             ),

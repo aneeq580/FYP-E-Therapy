@@ -130,7 +130,7 @@ class _EditPatientProfileScreenState extends State<EditPatientProfileScreen> {
                   ],
                 ),
                 child: DropdownButtonFormField<String>(
-                  value: selectedGender,
+                  initialValue: selectedGender,
                   decoration: InputDecoration(
                     labelText: 'Gender',
                     prefixIcon: const Icon(

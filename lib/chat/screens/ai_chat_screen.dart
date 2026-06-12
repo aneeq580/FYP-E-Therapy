@@ -6,7 +6,7 @@ import '../../core/constants/colors.dart';
 import '../../core/constants/styles.dart';
 
 class AiChatScreen extends StatelessWidget {
-  const AiChatScreen({Key? key}) : super(key: key);
+  const AiChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -61,10 +61,7 @@ class MoodHistoryCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSizes.spacingSmall),
           if (progressSummary.isNotEmpty) ...[
-            Text(
-              progressSummary,
-              style: AppTextStyles.bodyTextSecondary,
-            ),
+            Text(progressSummary, style: AppTextStyles.bodyTextSecondary),
             const SizedBox(height: AppSizes.spacingSmall),
           ],
           if (suggestion.isNotEmpty) ...[
@@ -92,10 +89,7 @@ class MoodHistoryCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      entry.emoji,
-                      style: const TextStyle(fontSize: 24),
-                    ),
+                    Text(entry.emoji, style: const TextStyle(fontSize: 24)),
                     const SizedBox(width: AppSizes.spacingMedium),
                     Expanded(
                       child: Column(
@@ -119,11 +113,10 @@ class MoodHistoryCard extends StatelessWidget {
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ],
       ),
     );
   }
 }
-

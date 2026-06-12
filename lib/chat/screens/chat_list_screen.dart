@@ -363,8 +363,8 @@ class _ChatTile extends StatelessWidget {
                               fontSize: 11,
                               color: hasUnread
                                   ? (isTherapist
-                                      ? AppColors.therapistPrimary
-                                      : AppColors.primary)
+                                        ? AppColors.therapistPrimary
+                                        : AppColors.primary)
                                   : AppColors.textSecondary,
                               fontWeight: hasUnread
                                   ? FontWeight.w600
