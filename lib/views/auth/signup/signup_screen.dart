@@ -127,9 +127,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     Text(
                       "Create Account",
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: primaryColor,
+                        color: const Color.fromARGB(255, 85, 8, 75),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -147,40 +147,40 @@ class _SignupScreenState extends State<SignupScreen> {
                     CustomTextField(
                       hint: "First Name",
                       controller: firstNameController,
-                      borderColor: primaryColor.withOpacity(0.5),
+                      borderColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       hint: "Last Name",
                       controller: lastNameController,
-                      borderColor: primaryColor.withOpacity(0.5),
+                      borderColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       hint: "Email",
                       controller: emailController,
-                      borderColor: primaryColor.withOpacity(0.5),
+                      borderColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       hint: "Phone Number",
                       keyboardType: TextInputType.phone,
                       controller: phoneController,
-                      borderColor: primaryColor.withOpacity(0.5),
+                      borderColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       hint: "Create Password",
                       controller: passwordController,
                       isPassword: true,
-                      borderColor: primaryColor.withOpacity(0.5),
+                      borderColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
                       hint: "Confirm Password",
                       controller: confirmPasswordController,
                       isPassword: true,
-                      borderColor: primaryColor.withOpacity(0.5),
+                      borderColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
 
@@ -197,10 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: primaryColor.withOpacity(0.5),
-                              width: 1.5,
-                            ),
+                            border: Border.all(color: primaryColor, width: 1.5),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,16 +208,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                   style: TextStyle(
                                     color: pickedFileName != null
                                         ? Colors.black87
-                                        : primaryColor.withOpacity(0.5),
+                                        : primaryColor,
                                     fontSize: 14,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Icon(
-                                Icons.upload_file,
-                                color: primaryColor.withOpacity(0.5),
-                              ),
+                              Icon(Icons.upload_file, color: primaryColor),
                             ],
                           ),
                         ),

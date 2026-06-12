@@ -40,10 +40,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextField(
       controller: widget.controller,
       obscureText: _obscureText,
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle(fontSize: 14, color: Colors.black87),
       decoration: InputDecoration(
         hintText: widget.hint,
-        hintStyle: TextStyle(color: effectiveBorderColor),
+        hintStyle: TextStyle(
+          color: effectiveBorderColor,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
         prefixIcon: widget.icon != null
             ? Padding(
                 padding: const EdgeInsets.all(12.0),
