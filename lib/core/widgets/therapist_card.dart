@@ -27,10 +27,7 @@ class TherapistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -63,19 +60,33 @@ class TherapistCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       child: photoUrl != null && photoUrl!.isNotEmpty
                           ? (photoUrl!.startsWith('assets/')
-                              ? Image.asset(
-                                  photoUrl!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
-                                )
-                              : Image.network(
-                                  photoUrl!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
-                                ))
-                          : const Icon(Icons.person, size: 40, color: AppColors.iconTherapists),
+                                ? Image.asset(
+                                    photoUrl!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(
+                                              Icons.person,
+                                              size: 40,
+                                              color: AppColors.iconTherapists,
+                                            ),
+                                  )
+                                : Image.network(
+                                    photoUrl!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(
+                                              Icons.person,
+                                              size: 40,
+                                              color: AppColors.iconTherapists,
+                                            ),
+                                  ))
+                          : const Icon(
+                              Icons.person,
+                              size: 40,
+                              color: AppColors.iconTherapists,
+                            ),
                     ),
                   ),
                   Positioned(
@@ -120,7 +131,11 @@ class TherapistCard extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(Icons.access_time, size: 16, color: Color(0xFF94A3B8)),
+                        const Icon(
+                          Icons.access_time,
+                          size: 16,
+                          color: Color(0xFF94A3B8),
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           "$experience+ yrs",
@@ -130,7 +145,11 @@ class TherapistCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        const Icon(Icons.star, size: 16, color: Color(0xFFFBBF24)),
+                        const Icon(
+                          Icons.star,
+                          size: 16,
+                          color: Color(0xFFFBBF24),
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           rating.toStringAsFixed(1),
@@ -168,7 +187,7 @@ class TherapistCard extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "\$${hourlyRate.toStringAsFixed(0)}",
+                      text: "Rs. ${hourlyRate.toStringAsFixed(0)}",
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -189,9 +208,14 @@ class TherapistCard extends StatelessWidget {
               ElevatedButton(
                 onPressed: onViewProfile,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D9488), // Teal color from screenshot
+                  backgroundColor: const Color(
+                    0xFF0D9488,
+                  ), // Teal color from screenshot
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -202,7 +226,10 @@ class TherapistCard extends StatelessWidget {
                   children: [
                     Text(
                       "View",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                     SizedBox(width: 8),
                     Icon(Icons.arrow_forward_rounded, size: 18),

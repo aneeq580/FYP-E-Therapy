@@ -17,7 +17,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
     if (!Get.isRegistered<AppointmentController>()) {
       Get.put(AppointmentController());
     }
-    
+
     return Scaffold(
       backgroundColor: AppColors.therapistBackground,
       body: Obx(() {
@@ -158,7 +158,8 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
     return ProfileAvatarWidget(
       profileImageUrl: controller.profileImageUrl.value,
       displayName: controller.fullName.value,
-      gender: 'Male', // Defaulting as gender doesn't seem to be saved directly in Therapist profile currently.
+      gender:
+          'Male', // Defaulting as gender doesn't seem to be saved directly in Therapist profile currently.
       onAvatarTap: () => _showAvatarModal(),
       onEditTap: () => _showAvatarModal(),
     );
@@ -170,7 +171,8 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) => AvatarSelectionModal(
-        gender: 'Prefer not to say', // Let them see all options or provide a generic one
+        gender:
+            'Prefer not to say', // Let them see all options or provide a generic one
         onSelect: (url) {
           controller.updateProfileImage(url);
         },
@@ -206,13 +208,24 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
     final appointmentController = Get.find<AppointmentController>();
     return Row(
       children: [
-        Obx(() => _buildStatItem(
-              'Sessions',
-              appointmentController.therapistCompletedAppointments.length.toString(),
-              FontAwesomeIcons.calendarCheck,
-            )),
-        _buildStatItem('Experience', '${controller.experience.value}Y', FontAwesomeIcons.clock),
-        _buildStatItem('Rating', controller.rating.value.toStringAsFixed(1), FontAwesomeIcons.star),
+        Obx(
+          () => _buildStatItem(
+            'Sessions',
+            appointmentController.therapistCompletedAppointments.length
+                .toString(),
+            FontAwesomeIcons.calendarCheck,
+          ),
+        ),
+        _buildStatItem(
+          'Experience',
+          '${controller.experience.value}Y',
+          FontAwesomeIcons.clock,
+        ),
+        _buildStatItem(
+          'Rating',
+          controller.rating.value.toStringAsFixed(1),
+          FontAwesomeIcons.star,
+        ),
       ],
     );
   }
@@ -289,9 +302,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
         color: AppColors.therapistSurface,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
-        children: children,
-      ),
+      child: Column(children: children),
     );
   }
 
@@ -362,7 +373,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
             ),
           ),
           Text(
-            '\$${controller.hourlyRate.value.toStringAsFixed(0)} / Session',
+            'Rs. ${controller.hourlyRate.value.toStringAsFixed(0)} / Session',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -431,8 +442,8 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
                     status == 'approved'
                         ? "Your account is verified."
                         : status == 'pending'
-                            ? "Document is under review."
-                            : "Click here to upload degree certificate.",
+                        ? "Document is under review."
+                        : "Click here to upload degree certificate.",
                     style: TextStyle(
                       color: color.withOpacity(0.8),
                       fontSize: 12,
