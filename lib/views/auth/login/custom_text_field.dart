@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_therapy/core/constants/colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hint;
@@ -31,7 +32,7 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: icon != null
             ? Padding(
                 padding: const EdgeInsets.all(14.0),
-                child: FaIcon(icon, color: Colors.grey.shade600, size: 18),
+                child: FaIcon(icon, color: AppColors.textSecondary, size: 18),
               )
             : null,
         suffixIcon: suffixIcon,

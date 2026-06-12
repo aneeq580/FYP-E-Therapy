@@ -20,7 +20,7 @@ class TherapistAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: showBackButton,
       flexibleSpace: Container(
-        decoration: const BoxDecoration(color: AppColors.therapistSecondary),
+        decoration: const BoxDecoration(color: AppColors.appBarBackground),
       ),
       title: Text(
         title,

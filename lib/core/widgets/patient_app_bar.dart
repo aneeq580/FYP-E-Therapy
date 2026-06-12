@@ -34,7 +34,7 @@ class PatientAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
       flexibleSpace: Container(
-        decoration: const BoxDecoration(color: AppColors.primary),
+        decoration: const BoxDecoration(color: AppColors.appBarBackground),
       ),
       actions:
           actions ??

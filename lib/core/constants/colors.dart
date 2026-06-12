@@ -1,80 +1,77 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Patient (Primary) Theme - Inspired by Onboarding Page 1 & 3 (Indigo/Purple):
-  // Primary:   #6366F1  (Indigo)
-  // Contrast:  #4F46E5  (Darker Indigo)
-  // Background: #FFFFFF / #F8FAFC (Slate tint)
-  // Text:      #0F172A  (Deep Slate)
+  // ─── App Theme - Material Purple Palette ──────────────────────────────────
+  // App Bar / Header:        #6A1B9A  (purple[900])
+  // Main containers/cards:   #8E24AA  (purple[800])
+  // FAB / CTA buttons:       #9C27B0  (purple[700])
+  // Background tint:         #F8F1FF  (very light purple)
 
-  // Therapist Theme - Inspired by Onboarding Page 2 (Mint/Emerald):
-  // Primary:   #059669  (Emerald)
-  // Secondary: #047857  (Dark Emerald)
-  // Background: #F9FAFB (Soft Gray-White)
-  // Surface:    #FFFFFF
+  // Primary Colors
+  static const Color primary       = Color(0xFF8E24AA); // Main containers, mood cards, highlighted sections
+  static const Color primaryDark   = Color(0xFF6A1B9A); // Same as appBar — deepest tier
+  static const Color primaryLight  = Color(0xFFBA68C8); // Purple[300] — softer highlights
+  static const Color fabAccent     = Color(0xFF9C27B0); // FAB & CTA buttons
+  static const Color appBarBackground = Color(0xFF6A1B9A); // Header / App Bar
 
-  // Primary Colors (Patient)
-  static const Color primary = Color(0xFF6366F1); // Indigo 500
-  static const Color primaryDark = Color(0xFF4F46E5); // Indigo 600
-  static const Color primaryLight = Color(0xFF818CF8); // Indigo 400
-
-  // Secondary / Accent Colors (Purple tones)
-  static const Color secondary = Color(0xFF8B5CF6); // Violet 500
-  static const Color secondaryDark = Color(0xFF7C3AED); // Violet 600
-  static const Color secondaryLight = Color(0xFFC084FC); // Purple 400
+  // Secondary / Accent Colors
+  static const Color secondary      = Color(0xFFAB47BC); // Purple[400] — accent
+  static const Color secondaryDark  = Color(0xFF7B1FA2); // Purple[800] — deep accent
+  static const Color secondaryLight = Color(0xFFCE93D8); // Purple[200] — pale accent
 
   // Text Colors
-  static const Color textPrimary = Color(0xFF0F172A); // Slate 900
-  static const Color textSecondary = Color(0xFF475569); // Slate 600
-  static const Color textLight = Color(0xFF94A3B8); // Slate 400
-  static const Color textOnPrimary = Colors.white;
+  static const Color textPrimary    = Color(0xFF1A0030); // Very dark purple-black
+  static const Color textSecondary  = Color(0xFF6D4F7F); // Dusty purple
+  static const Color textLight      = Color(0xFF9E82A7); // Lavender gray
+  static const Color textOnPrimary  = Colors.white;
 
   // Background Colors
-  static const Color background = Color(0xFFFFFFFF);
-  static const Color backgroundLight = Color(0xFFF8FAFC); // Slate 50
-  static const Color headerBackground = primary;
+  static const Color background      = Color(0xFFF8F1FF); // Very light purple tint
+  static const Color backgroundLight = Color(0xFFF8F1FF); // Same — whisper purple
+  static const Color headerBackground = appBarBackground;
 
   // Card Colors
-  static const Color card = Color(0xFFFFFFFF);
+  static const Color card = Colors.white;
 
   // Accent / Semantic Colors
-  static const Color accent = secondary;
+  static const Color accent  = secondary;
   static const Color success = Color(0xFF10B981); // Emerald 500
   static const Color warning = Color(0xFFF59E0B); // Amber 500
-  static const Color error = Color(0xFFEF4444); // Red 500
-  static const Color ended = Color(0xFF64748B); // Slate 500
+  static const Color error   = Color(0xFFEF4444); // Red 500
+  static const Color ended   = Color(0xFF64748B); // Slate 500
 
   // Grid Item Colors
   static const Color gridItemBackground = card;
-  static const Color gridItemIcon = primary;
-  static const Color gridItemText = textPrimary;
+  static const Color gridItemIcon       = Color(0xFF00ACC1); // Teal (distinct from theme)
+  static const Color gridItemText       = textPrimary;
 
-  // Individual Icon Colors (Distinct vibrant palette)
-  static const Color iconBookSession = Color(0xFF6366F1); // Indigo
-  static const Color iconTherapists = Color(0xFF8B5CF6); // Violet
-  static const Color iconMySessions = Color(0xFF10B981); // Emerald
-  static const Color iconMoodTracker = Color(0xFFF59E0B); // Amber
-  static const Color iconResources = Color(0xFF0EA5E9); // Sky Blue
-  static const Color iconEmergency = Color(0xFFF43F5E); // Rose
-  static const Color iconSettings = Color(0xFF64748B); // Slate
-  static const Color iconChat = Color(0xFFEC4899); // Pink
+  // Icon Colors
+  static const Color iconBookSession = Color(0xFFE53935); // Red
+  static const Color iconTherapists  = Color(0xFF00BFA5); // Teal
+  static const Color iconMySessions  = Color(0xFF6F2BBF); // Deep violet
+  static const Color iconMoodTracker = Color(0xFFFFC107); // Yellow
+  static const Color iconResources   = Color(0xFF4B79E5); // Cool blue
+  static const Color iconEmergency   = Color(0xFFEA4F9F); // Rose
+  static const Color iconSettings    = Color(0xFF7C6EB9); // Dusty purple
+  static const Color iconChat        = Color(0xFF00BCD4); // Cyan
 
-  // Light Background Colors for Icons
-  static const Color iconBgBookSession = Color(0xFFE0E7FF); // Light Indigo
-  static const Color iconBgTherapists = Color(0xFFEDE9FE); // Light Violet
-  static const Color iconBgMySessions = Color(0xFFD1FAE5); // Light Emerald
-  static const Color iconBgMoodTracker = Color(0xFFFEF3C7); // Light Amber
-  static const Color iconBgResources = Color(0xFFE0F2FE); // Light Sky Blue
-  static const Color iconBgEmergency = Color(0xFFFFE4E6); // Light Rose
-  static const Color iconBgSettings = Color(0xFFF1F5F9); // Light Slate
-  static const Color iconBgChat = Color(0xFFFCE7F3); // Light Pink
+  // Icon Background Colors
+  static const Color iconBackground      = Color(0xFFF3E8FB); // Soft theme background
+  static const Color iconBgBookSession   = Color(0xFFFFEBEE); // Light red
+  static const Color iconBgTherapists    = Color(0xFFF3E5F5); // Light lavender
+  static const Color iconBgMySessions    = Color(0xFFEDE7F6); // Soft violet
+  static const Color iconBgMoodTracker   = Color(0xFFFFFDE7); // Light yellow
+  static const Color iconBgResources     = Color(0xFFE9F0FF); // Soft blue
+  static const Color iconBgEmergency     = Color(0xFFFFE4F0); // Very light pink
+  static const Color iconBgSettings      = Color(0xFFEDE7F6); // Light dusty purple
+  static const Color iconBgChat          = Color(0xFFE0F7FA); // Light cyan
 
-  // Therapist-specific Colors (Mint/Emerald Theme)
-  static const Color therapistPrimary = Color(0xFF059669); // Emerald 600
-  static const Color therapistSecondary = Color(0xFF047857); // Emerald 700
-  static const Color therapistPrimaryLight = Color(0xFF34D399); // Emerald 400 (From Onboarding)
-  static const Color therapistBackground = Color(0xFFF9FAFB);
-  static const Color therapistSurface = Colors.white;
-  static const Color therapistTextPrimary = Color(0xFF0F172A);
-  static const Color therapistTextSecondary = Color(0xFF475569);
+  // Therapist-specific Colors (aliases — update here cascades everywhere)
+  static const Color therapistPrimary        = primary;
+  static const Color therapistSecondary      = secondary;
+  static const Color therapistPrimaryLight   = primaryLight;
+  static const Color therapistBackground     = backgroundLight;
+  static const Color therapistSurface        = Colors.white;
+  static const Color therapistTextPrimary    = textPrimary;
+  static const Color therapistTextSecondary  = textSecondary;
 }

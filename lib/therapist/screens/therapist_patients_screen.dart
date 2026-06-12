@@ -145,7 +145,7 @@ class _PatientsSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.therapistSecondary,
+      color: AppColors.appBarBackground,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
       child: TextField(
         controller: controller,

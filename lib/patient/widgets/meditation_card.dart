@@ -41,11 +41,7 @@ class _MeditationCardState extends State<MeditationCard> {
         child: Column(
           children: [
             // Top colored border
-            Container(
-              height: 4,
-              width: double.infinity,
-              color: borderColor,
-            ),
+            Container(height: 4, width: double.infinity, color: borderColor),
             Padding(
               padding: const EdgeInsets.all(AppSizes.spacingMedium),
               child: Column(
@@ -98,16 +94,26 @@ class _MeditationCardState extends State<MeditationCard> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const FaIcon(FontAwesomeIcons.clock, size: 14, color: Colors.grey),
+                      FaIcon(
+                        FontAwesomeIcons.clock,
+                        size: 14,
+                        color: AppColors.iconResources,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         '${resource.duration?.inMinutes ?? 10} min',
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                       const SizedBox(width: 16),
                       if (resource.tag != null)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
@@ -145,7 +151,9 @@ class _MeditationCardState extends State<MeditationCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         FaIcon(
-                          _isGuideOpen ? FontAwesomeIcons.xmark : FontAwesomeIcons.play,
+                          _isGuideOpen
+                              ? FontAwesomeIcons.xmark
+                              : FontAwesomeIcons.play,
                           size: 16,
                         ),
                         const SizedBox(width: 12),

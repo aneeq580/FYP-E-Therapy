@@ -96,7 +96,7 @@ class TherapistProfileScreen extends GetView<TherapistProfileController> {
         },
         label: const Text('Edit Profile'),
         icon: const FaIcon(FontAwesomeIcons.penToSquare, size: 18),
-        backgroundColor: AppColors.therapistPrimary,
+        backgroundColor: AppColors.fabAccent,
         foregroundColor: Colors.white,
       ),
     );

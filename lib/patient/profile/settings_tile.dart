@@ -8,6 +8,7 @@ class SettingsTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final VoidCallback? onTap;
+  final Color? iconColor;
 
   const SettingsTile({
     super.key,
@@ -15,12 +16,13 @@ class SettingsTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.onTap,
+    this.iconColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: FaIcon(icon, color: AppColors.primary),
+      leading: FaIcon(icon, color: iconColor ?? AppColors.iconSettings),
       title: Text(
         title,
         style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500),
@@ -28,7 +30,10 @@ class SettingsTile extends StatelessWidget {
       subtitle: subtitle != null
           ? Text(subtitle!, style: AppTextStyles.bodyTextSecondary)
           : null,
-      trailing: const FaIcon(FontAwesomeIcons.chevronRight, color: AppColors.textLight),
+      trailing: const FaIcon(
+        FontAwesomeIcons.chevronRight,
+        color: AppColors.textLight,
+      ),
       onTap: onTap ?? () {},
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSizes.spacingMedium,

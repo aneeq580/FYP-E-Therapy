@@ -21,7 +21,7 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
       'Thursday',
       'Friday',
       'Saturday',
-      'Sunday'
+      'Sunday',
     ];
 
     return Scaffold(
@@ -49,10 +49,10 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                 style: TextStyle(color: Colors.blueAccent, fontSize: 13),
               ),
               const SizedBox(height: 20),
-              
+
               // Days List
               ...days.map((day) => _buildDayCard(context, day, availability)),
-              
+
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
@@ -68,7 +68,11 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                   ),
                   child: const Text(
                     "Save Availability",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -80,7 +84,11 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
     );
   }
 
-  Widget _buildDayCard(BuildContext context, String day, AvailabilityModel availability) {
+  Widget _buildDayCard(
+    BuildContext context,
+    String day,
+    AvailabilityModel availability,
+  ) {
     final isEnabled = availability.weeklyAvailability.containsKey(day);
     final slots = availability.weeklyAvailability[day] ?? [];
 
@@ -98,7 +106,9 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
           ),
         ],
         border: Border.all(
-          color: isEnabled ? AppColors.therapistPrimary.withOpacity(0.3) : Colors.transparent,
+          color: isEnabled
+              ? AppColors.therapistPrimary.withOpacity(0.3)
+              : Colors.transparent,
           width: 1,
         ),
       ),
@@ -115,7 +125,9 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: isEnabled ? AppColors.therapistPrimary : Colors.black87,
+                    color: isEnabled
+                        ? AppColors.therapistPrimary
+                        : Colors.black87,
                   ),
                 ),
                 Switch(
@@ -126,7 +138,7 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
               ],
             ),
           ),
-          
+
           if (isEnabled) ...[
             const Divider(height: 1),
             Padding(
@@ -138,9 +150,9 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                     final slot = entry.value;
                     return _buildTimeSlotRow(context, day, index, slot);
                   }),
-                  
+
                   const SizedBox(height: 12),
-                  
+
                   // Add More Button for this specific day
                   TextButton.icon(
                     onPressed: () => controller.addSlot(day),
@@ -158,7 +170,11 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
                 "Currently Unavailable",
-                style: TextStyle(color: Colors.grey.shade500, fontSize: 13, fontStyle: FontStyle.italic),
+                style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 13,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
         ],
@@ -166,7 +182,12 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
     );
   }
 
-  Widget _buildTimeSlotRow(BuildContext context, String day, int index, TimeSlot slot) {
+  Widget _buildTimeSlotRow(
+    BuildContext context,
+    String day,
+    int index,
+    TimeSlot slot,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -181,20 +202,30 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                   initialTime: controller.stringToTime(slot.start),
                   builder: (context, child) {
                     return MediaQuery(
-                      data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                      data: MediaQuery.of(
+                        context,
+                      ).copyWith(alwaysUse24HourFormat: false),
                       child: child!,
                     );
                   },
                 );
                 if (picked != null) {
-                  controller.updateSlotTime(day, index, start: controller.timeToString(picked));
+                  controller.updateSlotTime(
+                    day,
+                    index,
+                    start: controller.timeToString(picked),
+                  );
                 }
               },
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Icon(Icons.arrow_forward, color: Colors.grey, size: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Icon(
+              Icons.arrow_forward,
+              color: AppColors.iconResources,
+              size: 16,
+            ),
           ),
           Expanded(
             child: _TimeDisplay(
@@ -206,20 +237,30 @@ class AvailabilityScreen extends GetView<AvailabilityController> {
                   initialTime: controller.stringToTime(slot.end),
                   builder: (context, child) {
                     return MediaQuery(
-                      data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                      data: MediaQuery.of(
+                        context,
+                      ).copyWith(alwaysUse24HourFormat: false),
                       child: child!,
                     );
                   },
                 );
                 if (picked != null) {
-                  controller.updateSlotTime(day, index, end: controller.timeToString(picked));
+                  controller.updateSlotTime(
+                    day,
+                    index,
+                    end: controller.timeToString(picked),
+                  );
                 }
               },
             ),
           ),
           if (index > 0)
             IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.red, size: 22),
+              icon: Icon(
+                Icons.delete_outline,
+                color: AppColors.iconEmergency,
+                size: 22,
+              ),
               onPressed: () => controller.removeSlot(day, index),
             ),
         ],
@@ -233,7 +274,11 @@ class _TimeDisplay extends StatelessWidget {
   final String time;
   final VoidCallback onTap;
 
-  const _TimeDisplay({required this.label, required this.time, required this.onTap});
+  const _TimeDisplay({
+    required this.label,
+    required this.time,
+    required this.onTap,
+  });
 
   String get _formattedTime {
     final parts = time.split(':');
@@ -260,7 +305,11 @@ class _TimeDisplay extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(fontSize: 10, color: Colors.grey.shade600, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 10,
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 4),
             Row(
@@ -268,9 +317,16 @@ class _TimeDisplay extends StatelessWidget {
               children: [
                 Text(
                   _formattedTime,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                const Icon(Icons.access_time, size: 16, color: AppColors.therapistPrimary),
+                const Icon(
+                  Icons.access_time,
+                  size: 16,
+                  color: AppColors.therapistPrimary,
+                ),
               ],
             ),
           ],

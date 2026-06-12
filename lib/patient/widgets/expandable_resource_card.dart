@@ -63,7 +63,10 @@ class _BreathingExerciseCardState extends State<BreathingExerciseCard> {
                       ),
                       if (resource.difficulty != null)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.grey[100],
                             borderRadius: BorderRadius.circular(8),
@@ -88,11 +91,18 @@ class _BreathingExerciseCardState extends State<BreathingExerciseCard> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const FaIcon(FontAwesomeIcons.clock, size: 14, color: Colors.grey),
+                      FaIcon(
+                        FontAwesomeIcons.clock,
+                        size: 14,
+                        color: AppColors.iconResources,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         '${resource.duration?.inMinutes ?? 5} min',
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ],
                   ),
@@ -116,7 +126,7 @@ class _BreathingExerciseCardState extends State<BreathingExerciseCard> {
                     ),
                   ],
                   const SizedBox(height: 16),
-                  
+
                   // Show/Hide Steps Button
                   GestureDetector(
                     onTap: () {
@@ -138,12 +148,14 @@ class _BreathingExerciseCardState extends State<BreathingExerciseCard> {
                             _isExpanded ? 'Hide Steps' : 'Show Steps',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[700],
+                              color: AppColors.textSecondary,
                             ),
                           ),
                           const SizedBox(width: 8),
                           FaIcon(
-                            _isExpanded ? FontAwesomeIcons.chevronUp : FontAwesomeIcons.chevronRight,
+                            _isExpanded
+                                ? FontAwesomeIcons.chevronUp
+                                : FontAwesomeIcons.chevronRight,
                             color: Colors.grey[700],
                             size: 16,
                           ),

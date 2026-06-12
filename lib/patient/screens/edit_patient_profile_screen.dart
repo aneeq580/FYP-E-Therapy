@@ -135,7 +135,7 @@ class _EditPatientProfileScreenState extends State<EditPatientProfileScreen> {
                     labelText: 'Gender',
                     prefixIcon: const Icon(
                       Icons.people,
-                      color: AppColors.primary,
+                      color: AppColors.iconSettings,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -226,7 +226,7 @@ class _EditPatientProfileScreenState extends State<EditPatientProfileScreen> {
         maxLines: maxLines,
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon, color: AppColors.primary),
+          prefixIcon: Icon(icon, color: AppColors.iconSettings),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,

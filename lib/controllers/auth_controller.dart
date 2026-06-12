@@ -5,12 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fyp_therapy/routes/app_routes.dart';
 import 'package:fyp_therapy/services/auth_service.dart';
 import 'package:fyp_therapy/services/storage_service.dart';
+import 'package:fyp_therapy/chat/controllers/ai_chat_controller.dart';
 
 /// Controller responsible for auth flow & UI state on top of [AuthService].
 class AuthController extends GetxController {
   AuthController()
-      : _authService = Get.find<AuthService>(),
-        _storageService = Get.find<StorageService>();
+    : _authService = Get.find<AuthService>(),
+      _storageService = Get.find<StorageService>();
 
   final AuthService _authService;
   final StorageService _storageService;
@@ -38,7 +39,12 @@ class AuthController extends GetxController {
     this.role.value = role.toLowerCase();
   }
 
-  void updatePersonalDetails({required String firstName, required String lastName, required String phoneNum, String? degreePath}) {
+  void updatePersonalDetails({
+    required String firstName,
+    required String lastName,
+    required String phoneNum,
+    String? degreePath,
+  }) {
     fullName.value = '${firstName.trim()} ${lastName.trim()}'.trim();
     phone.value = phoneNum.trim();
     if (degreePath != null) {
@@ -144,16 +150,9 @@ class AuthController extends GetxController {
 
       print('User created: ${user.uid}'); // debug
 
-      String? uploadedUrl;
-      if (currentRole == 'therapist' && degreeDocumentUrl.value.isNotEmpty) {
-        print('Uploading degree document for ${user.uid}...');
-        uploadedUrl = await _storageService.uploadDegree(
-          therapistId: user.uid,
-          file: File(degreeDocumentUrl.value),
-          filename: 'initial_degree_${DateTime.now().millisecondsSinceEpoch}',
-        );
-        print('Degree uploaded: $uploadedUrl');
-      }
+      // For therapists, mark that they submitted degree (without storing file in Firebase)
+      final hasDegreeSubmission =
+          currentRole == 'therapist' && degreeDocumentUrl.value.isNotEmpty;
 
       // Firestore write with initial profile info.
       await _authService.createUserRecord(
@@ -162,7 +161,7 @@ class AuthController extends GetxController {
         role: currentRole.toLowerCase(),
         fullName: fullName.value.isNotEmpty ? fullName.value : null,
         phone: phone.value.isNotEmpty ? phone.value : null,
-        degreeDocumentUrl: uploadedUrl ?? degreeDocumentUrl.value,
+        degreeSubmitted: hasDegreeSubmission,
         joinedAt: DateTime.now(),
       );
 
@@ -220,6 +219,11 @@ class AuthController extends GetxController {
   Future<void> handleLogout() async {
     try {
       await _authService.signOut();
+      // Fully delete AI chat controller on logout so the next user
+      // always gets a fresh instance bound to their own UID.
+      if (Get.isRegistered<AiChatController>()) {
+        Get.delete<AiChatController>(force: true);
+      }
       Get.offAllNamed(AppRoutes.roleSelection);
     } catch (_) {
       Get.snackbar(

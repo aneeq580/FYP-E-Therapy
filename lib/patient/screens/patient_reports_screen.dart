@@ -12,11 +12,16 @@ class PatientReportsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize controller when screen is accessed
-    final PatientReportController reportCtrl = Get.put(PatientReportController());
+    final PatientReportController reportCtrl = Get.put(
+      PatientReportController(),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const PatientAppBar(title: "Session Summaries", showDefaultActions: false),
+      appBar: const PatientAppBar(
+        title: "Session Summaries",
+        showDefaultActions: false,
+      ),
       body: Obx(() {
         if (reportCtrl.patientReports.isEmpty) {
           return Center(
@@ -26,19 +31,21 @@ class PatientReportsScreen extends StatelessWidget {
                 Icon(
                   Icons.insert_drive_file_outlined,
                   size: 64,
-                  color: AppColors.primary.withOpacity(0.5),
+                  color: AppColors.iconBookSession.withOpacity(0.5),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   "No summaries yet",
-                  style: AppTextStyles.headerSubtitle.copyWith(color: AppColors.textSecondary),
+                  style: AppTextStyles.headerSubtitle.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   "Reports written by your therapist will appear here.",
                   style: AppTextStyles.bodyTextSecondary,
                   textAlign: TextAlign.center,
-                )
+                ),
               ],
             ),
           );
@@ -50,7 +57,9 @@ class PatientReportsScreen extends StatelessWidget {
           separatorBuilder: (context, index) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
             final report = reportCtrl.patientReports[index];
-            final dateStr = DateFormat('MMM dd, yyyy').format(report.createdAt.toDate());
+            final dateStr = DateFormat(
+              'MMM dd, yyyy',
+            ).format(report.createdAt.toDate());
 
             return InkWell(
               onTap: () {
@@ -59,7 +68,9 @@ class PatientReportsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(24),
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +81,11 @@ class PatientReportsScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.assignment_turned_in, color: AppColors.primary, size: 20),
+                                Icon(
+                                  Icons.assignment_turned_in,
+                                  color: AppColors.iconBookSession,
+                                  size: 20,
+                                ),
                                 const SizedBox(width: 8),
                                 const Text(
                                   "Session Summary",
@@ -134,7 +149,10 @@ class PatientReportsScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                             onPressed: () => Get.back(),
-                            child: const Text("Close", style: TextStyle(color: Colors.white)),
+                            child: const Text(
+                              "Close",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ],
@@ -164,7 +182,11 @@ class PatientReportsScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.assignment_turned_in, color: AppColors.primary, size: 20),
+                            Icon(
+                              Icons.assignment_turned_in,
+                              color: AppColors.iconBookSession,
+                              size: 20,
+                            ),
                             const SizedBox(width: 8),
                             Text(
                               report.title,

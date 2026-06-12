@@ -13,13 +13,18 @@ class TherapistProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String name = therapist['fullName'] as String? ?? 'Therapist';
-    final String specialty = therapist['specialty'] as String? ?? 'General Therapist';
+    final String specialty =
+        therapist['specialty'] as String? ?? 'General Therapist';
     final String bio = therapist['bio'] as String? ?? 'No bio available.';
-    final String education = therapist['education'] as String? ?? 'Not specified';
+    final String education =
+        therapist['education'] as String? ?? 'Not specified';
     final double rating = (therapist['rating'] as num?)?.toDouble() ?? 5.0;
     final int experience = (therapist['experience'] as num?)?.toInt() ?? 0;
-    final double hourlyRate = (therapist['hourlyRate'] as num?)?.toDouble() ?? 0.0;
-    final String? profileImageUrl = therapist['profileImageUrl'] as String? ?? therapist['photoUrl'] as String?;
+    final double hourlyRate =
+        (therapist['hourlyRate'] as num?)?.toDouble() ?? 0.0;
+    final String? profileImageUrl =
+        therapist['profileImageUrl'] as String? ??
+        therapist['photoUrl'] as String?;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -35,7 +40,11 @@ class TherapistProfileView extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.white.withOpacity(0.2),
                 child: IconButton(
-                  icon: const FaIcon(FontAwesomeIcons.arrowLeft, size: 18, color: Colors.white),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.arrowLeft,
+                    size: 18,
+                    color: Colors.white,
+                  ),
                   onPressed: () => Get.back(),
                 ),
               ),
@@ -44,22 +53,7 @@ class TherapistProfileView extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  if (profileImageUrl != null && profileImageUrl.isNotEmpty)
-                    Image.network(
-                      profileImageUrl,
-                      fit: BoxFit.cover,
-                    )
-                  else
-                    Container(
-                      color: AppColors.primary.withOpacity(0.1),
-                      child: const Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.userDoctor,
-                          size: 80,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
+                  _buildProfileImage(profileImageUrl),
                   // Gradient overlay for text readability
                   Container(
                     decoration: BoxDecoration(
@@ -140,7 +134,10 @@ class TherapistProfileView extends StatelessWidget {
                   const SizedBox(height: 30),
 
                   // About Section
-                  _buildSectionTitle('About Therapist', FontAwesomeIcons.circleInfo),
+                  _buildSectionTitle(
+                    'About Therapist',
+                    FontAwesomeIcons.circleInfo,
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     bio,
@@ -152,7 +149,10 @@ class TherapistProfileView extends StatelessWidget {
                   const SizedBox(height: 30),
 
                   // Education Section
-                  _buildSectionTitle('Education & Expertise', FontAwesomeIcons.graduationCap),
+                  _buildSectionTitle(
+                    'Education & Expertise',
+                    FontAwesomeIcons.graduationCap,
+                  ),
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity,
@@ -168,7 +168,7 @@ class TherapistProfileView extends StatelessWidget {
                         const FaIcon(
                           FontAwesomeIcons.certificate,
                           size: 20,
-                          color: AppColors.primary,
+                          color: AppColors.iconBookSession,
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -236,10 +236,7 @@ class TherapistProfileView extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 'Book Appointment',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -248,7 +245,68 @@ class TherapistProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(IconData icon, String value, String label, Color bgColor, Color iconColor) {
+  /// Renders the profile image, supporting both asset paths and network URLs.
+  Widget _buildProfileImage(String? url) {
+    if (url == null || url.isEmpty) {
+      return Container(
+        color: AppColors.primary.withOpacity(0.1),
+        child: const Center(
+          child: FaIcon(
+            FontAwesomeIcons.userDoctor,
+            size: 80,
+            color: AppColors.iconTherapists,
+          ),
+        ),
+      );
+    }
+
+    if (url.startsWith('assets/')) {
+      return Image.asset(
+        url,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          color: AppColors.primary.withOpacity(0.1),
+          child: const Center(
+            child: FaIcon(
+              FontAwesomeIcons.userDoctor,
+              size: 80,
+              color: AppColors.iconTherapists,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Container(
+          color: AppColors.primary.withOpacity(0.05),
+          child: const Center(child: CircularProgressIndicator()),
+        );
+      },
+      errorBuilder: (context, error, stackTrace) => Container(
+        color: AppColors.primary.withOpacity(0.1),
+        child: const Center(
+          child: FaIcon(
+            FontAwesomeIcons.userDoctor,
+            size: 80,
+            color: AppColors.iconTherapists,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatItem(
+    IconData icon,
+    String value,
+    String label,
+    Color bgColor,
+    Color iconColor,
+  ) {
     return Container(
       width: 100,
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -268,19 +326,13 @@ class TherapistProfileView extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: bgColor,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
             child: FaIcon(icon, size: 16, color: iconColor),
           ),
           const SizedBox(height: 12),
           Text(
             value,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           Text(
             label,
@@ -297,14 +349,11 @@ class TherapistProfileView extends StatelessWidget {
   Widget _buildSectionTitle(String title, IconData icon) {
     return Row(
       children: [
-        FaIcon(icon, size: 18, color: AppColors.primary),
+        FaIcon(icon, size: 18, color: AppColors.iconSettings),
         const SizedBox(width: 12),
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ],
     );

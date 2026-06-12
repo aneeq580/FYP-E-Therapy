@@ -37,9 +37,15 @@ class ResourceDetailView extends StatelessWidget {
             const SizedBox(height: AppSizes.spacingLarge),
             if (resource.tag != null) ...[
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: resource.tagColor ?? resource.color?.withOpacity(0.3) ?? AppColors.iconBgResources,
+                  color:
+                      resource.tagColor ??
+                      resource.color?.withOpacity(0.3) ??
+                      AppColors.iconBgResources,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -47,7 +53,10 @@ class ResourceDetailView extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Color.alphaBlend(Colors.black.withOpacity(0.6), resource.tagColor ?? resource.color ?? AppColors.primary),
+                    color: Color.alphaBlend(
+                      Colors.black.withOpacity(0.6),
+                      resource.tagColor ?? resource.color ?? AppColors.primary,
+                    ),
                   ),
                 ),
               ),
@@ -64,7 +73,12 @@ class ResourceDetailView extends StatelessWidget {
             Row(
               children: [
                 if (resource.readTime != null) ...[
-                  const Icon(Icons.access_time, size: 18, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.access_time,
+                    size: 18,
+                    color: AppColors.iconResources,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     resource.readTime!,
@@ -77,12 +91,19 @@ class ResourceDetailView extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     resource.rating!.toString(),
-                    style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(width: 16),
                 ],
                 if (resource.duration != null) ...[
-                  const Icon(Icons.timer_outlined, size: 18, color: Colors.grey),
+                  Icon(
+                    Icons.timer_outlined,
+                    size: 18,
+                    color: AppColors.iconResources,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     '${resource.duration!.inMinutes} min exercise',
@@ -178,9 +199,7 @@ class ResourceDetailView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           resource.steps![index],
-                          style: AppTextStyles.bodyText.copyWith(
-                            height: 1.5,
-                          ),
+                          style: AppTextStyles.bodyText.copyWith(height: 1.5),
                         ),
                       ),
                     ],
@@ -189,7 +208,8 @@ class ResourceDetailView extends StatelessWidget {
               }),
             ],
             const SizedBox(height: AppSizes.spacingLarge),
-            if (resource.category == ResourceCategory.breathing || resource.category == ResourceCategory.meditation)
+            if (resource.category == ResourceCategory.breathing ||
+                resource.category == ResourceCategory.meditation)
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {
@@ -203,8 +223,13 @@ class ResourceDetailView extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                 ),
               ),

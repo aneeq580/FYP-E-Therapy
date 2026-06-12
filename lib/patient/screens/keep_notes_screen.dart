@@ -127,7 +127,7 @@ class KeepNotesScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openEditNoteScreen(context, controller),
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.fabAccent,
         child: const Icon(Icons.add),
       ),
       body: Column(
@@ -351,7 +351,7 @@ class _KeepNoteEditorScreenState extends State<KeepNoteEditorScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isEditing ? 'Edit note' : 'New note'),
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.appBarBackground,
         elevation: 0,
         actions: [
           TextButton(

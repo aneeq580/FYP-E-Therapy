@@ -11,6 +11,7 @@ import '../../core/widgets/patient_app_bar.dart';
 import '../../core/widgets/role_based_session_card.dart';
 import 'package:fyp_therapy/chat/screens/chat_list_screen.dart';
 import 'package:fyp_therapy/chat/screens/chat_screen.dart';
+import 'package:fyp_therapy/chat/screens/ai_chat_screen.dart';
 import '../../controllers/appointment_controller.dart';
 import '../../controllers/mood_tracker_controller.dart';
 import '../../services/mood_service.dart';
@@ -229,6 +230,14 @@ class PatientHomeScreen extends StatelessWidget {
             }),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => const AiChatScreen());
+        },
+        backgroundColor: AppColors.fabAccent,
+        tooltip: 'Chat with Support AI',
+        child: const Icon(Icons.support_agent_rounded, color: Colors.white),
       ),
     );
   }

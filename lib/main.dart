@@ -47,6 +47,20 @@ class MyApp extends StatelessWidget {
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textOnPrimary,
         ),
+        chipTheme: ChipThemeData(
+          backgroundColor: AppColors.primaryLight,
+          disabledColor: AppColors.backgroundLight,
+          selectedColor: AppColors.secondary,
+          secondarySelectedColor: AppColors.secondaryLight,
+          labelStyle: const TextStyle(color: AppColors.textOnPrimary),
+          secondaryLabelStyle: const TextStyle(color: AppColors.textOnPrimary),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          showCheckmark: false,
+          brightness: Brightness.light,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,

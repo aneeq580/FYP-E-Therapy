@@ -51,7 +51,7 @@ class TherapistPopupMenu extends StatelessWidget {
           FaIcon(
             icon,
             size: 20,
-            color: isDanger ? Colors.red : Colors.grey[700],
+            color: isDanger ? AppColors.iconEmergency : AppColors.textSecondary,
           ),
           const SizedBox(width: 12),
           Text(
@@ -59,7 +59,7 @@ class TherapistPopupMenu extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: isDanger ? Colors.red : Colors.black87,
+              color: isDanger ? AppColors.iconEmergency : AppColors.textPrimary,
             ),
           ),
         ],

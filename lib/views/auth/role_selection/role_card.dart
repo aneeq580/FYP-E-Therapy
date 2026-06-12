@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_therapy/core/constants/colors.dart';
 
 class RoleCard extends StatelessWidget {
   final String title;
@@ -39,11 +40,7 @@ class RoleCard extends StatelessWidget {
                 ),
               ),
             ),
-            const FaIcon(
-              FontAwesomeIcons.arrowRight,
-              size: 18,
-              color: Colors.white,
-            ),
+            FaIcon(FontAwesomeIcons.arrowRight, size: 18, color: Colors.white),
           ],
         ),
       ),

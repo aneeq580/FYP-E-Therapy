@@ -31,7 +31,7 @@ class PatientCard extends StatelessWidget {
         : '—';
 
     return Material(
-      color: Colors.white,
+      color: const Color(0xFFE8D5F8), // Distinct lavender tint — same purple hue, noticeably different shade
       borderRadius: BorderRadius.circular(18),
       elevation: 2,
       shadowColor: Colors.black12,
@@ -194,24 +194,24 @@ class SessionCountChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       decoration: BoxDecoration(
-        color: const Color(0xFFE0F2F1), // Light teal background
+        color: const Color(0xFFF0E3FB), // Soft purple background
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.event_note_rounded,
             size: 12,
-            color: Color(0xFF00695C), // Dark teal
+            color: AppColors.primaryDark,
           ),
           const SizedBox(width: 4),
           Text(
             '$count ${count == 1 ? 'session' : 'sessions'}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF00695C), // Dark teal
+              color: AppColors.primaryDark,
             ),
           ),
         ],
@@ -236,24 +236,20 @@ class PatientStatusChip extends StatelessWidget {
     final (label, bg, fg) = switch (status) {
       'completed' => (
         'Session Ended',
-        const Color(0xFFE8F5E8), // Light green background
-        const Color(0xFF2E7D32), // Dark green text
+        const Color(0xFFF0E3FB), // Soft purple background
+        AppColors.primaryDark,
       ),
       'approved' || 'upcoming' => (
         'Active',
-        const Color(0xFFE3F2FD), // Light blue background
-        const Color(0xFF1565C0), // Dark blue text
+        const Color(0xFFF5E8FD), // Light lavender background
+        AppColors.secondaryDark,
       ),
       'started' => (
         'In Session',
-        const Color(0xFFFFF3E0), // Light orange background
-        const Color(0xFFEF6C00), // Dark orange text
+        const Color(0xFFF0E3FB), // Soft purple background
+        AppColors.secondaryDark,
       ),
-      _ => (
-        'Pending',
-        const Color(0xFFF5F5F5),
-        const Color(0xFF616161),
-      ), // Light grey
+      _ => ('Pending', AppColors.backgroundLight, AppColors.textSecondary),
     };
 
     return Container(
@@ -288,14 +284,14 @@ class PatientStatsBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.therapistPrimary, AppColors.therapistSecondary],
+          colors: [Color(0xFFD0A1E8), Color(0xFFE8C8F5)], // Light lavender gradient
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: AppColors.therapistPrimary.withOpacity(0.25),
+            color: AppColors.primaryLight.withOpacity(0.2),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -303,7 +299,11 @@ class PatientStatsBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.people_alt_rounded, color: Colors.white, size: 28),
+          const Icon(
+            Icons.people_alt_rounded,
+            color: AppColors.primaryDark,
+            size: 28,
+          ),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,14 +312,17 @@ class PatientStatsBar extends StatelessWidget {
                 '$totalPatients '
                 '${totalPatients == 1 ? 'Patient' : 'Patients'}',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.primaryDark,
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const Text(
+              Text(
                 'Under your care',
-                style: TextStyle(color: Colors.white70, fontSize: 12),
+                style: TextStyle(
+                  color: AppColors.primaryDark.withOpacity(0.7),
+                  fontSize: 12,
+                ),
               ),
             ],
           ),

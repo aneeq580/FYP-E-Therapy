@@ -66,20 +66,14 @@ class TherapistVerificationController extends GetxController {
 
     isUploading.value = true;
     try {
-      final downloadUrl = await _storageService.uploadDegree(
-        therapistId: user.uid,
-        file: pickedFile.value!,
-        filename: pickedFileName.value,
-      );
-
+      // Just mark that degree was submitted without actually uploading file
       await _therapistService.updateVerificationStatus(
         uid: user.uid,
         status: 'pending',
-        degreeUrl: downloadUrl,
       );
 
       verificationStatus.value = 'pending';
-      
+
       // Refresh profile data if controller exists
       if (Get.isRegistered<TherapistProfileController>()) {
         Get.find<TherapistProfileController>().fetchProfile();
@@ -89,9 +83,12 @@ class TherapistVerificationController extends GetxController {
       pickedFileName.value = '';
       pickedFile.value = null;
 
-      Get.snackbar("Success", "Degree uploaded successfully. Verification pending.");
+      Get.snackbar(
+        "Success",
+        "Degree submitted successfully. Waiting for admin verification.",
+      );
     } catch (e) {
-      Get.snackbar("Error", "Upload failed: $e");
+      Get.snackbar("Error", "Submission failed: $e");
     } finally {
       isUploading.value = false;
     }

@@ -154,6 +154,7 @@ class PatientProfileScreen extends StatelessWidget {
                       controller.age.value != null
                           ? '${controller.age.value} years'
                           : 'Not set',
+                      AppColors.iconMySessions,
                     ),
                     const Divider(height: 1, indent: 50),
                     _buildInfoRow(
@@ -162,12 +163,14 @@ class PatientProfileScreen extends StatelessWidget {
                       controller.gender.value.isEmpty
                           ? 'Not set'
                           : controller.gender.value,
+                      AppColors.iconMoodTracker,
                     ),
                     const Divider(height: 1, indent: 50),
                     _buildInfoRow(
                       FontAwesomeIcons.calendar,
                       'Joined',
                       controller.formattedJoinedDate,
+                      AppColors.iconResources,
                     ),
                   ],
                 ),
@@ -197,29 +200,33 @@ class PatientProfileScreen extends StatelessWidget {
                   SettingsTile(
                     icon: FontAwesomeIcons.bell,
                     title: 'Notifications',
-                    onTap: () =>
-                        Get.toNamed(AppRoutes.patientReports),
+                    onTap: () => Get.toNamed(AppRoutes.patientReports),
+                    iconColor: AppColors.iconChat,
                   ),
                   SettingsTile(
                     icon: FontAwesomeIcons.lock,
                     title: 'Privacy & Security',
                     onTap: () => Get.toNamed(AppRoutes.patientSettingsPrivacy),
+                    iconColor: AppColors.iconSettings,
                   ),
                   SettingsTile(
                     icon: FontAwesomeIcons.moon,
                     title: 'Dark Mode',
                     onTap: () => Get.toNamed(AppRoutes.patientSettingsDarkMode),
+                    iconColor: AppColors.iconMoodTracker,
                   ),
                   SettingsTile(
                     icon: FontAwesomeIcons.language,
                     title: 'Language',
                     subtitle: 'English',
                     onTap: () => Get.toNamed(AppRoutes.patientSettingsLanguage),
+                    iconColor: AppColors.iconResources,
                   ),
                   SettingsTile(
                     icon: FontAwesomeIcons.circleQuestion,
                     title: 'Help & Support',
                     onTap: () => Get.toNamed(AppRoutes.patientSettingsHelp),
+                    iconColor: AppColors.iconBookSession,
                   ),
                 ],
               ),
@@ -284,7 +291,12 @@ class PatientProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(IconData icon, String label, String value) {
+  Widget _buildInfoRow(
+    IconData icon,
+    String label,
+    String value, [
+    Color iconColor = AppColors.iconMySessions,
+  ]) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSizes.spacingMedium,
@@ -292,7 +304,7 @@ class PatientProfileScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          FaIcon(icon, size: 20, color: AppColors.primary),
+          FaIcon(icon, size: 20, color: iconColor),
           const SizedBox(width: AppSizes.spacingMedium),
           Expanded(
             child: Text(

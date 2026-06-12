@@ -274,6 +274,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             icon: FontAwesomeIcons.cake,
             label: 'Age',
             value: '25 years',
+            iconColor: AppColors.iconMySessions,
           ),
 
           const Divider(height: 1, indent: 50),
@@ -283,6 +284,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             icon: FontAwesomeIcons.user,
             label: 'Gender',
             value: 'Male',
+            iconColor: AppColors.iconMoodTracker,
           ),
 
           const Divider(height: 1, indent: 50),
@@ -292,6 +294,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             icon: FontAwesomeIcons.calendar,
             label: 'Joined',
             value: 'January 15, 2024',
+            iconColor: AppColors.iconResources,
           ),
         ],
       ),
@@ -303,6 +306,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     required IconData icon,
     required String label,
     required String value,
+    Color iconColor = AppColors.iconMySessions,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -311,7 +315,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
       ),
       child: Row(
         children: [
-          FaIcon(icon, size: 20, color: AppColors.primary),
+          FaIcon(icon, size: 20, color: iconColor),
           const SizedBox(width: AppSizes.spacingMedium),
           Expanded(
             child: Text(
@@ -368,6 +372,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             icon: FontAwesomeIcons.bell,
             title: 'Notifications',
             onTap: () {},
+            iconColor: AppColors.iconChat,
           ),
 
           const Divider(height: 1, indent: 50),
@@ -377,13 +382,17 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             icon: FontAwesomeIcons.lock,
             title: 'Privacy & Security',
             onTap: () {},
+            iconColor: AppColors.iconSettings,
           ),
 
           const Divider(height: 1, indent: 50),
 
           // Dark Mode (UI toggle only)
           ListTile(
-            leading: FaIcon(FontAwesomeIcons.moon, color: AppColors.primary),
+            leading: FaIcon(
+              FontAwesomeIcons.moon,
+              color: AppColors.iconMoodTracker,
+            ),
             title: Text(
               'Dark Mode',
               style: AppTextStyles.bodyText.copyWith(
@@ -395,7 +404,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
               onChanged: (value) {
                 // UI only, no functionality
               },
-              activeColor: AppColors.primary,
+              activeColor: AppColors.iconMoodTracker,
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSizes.spacingMedium,
@@ -411,6 +420,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             title: 'Language',
             subtitle: 'English',
             onTap: () {},
+            iconColor: AppColors.iconResources,
           ),
 
           const Divider(height: 1, indent: 50),
@@ -420,6 +430,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             icon: FontAwesomeIcons.circleQuestion,
             title: 'Help & Support',
             onTap: () {},
+            iconColor: AppColors.iconBookSession,
           ),
         ],
       ),
@@ -432,9 +443,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
     required String title,
     String? subtitle,
     required VoidCallback onTap,
+    Color iconColor = AppColors.iconSettings,
   }) {
     return ListTile(
-      leading: FaIcon(icon, color: AppColors.primary),
+      leading: FaIcon(icon, color: iconColor),
       title: Text(
         title,
         style: AppTextStyles.bodyText.copyWith(fontWeight: FontWeight.w500),

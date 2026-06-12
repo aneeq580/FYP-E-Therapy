@@ -135,9 +135,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: widget.isTherapist
-          ? AppColors.therapistSecondary
-          : AppColors.primary,
+      backgroundColor: AppColors.primary,
       foregroundColor: Colors.white,
       title: const Text(
         'Messages',
@@ -178,7 +176,7 @@ class _SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: isTherapist ? AppColors.therapistSecondary : AppColors.primary,
+      color: AppColors.primary,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
       child: TextField(
         controller: controller,

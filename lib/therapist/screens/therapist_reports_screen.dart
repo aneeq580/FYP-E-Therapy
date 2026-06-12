@@ -60,7 +60,9 @@ class TherapistReportsScreen extends GetView<ReportController> {
                     padding: const EdgeInsets.all(24),
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +131,10 @@ class TherapistReportsScreen extends GetView<ReportController> {
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                             onPressed: () => Get.back(),
-                            child: const Text("Close", style: TextStyle(color: Colors.white)),
+                            child: const Text(
+                              "Close",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ],
@@ -201,7 +206,7 @@ class TherapistReportsScreen extends GetView<ReportController> {
       }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Get.toNamed(AppRoutes.createReport),
-        backgroundColor: AppColors.therapistPrimary,
+        backgroundColor: AppColors.fabAccent,
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
           "Create Report",

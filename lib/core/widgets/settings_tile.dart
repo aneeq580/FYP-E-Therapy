@@ -30,7 +30,9 @@ class SettingsTile extends StatelessWidget {
           color: AppColors.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Center(child: FaIcon(icon, color: AppColors.primary, size: 20)),
+        child: Center(
+          child: FaIcon(icon, color: AppColors.iconSettings, size: 20),
+        ),
       ),
       title: Text(
         title,

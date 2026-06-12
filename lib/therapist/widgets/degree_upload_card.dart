@@ -36,7 +36,7 @@ class DegreeUploadCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // File Selection Area
             Obx(() {
               final pickedFile = controller.pickedFile.value;
@@ -45,7 +45,9 @@ class DegreeUploadCard extends StatelessWidget {
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: controller.isUploading.value ? null : controller.pickDegreeFile,
+                    onTap: controller.isUploading.value
+                        ? null
+                        : controller.pickDegreeFile,
                     child: Container(
                       width: double.infinity,
                       height: 120,
@@ -63,7 +65,9 @@ class DegreeUploadCard extends StatelessWidget {
                               children: [
                                 FaIcon(
                                   FontAwesomeIcons.cloudArrowUp,
-                                  color: AppColors.therapistPrimary.withOpacity(0.5),
+                                  color: AppColors.therapistPrimary.withOpacity(
+                                    0.5,
+                                  ),
                                   size: 40,
                                 ),
                                 const SizedBox(height: 8),
@@ -89,7 +93,9 @@ class DegreeUploadCard extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 8),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
                                         child: Text(
                                           fileName,
                                           textAlign: TextAlign.center,
@@ -107,22 +113,28 @@ class DegreeUploadCard extends StatelessWidget {
                                   top: 8,
                                   right: 8,
                                   child: IconButton(
-                                    icon: const Icon(Icons.close, color: Colors.red),
-                                    onPressed: () => controller.pickedFile.value = null,
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: AppColors.iconEmergency,
+                                    ),
+                                    onPressed: () =>
+                                        controller.pickedFile.value = null,
                                   ),
                                 ),
                               ],
                             ),
                     ),
                   ),
-                  
+
                   if (pickedFile != null) ...[
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: controller.isUploading.value ? null : controller.uploadDegree,
+                        onPressed: controller.isUploading.value
+                            ? null
+                            : controller.uploadDegree,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.therapistPrimary,
                           shape: RoundedRectangleBorder(
@@ -131,7 +143,9 @@ class DegreeUploadCard extends StatelessWidget {
                           elevation: 0,
                         ),
                         child: controller.isUploading.value
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
                             : const Text(
                                 "Upload for Verification",
                                 style: TextStyle(
