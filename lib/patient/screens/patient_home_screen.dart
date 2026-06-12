@@ -236,7 +236,7 @@ class PatientHomeScreen extends StatelessWidget {
           Get.to(() => const AiChatScreen());
         },
         backgroundColor: AppColors.fabAccent,
-        tooltip: 'Chat with Support AI',
+        tooltip: 'Chat with Mindee',
         child: const Icon(Icons.support_agent_rounded, color: Colors.white),
       ),
     );

@@ -27,16 +27,16 @@ class AiChatScreen extends StatelessWidget {
         elevation: 0,
         title: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
+              backgroundImage: const AssetImage('assets/images/mindee.png'),
               backgroundColor: Colors.white,
-              child: Icon(AppIcons.chat, color: AppColors.iconChat, size: 20),
             ),
             const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Support AI',
+                  'Mindee',
                   style: TextStyle(
                     fontFamily: AppTextStyles.fontFamily,
                     fontSize: 18,
