@@ -14,11 +14,11 @@ class TherapistGreetingCard extends StatelessWidget {
     final hour = DateTime.now().hour;
 
     if (hour >= 5 && hour < 12) {
-      return "Good Morning 👋";
+      return "Good Morning 🌻";
     } else if (hour >= 12 && hour < 17) {
-      return "Good Afternoon ☀️";
+      return "Good Afternoon ☕ᝰ.ᐟ";
     } else if (hour >= 17 && hour < 21) {
-      return "Good Evening 🌇";
+      return "Good Evening 🌆";
     } else {
       return "Good Night 🌙";
     }
@@ -39,10 +39,7 @@ class TherapistGreetingCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
-          colors: [
-            AppColors.therapistPrimary,
-            AppColors.therapistSecondary,
-          ],
+          colors: [AppColors.therapistPrimary, AppColors.therapistSecondary],
         ),
       ),
       child: Stack(
@@ -61,7 +58,7 @@ class TherapistGreetingCard extends StatelessWidget {
               children: [
                 Text(
                   getGreeting(),
-                  style: const TextStyle(color: Colors.white70, fontSize: 14),
+                  style: const TextStyle(color: Colors.white, fontSize: 19),
                 ),
                 const SizedBox(height: 6),
                 Obx(
@@ -129,4 +126,3 @@ class TherapistGreetingCard extends StatelessWidget {
     );
   }
 }
-
