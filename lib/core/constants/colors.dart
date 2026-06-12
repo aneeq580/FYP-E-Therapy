@@ -9,13 +9,13 @@ class AppColors {
 
   // Primary Colors
   static const Color primary = Color(
-    0xFFB86DE5,
+    0xFFB05CE2,
   ); // Main containers, mood cards, highlighted sections
   static const Color primaryDark = Color(
     0xFF6A1B9A,
   ); // Same as appBar — deepest tier
   static const Color primaryLight = Color(
-    0xFFD4A5F0,
+    0xFFD9A0F2,
   ); // Lighter shade of primary
   static const Color fabAccent = Color(0xFF781EAF); // FAB & CTA buttons
   static const Color appBarBackground = Color(0xFF6A1B9A); // Header / App Bar
