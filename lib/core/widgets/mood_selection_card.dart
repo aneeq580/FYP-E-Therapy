@@ -53,21 +53,18 @@ class MoodSelectionCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSizes.spacingLarge),
 
-          // Mood emoji row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // Mood selection column
+          Column(
             children: moods.map((mood) {
               final moodKey = mood['emoji']!;
               final isSelected = selectedMood == moodKey;
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: MoodEmojiButton(
-                    emoji: mood['emoji']!,
-                    label: mood['label']!,
-                    isSelected: isSelected,
-                    onTap: () => onMoodSelected(moodKey),
-                  ),
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: MoodEmojiButton(
+                  emoji: mood['emoji']!,
+                  label: mood['label']!,
+                  isSelected: isSelected,
+                  onTap: () => onMoodSelected(moodKey),
                 ),
               );
             }).toList(),

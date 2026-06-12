@@ -24,42 +24,42 @@ class MoodEmojiButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSizes.spacingMedium,
-          vertical: AppSizes.spacingMedium,
+          vertical: AppSizes.spacingSmall,
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.iconBgMoodTracker
-              : AppColors.backgroundLight,
+              ? AppColors.primaryDark
+              : AppColors.primary.withOpacity(0.12),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
-                ? AppColors.iconMoodTracker
-                : AppColors.textLight.withOpacity(0.3),
+                ? AppColors.primary
+                : AppColors.primary.withOpacity(0.3),
             width: isSelected ? 2 : 1,
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: AppColors.iconMoodTracker.withOpacity(0.2),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.12),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        child: Column(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 32)),
-            const SizedBox(height: AppSizes.spacingSmall),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                color: isSelected
-                    ? AppColors.iconMoodTracker
-                    : AppColors.textSecondary,
+            Text(emoji, style: const TextStyle(fontSize: 28)),
+            const SizedBox(width: AppSizes.spacingSmall),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                  color: isSelected
+                      ? AppColors.iconMoodTracker
+                      : AppColors.textSecondary,
+                ),
               ),
             ),
           ],
