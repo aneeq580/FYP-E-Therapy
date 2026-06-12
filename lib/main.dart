@@ -39,12 +39,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primary,
           primary: AppColors.primary,
-          secondary: AppColors.secondary,
+          secondary: AppColors.fabAccent,
           surface: AppColors.background,
           brightness: Brightness.light,
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.appBarBackground,
+          foregroundColor: AppColors.textOnPrimary,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: AppColors.fabAccent,
           foregroundColor: AppColors.textOnPrimary,
         ),
         chipTheme: ChipThemeData(
@@ -63,7 +67,7 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.fabAccent,
             foregroundColor: AppColors.textOnPrimary,
           ),
         ),
